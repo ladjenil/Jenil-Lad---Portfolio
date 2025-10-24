@@ -326,6 +326,87 @@
             );
         };
 
+        // Education Screen Component
+        const EducationScreen = () => {
+            return (
+                <div className="section-content bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white">
+                    <div className="container mx-auto px-6">
+                        <h2 className="text-5xl font-bold text-center mb-12 gradient-text">Education & Experience</h2>
+                        
+                        <div className="max-w-4xl mx-auto">
+                            <div className="grid md:grid-cols-2 gap-8 mb-16">
+                                <div className="web-card slide-in-up">
+                                    <div className="flex items-start gap-6">
+                                        <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center text-2xl">
+                                            🎓
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="text-xl font-bold mb-3">Master of Computer Applications</h3>
+                                            <p className="text-purple-400 mb-2">MIT World Peace University</p>
+                                            <p className="text-gray-400 mb-3">CGPA: 6.70 / 10.00</p>
+                                            <span className="bg-purple-600 text-white px-4 py-2 rounded-full text-sm">
+                                                Expected Jul 2026
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="web-card slide-in-up" style={{animationDelay: '0.2s'}}>
+                                    <div className="flex items-start gap-6">
+                                        <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-2xl">
+                                            🎓
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="text-xl font-bold mb-3">Bachelor of Computer Applications</h3>
+                                            <p className="text-blue-400 mb-2">Veer Narmad South Gujarat University</p>
+                                            <p className="text-gray-400 mb-3">CGPA: 7.33 / 10.00</p>
+                                            <span className="bg-green-600 text-white px-4 py-2 rounded-full text-sm">
+                                                Oct 2021 – Mar 2024
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Internships */}
+                            <h3 className="text-3xl font-bold text-center mb-8 gradient-text">Professional Experience</h3>
+                            <div className="mb-16">
+                                <div className="web-card slide-in-up">
+                                    <div className="flex items-start gap-6">
+                                        <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-2xl">
+                                            💼
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="text-xl font-bold mb-3">Android Developer in Java Intern</h3>
+                                            <p className="text-green-400 mb-2">CodeAlpha (Remote)</p>
+                                            <p className="text-gray-400 mb-4">Aug 2025 – Aug 2025</p>
+                                            <div className="space-y-2 mb-4">
+                                                <div className="flex items-start gap-3">
+                                                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                                                    <span className="text-gray-300">Worked on Android apps using Java, XML, and Android SDK</span>
+                                                </div>
+                                                <div className="flex items-start gap-3">
+                                                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                                                    <span className="text-gray-300">Designed and refined UI components for smoother user experience</span>
+                                                </div>
+                                                <div className="flex items-start gap-3">
+                                                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                                                    <span className="text-gray-300">Improved Firebase integration and real-time data handling</span>
+                                                </div>
+                                            </div>
+                                            <span className="bg-green-600 text-white px-4 py-2 rounded-full text-sm">
+                                                Remote Internship
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
         // Skills Screen Component
         const SkillsScreen = () => {
             const skillCategories = [
@@ -480,8 +561,8 @@
             );
         };
 
-        // Education Screen Component
-        const EducationScreen = () => {
+        // Certifications Screen Component
+        const CertificationsScreen = () => {
             const certifications = [
                 { name: "Android App Development with 7 Real Projects in Java" },
                 { name: "Java for Programmers Crash Course" },
@@ -490,81 +571,11 @@
             ];
 
             return (
-                <div className="section-content bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white">
+                <div className="section-content bg-gradient-to-br from-teal-900 via-cyan-900 to-blue-900 text-white">
                     <div className="container mx-auto px-6">
-                        <h2 className="text-5xl font-bold text-center mb-12 gradient-text">Education & Certifications</h2>
+                        <h2 className="text-5xl font-bold text-center mb-12 gradient-text">Professional Certifications</h2>
                         
                         <div className="max-w-4xl mx-auto">
-                            <div className="grid md:grid-cols-2 gap-8 mb-16">
-                                <div className="web-card slide-in-up">
-                                    <div className="flex items-start gap-6">
-                                        <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center text-2xl">
-                                            🎓
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="text-xl font-bold mb-3">Master of Computer Applications</h3>
-                                            <p className="text-purple-400 mb-2">MIT World Peace University</p>
-                                            <p className="text-gray-400 mb-3">CGPA: 6.70 / 10.00</p>
-                                            <span className="bg-purple-600 text-white px-4 py-2 rounded-full text-sm">
-                                                Expected Jul 2026
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div className="web-card slide-in-up" style={{animationDelay: '0.2s'}}>
-                                    <div className="flex items-start gap-6">
-                                        <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-2xl">
-                                            🎓
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="text-xl font-bold mb-3">Bachelor of Computer Applications</h3>
-                                            <p className="text-blue-400 mb-2">Veer Narmad South Gujarat University</p>
-                                            <p className="text-gray-400 mb-3">CGPA: 7.33 / 10.00</p>
-                                            <span className="bg-green-600 text-white px-4 py-2 rounded-full text-sm">
-                                                Oct 2021 – Mar 2024
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            {/* Internships */}
-                            <h3 className="text-3xl font-bold text-center mb-8 gradient-text">Professional Experience</h3>
-                            <div className="mb-16">
-                                <div className="web-card slide-in-up">
-                                    <div className="flex items-start gap-6">
-                                        <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-2xl">
-                                            💼
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="text-xl font-bold mb-3">Android Developer in Java Intern</h3>
-                                            <p className="text-green-400 mb-2">CodeAlpha (Remote)</p>
-                                            <p className="text-gray-400 mb-4">Aug 2025 – Aug 2025</p>
-                                            <div className="space-y-2 mb-4">
-                                                <div className="flex items-start gap-3">
-                                                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                                                    <span className="text-gray-300">Worked on Android apps using Java, XML, and Android SDK</span>
-                                                </div>
-                                                <div className="flex items-start gap-3">
-                                                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                                                    <span className="text-gray-300">Designed and refined UI components for smoother user experience</span>
-                                                </div>
-                                                <div className="flex items-start gap-3">
-                                                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                                                    <span className="text-gray-300">Improved Firebase integration and real-time data handling</span>
-                                                </div>
-                                            </div>
-                                            <span className="bg-green-600 text-white px-4 py-2 rounded-full text-sm">
-                                                Remote Internship
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            {/* Certifications */}
-                            <h3 className="text-3xl font-bold text-center mb-8 gradient-text">Professional Certifications</h3>
                             <div className="grid md:grid-cols-2 gap-6">
                                 {certifications.map((cert, index) => (
                                     <CertificateBadge key={index} cert={cert} index={index} />
@@ -651,5 +662,5 @@
 
         ReactDOM.render(<App />, document.getElementById('root'));
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99389c3863f24728',t:'MTc2MTI5OTg0OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9938aa0a67dadb81',t:'MTc2MTMwMDQxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
