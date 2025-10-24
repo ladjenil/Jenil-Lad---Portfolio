@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jenil Lad - Portfolio</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .web-container {
+            min-height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+
+        
+        .web-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 32px;
+            margin: 24px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .web-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
+        }
+        
+        .floating-contact-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 999;
+            animation: pulse 2s infinite;
+        }
+        
+        .floating-contact-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .skill-chip {
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 25px;
+            padding: 12px 20px;
+            margin: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .skill-chip:hover {
+            background: rgba(139, 92, 246, 0.3);
+            transform: scale(1.05);
+        }
+        
+        .project-card {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 32px;
+            margin: 24px 0;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
+        }
+        
+        .section-content {
+            padding-top: 60px;
+            padding-bottom: 60px;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(45deg, #8b5cf6, #06b6d4, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .typing {
+            border-right: 2px solid #8b5cf6;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { border-color: transparent; }
+            51%, 100% { border-color: #8b5cf6; }
+        }
+        
+        .slide-in-up {
+            animation: slideInUp 0.6s ease-out;
+        }
+        
+        @keyframes slideInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .btn-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .cert-badge {
+            transition: all 0.3s ease;
+        }
+        
+        .cert-badge:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="min-h-full">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+
+
+        // Typing Animation Hook
+        const useTypingEffect = (text, speed = 100) => {
+            const [displayText, setDisplayText] = useState('');
+            
+            useEffect(() => {
+                let i = 0;
+                const timer = setInterval(() => {
+                    if (i < text.length) {
+                        setDisplayText(text.slice(0, i + 1));
+                        i++;
+                    } else {
+                        clearInterval(timer);
+                    }
+                }, speed);
+                
+                return () => clearInterval(timer);
+            }, [text, speed]);
+            
+            return displayText;
+        };
+
+        // Certificate Badge Component
+        const CertificateBadge = ({ cert, index }) => {
+            const getBadgeDesign = (certName) => {
+                if (certName.includes("Android")) {
+                    return (
+                        <svg className="w-16 h-16" viewBox="0 0 100 100" fill="none">
+                            <defs>
+                                <linearGradient id="androidGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor="#4CAF50"/>
+                                    <stop offset="100%" stopColor="#2E7D32"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="100" height="100" rx="20" fill="url(#androidGrad)"/>
+                            <rect x="20" y="30" width="60" height="40" rx="8" fill="white" opacity="0.9"/>
+                            <circle cx="35" cy="45" r="4" fill="#4CAF50"/>
+                            <circle cx="65" cy="45" r="4" fill="#4CAF50"/>
+                            <rect x="30" y="55" width="40" height="6" rx="3" fill="#4CAF50"/>
+                            <text x="50" y="85" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">ANDROID</text>
+                        </svg>
+                    );
+                } else if (certName.includes("Java")) {
+                    return (
+                        <svg className="w-16 h-16" viewBox="0 0 100 100" fill="none">
+                            <defs>
+                                <linearGradient id="javaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor="#FF8A50"/>
+                                    <stop offset="100%" stopColor="#FF6B35"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="100" height="100" rx="20" fill="url(#javaGrad)"/>
+                            <ellipse cx="50" cy="45" rx="25" ry="18" fill="white" opacity="0.9"/>
+                            <path d="M35 40c0-8 7-12 15-12s15 4 15 12" stroke="#FF6B35" strokeWidth="4" fill="none"/>
+                            <rect x="40" y="55" width="20" height="12" rx="2" fill="#FF6B35"/>
+                            <circle cx="43" cy="35" r="2" fill="#FF6B35"/>
+                            <circle cx="57" cy="35" r="2" fill="#FF6B35"/>
+                            <text x="50" y="85" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">JAVA</text>
+                        </svg>
+                    );
+                } else if (certName.includes("Git")) {
+                    return (
+                        <svg className="w-16 h-16" viewBox="0 0 100 100" fill="none">
+                            <defs>
+                                <linearGradient id="gitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor="#F05032"/>
+                                    <stop offset="100%" stopColor="#C73E1D"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="100" height="100" rx="20" fill="url(#gitGrad)"/>
+                            <circle cx="30" cy="35" r="10" fill="white" opacity="0.9"/>
+                            <circle cx="70" cy="35" r="10" fill="white" opacity="0.9"/>
+                            <circle cx="50" cy="65" r="10" fill="white" opacity="0.9"/>
+                            <path d="M40 35h20M42 45l8 12M58 45l-8 12" stroke="white" strokeWidth="4" opacity="0.9"/>
+                            <text x="50" y="90" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">GIT</text>
+                        </svg>
+                    );
+                } else if (certName.includes("Moqups") || certName.includes("Design")) {
+                    return (
+                        <svg className="w-16 h-16" viewBox="0 0 100 100" fill="none">
+                            <defs>
+                                <linearGradient id="designGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor="#9C27B0"/>
+                                    <stop offset="50%" stopColor="#E91E63"/>
+                                    <stop offset="100%" stopColor="#FF9800"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="100" height="100" rx="20" fill="url(#designGrad)"/>
+                            <rect x="20" y="20" width="60" height="60" rx="10" fill="white" opacity="0.9"/>
+                            <rect x="25" y="25" width="50" height="8" rx="4" fill="#9C27B0"/>
+                            <rect x="25" y="38" width="30" height="6" rx="3" fill="#E91E63"/>
+                            <rect x="25" y="48" width="40" height="6" rx="3" fill="#2196F3"/>
+                            <circle cx="65" cy="65" r="8" fill="#FF9800"/>
+                            <text x="50" y="90" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold">DESIGN</text>
+                        </svg>
+                    );
+                }
+                return null;
+            };
+
+            return (
+                <div className="web-card slide-in-up cert-badge" style={{animationDelay: `${index * 0.1}s`}}>
+                    <div className="flex items-center gap-6">
+                        <div className="flex-shrink-0">
+                            {getBadgeDesign(cert.name)}
+                        </div>
+                        <div className="flex-1">
+                            <h4 className="font-semibold mb-2 text-lg">{cert.name}</h4>
+                            <div className="flex items-center gap-3 mb-2">
+                                <span className="text-yellow-400 text-xl">⭐⭐⭐⭐⭐</span>
+                                <span className="text-gray-400">Certified</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="bg-green-600 text-white px-3 py-1 rounded-full text-xs font-medium">
+                                    ✓ Verified
+                                </span>
+                                <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-medium">
+                                    Professional
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Home Screen Component
+        const HomeScreen = () => {
+            const typedTitle = useTypingEffect("Android Developer & Software Engineer", 80);
+            
+            return (
+                <div className="section-content bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white">
+                    <div className="container mx-auto px-6">
+                        <div className="web-card text-center slide-in-up max-w-4xl mx-auto">
+                            <div className="w-40 h-40 bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500 rounded-full mx-auto mb-8 flex items-center justify-center text-5xl font-bold text-white">
+                                JL
+                            </div>
+                            <h1 className="text-5xl font-bold mb-6 gradient-text">JENIL LAD</h1>
+                            <p className="text-2xl mb-8 text-purple-300 typing">{typedTitle}</p>
+                            
+                            {/* Contact Info Grid */}
+                            <div className="grid md:grid-cols-3 gap-6 mb-8">
+                                <div className="flex items-center justify-center gap-3 bg-black bg-opacity-30 px-6 py-4 rounded-full">
+                                    <span className="text-2xl">📱</span>
+                                    <span className="text-lg">+91 6354531293</span>
+                                </div>
+                                <div className="flex items-center justify-center gap-3 bg-black bg-opacity-30 px-6 py-4 rounded-full">
+                                    <span className="text-2xl">📍</span>
+                                    <span className="text-lg">Pune, India</span>
+                                </div>
+                                <div className="flex items-center justify-center gap-3 bg-black bg-opacity-30 px-6 py-4 rounded-full">
+                                    <span className="text-2xl">✉️</span>
+                                    <span className="text-lg">jenillad573@gmail.com</span>
+                                </div>
+                            </div>
+                            
+                            {/* Action Buttons */}
+                            <div className="flex gap-6 justify-center">
+                                <a href="https://linkedin.com/in/jenil-lad" target="_blank" rel="noopener noreferrer" 
+                                   className="btn-hover bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-3">
+                                    🔗 LinkedIn
+                                </a>
+                                <a href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer"
+                                   className="btn-hover bg-transparent border-2 border-purple-400 text-purple-400 px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-3">
+                                    💻 GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Skills Screen Component
+        const SkillsScreen = () => {
+            const skillCategories = [
+                {
+                    title: "Programming Languages",
+                    skills: [
+                        { name: "Java", icon: "☕" },
+                        { name: "Python", icon: "🐍" },
+                        { name: "C/C++", icon: "⚙️" },
+                        { name: "SQL", icon: "🗄️" },
+                        { name: "XML", icon: "📄" }
+                    ]
+                },
+                {
+                    title: "Technologies & Frameworks",
+                    skills: [
+                        { name: "Flutter", icon: "🦋" },
+                        { name: "Android SDK", icon: "🤖" },
+                        { name: "Firebase", icon: "🔥" },
+                        { name: "JDBC", icon: "🔗" }
+                    ]
+                },
+                {
+                    title: "Development Tools",
+                    skills: [
+                        { name: "Git", icon: "🌿" },
+                        { name: "Android Studio", icon: "🎯" },
+                        { name: "Azure", icon: "☁️" },
+                        { name: "Moqup", icon: "🎨" }
+                    ]
+                }
+            ];
+            
+            return (
+                <div className="section-content bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white">
+                    <div className="container mx-auto px-6">
+                        <h2 className="text-5xl font-bold text-center mb-12 gradient-text">Skills & Expertise</h2>
+                        
+                        <div className="grid lg:grid-cols-3 gap-8">
+                            {skillCategories.map((category, index) => (
+                                <div key={index} className="web-card slide-in-up" style={{animationDelay: `${index * 0.2}s`}}>
+                                    <h3 className="text-2xl font-bold mb-6 text-center">{category.title}</h3>
+                                    <div className="flex flex-wrap justify-center">
+                                        {category.skills.map((skill, skillIndex) => (
+                                            <div key={skillIndex} className="skill-chip">
+                                                <span className="text-2xl">{skill.icon}</span>
+                                                <span className="font-medium text-lg">{skill.name}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Projects Screen Component
+        const ProjectsScreen = () => {
+            const projects = [
+                {
+                    title: "MitConnect",
+                    subtitle: "Social Video Chat Application",
+                    tech: "Flutter UI Development",
+                    period: "Aug 2025 – Sept 2025",
+                    rating: "4.6+ UX Rating",
+                    icon: "📱",
+                    points: [
+                        "Designed anime-styled UI with glassmorphism effects",
+                        "Integrated real-time video call functionality",
+                        "Achieved 4.6+ internal UX rating from testing team"
+                    ]
+                },
+                {
+                    title: "Hungryfine",
+                    subtitle: "Food Delivery Platform",
+                    tech: "Java Android + Firebase",
+                    period: "Dec 2023 – Apr 2024",
+                    rating: "5K+ Orders/Month",
+                    icon: "🍔",
+                    points: [
+                        "Built dual-panel customer & seller application",
+                        "Manages 5K+ orders per month efficiently",
+                        "Reduced customer support queries by 60%"
+                    ]
+                },
+                {
+                    title: "ZoomCars",
+                    subtitle: "Car Rental Management System",
+                    tech: "Android + Java + Firebase",
+                    period: "Sep 2023 – Nov 2023",
+                    rating: "40% UX Improvement",
+                    icon: "🚗",
+                    points: [
+                        "Implemented secure user authentication system",
+                        "Enhanced UX by 40% with smooth animations",
+                        "Reduced booking failure rate by 25%"
+                    ]
+                }
+            ];
+            
+            return (
+                <div className="section-content bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white">
+                    <div className="container mx-auto px-6">
+                        <h2 className="text-5xl font-bold text-center mb-12 gradient-text">Featured Projects</h2>
+                        
+                        <div className="max-w-5xl mx-auto">
+                            {projects.map((project, index) => (
+                                <div key={index} className="project-card slide-in-up" style={{animationDelay: `${index * 0.2}s`}}>
+                                    <div className="flex items-start gap-6 mb-6">
+                                        <div className="text-6xl">{project.icon}</div>
+                                        <div className="flex-1">
+                                            <h3 className="text-3xl font-bold mb-2">{project.title}</h3>
+                                            <p className="text-xl text-purple-300 mb-4">{project.subtitle}</p>
+                                            <div className="flex flex-wrap items-center gap-4 mb-4">
+                                                <span className="bg-purple-600 text-white px-4 py-2 rounded-full text-sm font-medium">
+                                                    {project.tech}
+                                                </span>
+                                                <span className="bg-yellow-600 text-white px-4 py-2 rounded-full text-sm font-medium">
+                                                    ⭐ {project.rating}
+                                                </span>
+                                                <span className="text-gray-400 text-sm">
+                                                    {project.period}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="space-y-3 mb-6">
+                                        {project.points.map((point, pointIndex) => (
+                                            <div key={pointIndex} className="flex items-start gap-4">
+                                                <div className="w-3 h-3 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
+                                                <span className="text-gray-300">{point}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    
+                                    <div className="flex gap-4">
+                                        <button className="btn-hover flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 px-6 rounded-full font-semibold text-center">
+                                            View Project Details
+                                        </button>
+                                        <button className="btn-hover flex-1 bg-transparent border-2 border-purple-400 text-purple-400 py-3 px-6 rounded-full font-semibold text-center">
+                                            View Source Code
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Education Screen Component
+        const EducationScreen = () => {
+            const certifications = [
+                { name: "Android App Development with 7 Real Projects in Java" },
+                { name: "Java for Programmers Crash Course" },
+                { name: "Git For Beginners" },
+                { name: "Design a Mobile App Interface with Moqups" }
+            ];
+
+            return (
+                <div className="section-content bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white">
+                    <div className="container mx-auto px-6">
+                        <h2 className="text-5xl font-bold text-center mb-12 gradient-text">Education & Certifications</h2>
+                        
+                        <div className="max-w-4xl mx-auto">
+                            <div className="grid md:grid-cols-2 gap-8 mb-16">
+                                <div className="web-card slide-in-up">
+                                    <div className="flex items-start gap-6">
+                                        <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center text-2xl">
+                                            🎓
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="text-xl font-bold mb-3">Master of Computer Applications</h3>
+                                            <p className="text-purple-400 mb-2">MIT World Peace University</p>
+                                            <p className="text-gray-400 mb-3">CGPA: 6.70 / 10.00</p>
+                                            <span className="bg-purple-600 text-white px-4 py-2 rounded-full text-sm">
+                                                Expected Jul 2026
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="web-card slide-in-up" style={{animationDelay: '0.2s'}}>
+                                    <div className="flex items-start gap-6">
+                                        <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-2xl">
+                                            🎓
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="text-xl font-bold mb-3">Bachelor of Computer Applications</h3>
+                                            <p className="text-blue-400 mb-2">Veer Narmad South Gujarat University</p>
+                                            <p className="text-gray-400 mb-3">CGPA: 7.33 / 10.00</p>
+                                            <span className="bg-green-600 text-white px-4 py-2 rounded-full text-sm">
+                                                Oct 2021 – Mar 2024
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Internships */}
+                            <h3 className="text-3xl font-bold text-center mb-8 gradient-text">Professional Experience</h3>
+                            <div className="mb-16">
+                                <div className="web-card slide-in-up">
+                                    <div className="flex items-start gap-6">
+                                        <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-2xl">
+                                            💼
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="text-xl font-bold mb-3">Android Developer in Java Intern</h3>
+                                            <p className="text-green-400 mb-2">CodeAlpha (Remote)</p>
+                                            <p className="text-gray-400 mb-4">Aug 2025 – Aug 2025</p>
+                                            <div className="space-y-2 mb-4">
+                                                <div className="flex items-start gap-3">
+                                                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                                                    <span className="text-gray-300">Worked on Android apps using Java, XML, and Android SDK</span>
+                                                </div>
+                                                <div className="flex items-start gap-3">
+                                                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                                                    <span className="text-gray-300">Designed and refined UI components for smoother user experience</span>
+                                                </div>
+                                                <div className="flex items-start gap-3">
+                                                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                                                    <span className="text-gray-300">Improved Firebase integration and real-time data handling</span>
+                                                </div>
+                                            </div>
+                                            <span className="bg-green-600 text-white px-4 py-2 rounded-full text-sm">
+                                                Remote Internship
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Certifications */}
+                            <h3 className="text-3xl font-bold text-center mb-8 gradient-text">Professional Certifications</h3>
+                            <div className="grid md:grid-cols-2 gap-6">
+                                {certifications.map((cert, index) => (
+                                    <CertificateBadge key={index} cert={cert} index={index} />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Contact Screen Component
+        const ContactScreen = () => (
+            <div className="section-content bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 text-white">
+                <div className="container mx-auto px-6">
+                    <h2 className="text-5xl font-bold text-center mb-12 gradient-text">Let's Connect</h2>
+                    
+                    <div className="web-card text-center slide-in-up max-w-3xl mx-auto">
+                        <div className="text-8xl mb-8">🚀</div>
+                        <h3 className="text-4xl font-bold mb-6">Ready to Collaborate?</h3>
+                        <p className="text-xl text-gray-300 mb-12">Let's build the future of mobile applications together</p>
+                        
+                        <div className="space-y-6">
+                            <a href="mailto:jenillad573@gmail.com" 
+                               className="btn-hover block w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-6 rounded-full font-bold text-xl">
+                                📧 Send Email   
+                            </a>
+                            <a href="www.linkedin.com/in/jenil-lad-b617442a2" target="_blank" rel="noopener noreferrer"
+                               className="btn-hover block w-full bg-transparent border-2 border-purple-400 text-purple-400 py-6 rounded-full font-bold text-xl">
+                                🔗 LinkedIn Profile
+                            </a>
+                            <a href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer"
+                               className="btn-hover block w-full bg-transparent border-2 border-blue-400 text-blue-400 py-6 rounded-full font-bold text-xl">
+                                💻 GitHub Profile
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div className="text-center mt-16 text-gray-500">
+                        <p className="text-lg">© 2024 Jenil Lad</p>
+                        <p>Crafted with 💜 and lots of ☕</p>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Floating Contact Button
+        const FloatingContactButton = ({ onClick }) => (
+            <div className="floating-contact-btn" onClick={onClick}>
+                💬
+            </div>
+        );
+
+        // Main App Component
+        const App = () => {
+            const handleContactClick = () => {
+                document.getElementById('contact-section').scrollIntoView({ behavior: 'smooth' });
+            };
+            
+            return (
+                <div className="web-container">
+                    <div id="home-section">
+                        <HomeScreen />
+                    </div>
+                    <div id="education-section">
+                        <EducationScreen />
+                    </div>
+                    <div id="skills-section">
+                        <SkillsScreen />
+                    </div>
+                    <div id="projects-section">
+                        <ProjectsScreen />
+                    </div>
+                    <div id="contact-section">
+                        <ContactScreen />
+                    </div>
+                    <FloatingContactButton onClick={handleContactClick} />
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99387e3c519c3226',t:'MTc2MTI5ODYyMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
