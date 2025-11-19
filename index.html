@@ -1,666 +1,820 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jenil Lad - Portfolio</title>
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            box-sizing: border-box;
-        }
-        
-        .web-container {
-            min-height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jenil Lad - Web &amp; Mobile Developer</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        
-        .web-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 32px;
-            margin: 24px 0;
-            transition: all 0.3s ease;
-        }
-        
-        .web-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
-        }
-        
-        .floating-contact-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            color: white;
-            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.4);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 999;
-            animation: pulse 2s infinite;
-        }
-        
-        .floating-contact-btn:hover {
-            transform: scale(1.1);
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        .skill-chip {
-            background: rgba(139, 92, 246, 0.2);
-            border: 1px solid rgba(139, 92, 246, 0.4);
-            border-radius: 25px;
-            padding: 12px 20px;
-            margin: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .skill-chip:hover {
-            background: rgba(139, 92, 246, 0.3);
-            transform: scale(1.05);
-        }
-        
-        .project-card {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 32px;
-            margin: 24px 0;
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
-        }
-        
-        .section-content {
-            padding-top: 60px;
-            padding-bottom: 60px;
-        }
-        
-        .gradient-text {
-            background: linear-gradient(45deg, #8b5cf6, #06b6d4, #10b981);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .typing {
-            border-right: 2px solid #8b5cf6;
-            animation: blink 1s infinite;
-        }
-        
-        @keyframes blink {
-            0%, 50% { border-color: transparent; }
-            51%, 100% { border-color: #8b5cf6; }
-        }
-        
-        .slide-in-up {
-            animation: slideInUp 0.6s ease-out;
-        }
-        
-        @keyframes slideInUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .btn-hover {
-            transition: all 0.3s ease;
-        }
-        
-        .btn-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-        
-        .cert-badge {
-            transition: all 0.3s ease;
-        }
-        
-        .cert-badge:hover {
-            transform: scale(1.05);
-        }
-    </style>
-</head>
-<body class="min-h-full">
-    <div id="root"></div>
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
 
-    <script type="text/babel">
-        const { useState, useEffect } = React;
+    @keyframes matrix-rain {
+      0% { transform: translateY(-100%); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(100%); opacity: 0; }
+    }
 
+    @keyframes glow-pulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 157, 0.3), 0 0 40px rgba(0, 255, 157, 0.1); }
+      50% { box-shadow: 0 0 30px rgba(0, 255, 157, 0.5), 0 0 60px rgba(0, 255, 157, 0.2); }
+    }
 
+    @keyframes slide-in-right {
+      from { transform: translateX(50px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
 
-        // Typing Animation Hook
-        const useTypingEffect = (text, speed = 100) => {
-            const [displayText, setDisplayText] = useState('');
-            
-            useEffect(() => {
-                let i = 0;
-                const timer = setInterval(() => {
-                    if (i < text.length) {
-                        setDisplayText(text.slice(0, i + 1));
-                        i++;
-                    } else {
-                        clearInterval(timer);
-                    }
-                }, speed);
-                
-                return () => clearInterval(timer);
-            }, [text, speed]);
-            
-            return displayText;
-        };
+    @keyframes code-scan {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-        // Certificate Badge Component
-        const CertificateBadge = ({ cert, index }) => {
-            const getBadgeDesign = (certName) => {
-                if (certName.includes("Android")) {
-                    return (
-                        <svg className="w-16 h-16" viewBox="0 0 100 100" fill="none">
-                            <defs>
-                                <linearGradient id="androidGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stopColor="#4CAF50"/>
-                                    <stop offset="100%" stopColor="#2E7D32"/>
-                                </linearGradient>
-                            </defs>
-                            <rect width="100" height="100" rx="20" fill="url(#androidGrad)"/>
-                            <rect x="20" y="30" width="60" height="40" rx="8" fill="white" opacity="0.9"/>
-                            <circle cx="35" cy="45" r="4" fill="#4CAF50"/>
-                            <circle cx="65" cy="45" r="4" fill="#4CAF50"/>
-                            <rect x="30" y="55" width="40" height="6" rx="3" fill="#4CAF50"/>
-                            <text x="50" y="85" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">ANDROID</text>
-                        </svg>
-                    );
-                } else if (certName.includes("Java")) {
-                    return (
-                        <svg className="w-16 h-16" viewBox="0 0 100 100" fill="none">
-                            <defs>
-                                <linearGradient id="javaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stopColor="#FF8A50"/>
-                                    <stop offset="100%" stopColor="#FF6B35"/>
-                                </linearGradient>
-                            </defs>
-                            <rect width="100" height="100" rx="20" fill="url(#javaGrad)"/>
-                            <ellipse cx="50" cy="45" rx="25" ry="18" fill="white" opacity="0.9"/>
-                            <path d="M35 40c0-8 7-12 15-12s15 4 15 12" stroke="#FF6B35" strokeWidth="4" fill="none"/>
-                            <rect x="40" y="55" width="20" height="12" rx="2" fill="#FF6B35"/>
-                            <circle cx="43" cy="35" r="2" fill="#FF6B35"/>
-                            <circle cx="57" cy="35" r="2" fill="#FF6B35"/>
-                            <text x="50" y="85" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">JAVA</text>
-                        </svg>
-                    );
-                } else if (certName.includes("Git")) {
-                    return (
-                        <svg className="w-16 h-16" viewBox="0 0 100 100" fill="none">
-                            <defs>
-                                <linearGradient id="gitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stopColor="#F05032"/>
-                                    <stop offset="100%" stopColor="#C73E1D"/>
-                                </linearGradient>
-                            </defs>
-                            <rect width="100" height="100" rx="20" fill="url(#gitGrad)"/>
-                            <circle cx="30" cy="35" r="10" fill="white" opacity="0.9"/>
-                            <circle cx="70" cy="35" r="10" fill="white" opacity="0.9"/>
-                            <circle cx="50" cy="65" r="10" fill="white" opacity="0.9"/>
-                            <path d="M40 35h20M42 45l8 12M58 45l-8 12" stroke="white" strokeWidth="4" opacity="0.9"/>
-                            <text x="50" y="90" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">GIT</text>
-                        </svg>
-                    );
-                } else if (certName.includes("Moqups") || certName.includes("Design")) {
-                    return (
-                        <svg className="w-16 h-16" viewBox="0 0 100 100" fill="none">
-                            <defs>
-                                <linearGradient id="designGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stopColor="#9C27B0"/>
-                                    <stop offset="50%" stopColor="#E91E63"/>
-                                    <stop offset="100%" stopColor="#FF9800"/>
-                                </linearGradient>
-                            </defs>
-                            <rect width="100" height="100" rx="20" fill="url(#designGrad)"/>
-                            <rect x="20" y="20" width="60" height="60" rx="10" fill="white" opacity="0.9"/>
-                            <rect x="25" y="25" width="50" height="8" rx="4" fill="#9C27B0"/>
-                            <rect x="25" y="38" width="30" height="6" rx="3" fill="#E91E63"/>
-                            <rect x="25" y="48" width="40" height="6" rx="3" fill="#2196F3"/>
-                            <circle cx="65" cy="65" r="8" fill="#FF9800"/>
-                            <text x="50" y="90" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold">DESIGN</text>
-                        </svg>
-                    );
-                }
-                return null;
-            };
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      33% { transform: translateY(-15px) rotate(2deg); }
+      66% { transform: translateY(-8px) rotate(-2deg); }
+    }
 
-            return (
-                <div className="web-card slide-in-up cert-badge" style={{animationDelay: `${index * 0.1}s`}}>
-                    <div className="flex items-center gap-6">
-                        <div className="flex-shrink-0">
-                            {getBadgeDesign(cert.name)}
-                        </div>
-                        <div className="flex-1">
-                            <h4 className="font-semibold mb-2 text-lg">{cert.name}</h4>
-                            <div className="flex items-center gap-3 mb-2">
-                                <span className="text-yellow-400 text-xl">⭐⭐⭐⭐⭐</span>
-                                <span className="text-gray-400">Certified</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="bg-green-600 text-white px-3 py-1 rounded-full text-xs font-medium">
-                                    ✓ Verified
-                                </span>
-                                <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-medium">
-                                    Professional
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
+    @keyframes typing-cursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
 
-        // Home Screen Component
-        const HomeScreen = () => {
-            const typedTitle = useTypingEffect("Android Developer & Software Engineer", 80);
-            
-            return (
-                <div className="section-content bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white">
-                    <div className="container mx-auto px-6">
-                        <div className="web-card text-center slide-in-up max-w-4xl mx-auto">
-                            <div className="w-40 h-40 bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500 rounded-full mx-auto mb-8 flex items-center justify-center text-5xl font-bold text-white">
-                                JL
-                            </div>
-                            <h1 className="text-5xl font-bold mb-6 gradient-text">JENIL LAD</h1>
-                            <p className="text-2xl mb-8 text-purple-300 typing">{typedTitle}</p>
-                            
-                            {/* Contact Info Grid */}
-                            <div className="grid md:grid-cols-3 gap-6 mb-8">
-                                <div className="flex items-center justify-center gap-3 bg-black bg-opacity-30 px-6 py-4 rounded-full">
-                                    <span className="text-2xl">📱</span>
-                                    <span className="text-lg">+91 6354531293</span>
-                                </div>
-                                <div className="flex items-center justify-center gap-3 bg-black bg-opacity-30 px-6 py-4 rounded-full">
-                                    <span className="text-2xl">📍</span>
-                                    <span className="text-lg">Pune, India</span>
-                                </div>
-                                <div className="flex items-center justify-center gap-3 bg-black bg-opacity-30 px-6 py-4 rounded-full">
-                                    <span className="text-2xl">✉️</span>
-                                    <span className="text-lg">jenillad573@gmail.com</span>
-                                </div>
-                            </div>
-                            
-                            {/* Action Buttons */}
-                            <div className="flex gap-6 justify-center">
-                                <a href="https://linkedin.com/in/jenil-lad" target="_blank" rel="noopener noreferrer" 
-                                   className="btn-hover bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-3">
-                                    🔗 LinkedIn
-                                </a>
-                                <a href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer"
-                                   className="btn-hover bg-transparent border-2 border-purple-400 text-purple-400 px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-3">
-                                    💻 GitHub
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
+    @keyframes neon-flicker {
+      0%, 100% { text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d, 0 0 30px #00ff9d; }
+      50% { text-shadow: 0 0 5px #00ff9d, 0 0 10px #00ff9d; }
+    }
 
-        // Education Screen Component
-        const EducationScreen = () => {
-            return (
-                <div className="section-content bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white">
-                    <div className="container mx-auto px-6">
-                        <h2 className="text-5xl font-bold text-center mb-12 gradient-text">Education & Experience</h2>
-                        
-                        <div className="max-w-4xl mx-auto">
-                            <div className="grid md:grid-cols-2 gap-8 mb-16">
-                                <div className="web-card slide-in-up">
-                                    <div className="flex items-start gap-6">
-                                        <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center text-2xl">
-                                            🎓
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="text-xl font-bold mb-3">Master of Computer Applications</h3>
-                                            <p className="text-purple-400 mb-2">MIT World Peace University</p>
-                                            <p className="text-gray-400 mb-3">CGPA: 6.70 / 10.00</p>
-                                            <span className="bg-purple-600 text-white px-4 py-2 rounded-full text-sm">
-                                                Expected Jul 2026
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div className="web-card slide-in-up" style={{animationDelay: '0.2s'}}>
-                                    <div className="flex items-start gap-6">
-                                        <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-2xl">
-                                            🎓
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="text-xl font-bold mb-3">Bachelor of Computer Applications</h3>
-                                            <p className="text-blue-400 mb-2">Veer Narmad South Gujarat University</p>
-                                            <p className="text-gray-400 mb-3">CGPA: 7.33 / 10.00</p>
-                                            <span className="bg-green-600 text-white px-4 py-2 rounded-full text-sm">
-                                                Oct 2021 – Mar 2024
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            {/* Internships */}
-                            <h3 className="text-3xl font-bold text-center mb-8 gradient-text">Professional Experience</h3>
-                            <div className="mb-16">
-                                <div className="web-card slide-in-up">
-                                    <div className="flex items-start gap-6">
-                                        <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-2xl">
-                                            💼
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="text-xl font-bold mb-3">Android Developer in Java Intern</h3>
-                                            <p className="text-green-400 mb-2">CodeAlpha (Remote)</p>
-                                            <p className="text-gray-400 mb-4">Aug 2025 – Aug 2025</p>
-                                            <div className="space-y-2 mb-4">
-                                                <div className="flex items-start gap-3">
-                                                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                                                    <span className="text-gray-300">Worked on Android apps using Java, XML, and Android SDK</span>
-                                                </div>
-                                                <div className="flex items-start gap-3">
-                                                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                                                    <span className="text-gray-300">Designed and refined UI components for smoother user experience</span>
-                                                </div>
-                                                <div className="flex items-start gap-3">
-                                                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                                                    <span className="text-gray-300">Improved Firebase integration and real-time data handling</span>
-                                                </div>
-                                            </div>
-                                            <span className="bg-green-600 text-white px-4 py-2 rounded-full text-sm">
-                                                Remote Internship
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
+    .cyber-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 50%, #16213e 100%);
+      z-index: -1;
+    }
 
-        // Skills Screen Component
-        const SkillsScreen = () => {
-            const skillCategories = [
-                {
-                    title: "Programming Languages",
-                    skills: [
-                        { name: "Java", icon: "☕" },
-                        { name: "Python", icon: "🐍" },
-                        { name: "C/C++", icon: "⚙️" },
-                        { name: "SQL", icon: "🗄️" },
-                        { name: "XML", icon: "📄" }
-                    ]
-                },
-                {
-                    title: "Technologies & Frameworks",
-                    skills: [
-                        { name: "Flutter", icon: "🦋" },
-                        { name: "Android SDK", icon: "🤖" },
-                        { name: "Firebase", icon: "🔥" },
-                        { name: "JDBC", icon: "🔗" }
-                    ]
-                },
-                {
-                    title: "Development Tools",
-                    skills: [
-                        { name: "Git", icon: "🌿" },
-                        { name: "Android Studio", icon: "🎯" },
-                        { name: "Azure", icon: "☁️" },
-                        { name: "Moqup", icon: "🎨" }
-                    ]
-                }
-            ];
-            
-            return (
-                <div className="section-content bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white">
-                    <div className="container mx-auto px-6">
-                        <h2 className="text-5xl font-bold text-center mb-12 gradient-text">Skills & Expertise</h2>
-                        
-                        <div className="grid lg:grid-cols-3 gap-8">
-                            {skillCategories.map((category, index) => (
-                                <div key={index} className="web-card slide-in-up" style={{animationDelay: `${index * 0.2}s`}}>
-                                    <h3 className="text-2xl font-bold mb-6 text-center">{category.title}</h3>
-                                    <div className="flex flex-wrap justify-center">
-                                        {category.skills.map((skill, skillIndex) => (
-                                            <div key={skillIndex} className="skill-chip">
-                                                <span className="text-2xl">{skill.icon}</span>
-                                                <span className="font-medium text-lg">{skill.name}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            );
-        };
+    .matrix-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.05;
+    }
 
-        // Projects Screen Component
-        const ProjectsScreen = () => {
-            const projects = [
-                {
-                    title: "MitConnect",
-                    subtitle: "Social Video Chat Application",
-                    tech: "Flutter UI Development",
-                    period: "Aug 2025 – Sept 2025",
-                    rating: "4.6+ UX Rating",
-                    icon: "📱",
-                    points: [
-                        "Designed anime-styled UI with glassmorphism effects",
-                        "Integrated real-time video call functionality",
-                        "Achieved 4.6+ internal UX rating from testing team"
-                    ]
-                },
-                {
-                    title: "Hungryfine",
-                    subtitle: "Food Delivery Platform",
-                    tech: "Java Android + Firebase",
-                    period: "Dec 2023 – Apr 2024",
-                    rating: "5K+ Orders/Month",
-                    icon: "🍔",
-                    points: [
-                        "Built dual-panel customer & seller application",
-                        "Manages 5K+ orders per month efficiently",
-                        "Reduced customer support queries by 60%"
-                    ]
-                },
-                {
-                    title: "ZoomCars",
-                    subtitle: "Car Rental Management System",
-                    tech: "Android + Java + Firebase",
-                    period: "Sep 2023 – Nov 2023",
-                    rating: "40% UX Improvement",
-                    icon: "🚗",
-                    points: [
-                        "Implemented secure user authentication system",
-                        "Enhanced UX by 40% with smooth animations",
-                        "Reduced booking failure rate by 25%"
-                    ]
-                }
-            ];
-            
-            return (
-                <div className="section-content bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white">
-                    <div className="container mx-auto px-6">
-                        <h2 className="text-5xl font-bold text-center mb-12 gradient-text">Featured Projects</h2>
-                        
-                        <div className="max-w-5xl mx-auto">
-                            {projects.map((project, index) => (
-                                <div key={index} className="project-card slide-in-up" style={{animationDelay: `${index * 0.2}s`}}>
-                                    <div className="flex items-start gap-6 mb-6">
-                                        <div className="text-6xl">{project.icon}</div>
-                                        <div className="flex-1">
-                                            <h3 className="text-3xl font-bold mb-2">{project.title}</h3>
-                                            <p className="text-xl text-purple-300 mb-4">{project.subtitle}</p>
-                                            <div className="flex flex-wrap items-center gap-4 mb-4">
-                                                <span className="bg-purple-600 text-white px-4 py-2 rounded-full text-sm font-medium">
-                                                    {project.tech}
-                                                </span>
-                                                <span className="bg-yellow-600 text-white px-4 py-2 rounded-full text-sm font-medium">
-                                                    ⭐ {project.rating}
-                                                </span>
-                                                <span className="text-gray-400 text-sm">
-                                                    {project.period}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="space-y-3 mb-6">
-                                        {project.points.map((point, pointIndex) => (
-                                            <div key={pointIndex} className="flex items-start gap-4">
-                                                <div className="w-3 h-3 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
-                                                <span className="text-gray-300">{point}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    
-                                    <div className="flex gap-4">
-                                        <button className="btn-hover flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 px-6 rounded-full font-semibold text-center">
-                                            View Project Details
-                                        </button>
-                                        <button className="btn-hover flex-1 bg-transparent border-2 border-purple-400 text-purple-400 py-3 px-6 rounded-full font-semibold text-center">
-                                            View Source Code
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            );
-        };
+    .matrix-char {
+      position: absolute;
+      color: #00ff9d;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      animation: matrix-rain 4s linear infinite;
+    }
 
-        // Certifications Screen Component
-        const CertificationsScreen = () => {
-            const certifications = [
-                { name: "Android App Development with 7 Real Projects in Java" },
-                { name: "Java for Programmers Crash Course" },
-                { name: "Git For Beginners" },
-                { name: "Design a Mobile App Interface with Moqups" }
-            ];
+    .gradient-text {
+      background: linear-gradient(135deg, #00ff9d 0%, #00d4ff 50%, #7b2ff7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200% auto;
+      animation: code-scan 3s linear infinite;
+    }
 
-            return (
-                <div className="section-content bg-gradient-to-br from-teal-900 via-cyan-900 to-blue-900 text-white">
-                    <div className="container mx-auto px-6">
-                        <h2 className="text-5xl font-bold text-center mb-12 gradient-text">Professional Certifications</h2>
-                        
-                        <div className="max-w-4xl mx-auto">
-                            <div className="grid md:grid-cols-2 gap-6">
-                                {certifications.map((cert, index) => (
-                                    <CertificateBadge key={index} cert={cert} index={index} />
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
+    .neon-text {
+      color: #00ff9d;
+      text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d, 0 0 30px #00ff9d, 0 0 40px #00ff9d;
+      animation: neon-flicker 2s ease-in-out infinite;
+    }
 
-        // Contact Screen Component
-        const ContactScreen = () => (
-            <div className="section-content bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 text-white">
-                <div className="container mx-auto px-6">
-                    <h2 className="text-5xl font-bold text-center mb-12 gradient-text">Let's Connect</h2>
-                    
-                    <div className="web-card text-center slide-in-up max-w-3xl mx-auto">
-                        <div className="text-8xl mb-8">🚀</div>
-                        <h3 className="text-4xl font-bold mb-6">Ready to Collaborate?</h3>
-                        <p className="text-xl text-gray-300 mb-12">Let's build the future of mobile applications together</p>
-                        
-                        <div className="space-y-6">
-                            <a href="mailto:jenillad573@gmail.com" 
-                               className="btn-hover block w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-6 rounded-full font-bold text-xl">
-                                📧 Send Email
-                            </a>
-                            <a href="https://linkedin.com/in/jenil-lad" target="_blank" rel="noopener noreferrer"
-                               className="btn-hover block w-full bg-transparent border-2 border-purple-400 text-purple-400 py-6 rounded-full font-bold text-xl">
-                                🔗 LinkedIn Profile
-                            </a>
-                            <a href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer"
-                               className="btn-hover block w-full bg-transparent border-2 border-blue-400 text-blue-400 py-6 rounded-full font-bold text-xl">
-                                💻 GitHub Profile
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div className="text-center mt-16 text-gray-500">
-                        <p className="text-lg">© 2024 Jenil Lad</p>
-                        <p>Crafted with 💜 and lots of ☕</p>
-                    </div>
-                </div>
-            </div>
-        );
+    .glass-card {
+      background: rgba(26, 26, 46, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 255, 157, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 255, 157, 0.1) inset;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
 
-        // Floating Contact Button
-        const FloatingContactButton = ({ onClick }) => (
-            <div className="floating-contact-btn" onClick={onClick}>
-                💬
-            </div>
-        );
+    .glass-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(0, 255, 157, 0.5);
+      box-shadow: 0 16px 48px rgba(0, 255, 157, 0.2), 0 0 0 1px rgba(0, 255, 157, 0.3) inset;
+    }
 
-        // Main App Component
-        const App = () => {
-            const handleContactClick = () => {
-                document.getElementById('contact-section').scrollIntoView({ behavior: 'smooth' });
-            };
-            
-            return (
-                <div className="web-container">
-                    <div id="home-section">
-                        <HomeScreen />
-                    </div>
-                    <div id="education-section">
-                        <EducationScreen />
-                    </div>
-                    <div id="skills-section">
-                        <SkillsScreen />
-                    </div>
-                    <div id="projects-section">
-                        <ProjectsScreen />
-                    </div>
-                    <div id="certifications-section">
-                        <CertificationsScreen />
-                    </div>
-                    <div id="contact-section">
-                        <ContactScreen />
-                    </div>
-                    <FloatingContactButton onClick={handleContactClick} />
-                </div>
-            );
-        };
+    .skill-badge {
+      display: inline-block;
+      padding: 8px 16px;
+      background: linear-gradient(135deg, rgba(0, 255, 157, 0.1), rgba(0, 212, 255, 0.1));
+      border: 1px solid rgba(0, 255, 157, 0.3);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #00ff9d;
+      margin: 6px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
 
-        ReactDOM.render(<App />, document.getElementById('root'));
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9938aa0a67dadb81',t:'MTc2MTMwMDQxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+    .skill-badge::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .skill-badge:hover::before {
+      left: 100%;
+    }
+
+    .skill-badge:hover {
+      transform: translateY(-4px) scale(1.05);
+      border-color: #00ff9d;
+      box-shadow: 0 8px 24px rgba(0, 255, 157, 0.3), 0 0 20px rgba(0, 255, 157, 0.2);
+    }
+
+    .project-card {
+      background: rgba(26, 26, 46, 0.6);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(0, 255, 157, 0.2);
+      border-left: 4px solid transparent;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 0;
+      background: linear-gradient(180deg, #00ff9d, #00d4ff);
+      transition: height 0.4s ease;
+    }
+
+    .project-card:hover::before {
+      height: 100%;
+    }
+
+    .project-card:hover {
+      transform: translateX(12px) scale(1.02);
+      border-color: rgba(0, 255, 157, 0.4);
+      box-shadow: 0 12px 40px rgba(0, 255, 157, 0.2);
+    }
+
+    .tech-icon {
+      display: inline-block;
+      padding: 8px 16px;
+      background: linear-gradient(135deg, rgba(123, 47, 247, 0.2), rgba(0, 212, 255, 0.2));
+      border: 1px solid rgba(0, 212, 255, 0.4);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #00d4ff;
+      margin: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .tech-icon:hover {
+      background: linear-gradient(135deg, rgba(123, 47, 247, 0.4), rgba(0, 212, 255, 0.4));
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
+    }
+
+    .section-divider {
+      height: 4px;
+      width: 120px;
+      background: linear-gradient(90deg, #00ff9d, #00d4ff, #7b2ff7);
+      margin: 20px 0 40px 0;
+      border-radius: 4px;
+      position: relative;
+      animation: code-scan 3s linear infinite;
+      background-size: 200% auto;
+    }
+
+    .experience-timeline {
+      position: relative;
+      padding-left: 40px;
+    }
+
+    .experience-timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, #00ff9d, #00d4ff, #7b2ff7);
+      box-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -9px;
+      top: 8px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #00ff9d;
+      border: 3px solid #0a0e27;
+      box-shadow: 0 0 20px rgba(0, 255, 157, 0.8), 0 0 40px rgba(0, 255, 157, 0.4);
+      animation: glow-pulse 2s ease-in-out infinite;
+    }
+
+    .contact-link {
+      transition: all 0.3s ease;
+      color: #00d4ff;
+    }
+
+    .contact-link:hover {
+      color: #00ff9d;
+      transform: scale(1.1);
+      text-shadow: 0 0 10px #00ff9d;
+    }
+
+    .float-animation {
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .code-bg {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .code-bg::before {
+      content: '</>';
+      position: absolute;
+      font-size: 300px;
+      font-weight: 900;
+      color: rgba(0, 255, 157, 0.03);
+      top: -80px;
+      right: -50px;
+      font-family: 'Courier New', monospace;
+      pointer-events: none;
+      transform: rotate(-15deg);
+    }
+
+    .code-bg::after {
+      content: '{ }';
+      position: absolute;
+      font-size: 200px;
+      font-weight: 900;
+      color: rgba(0, 212, 255, 0.03);
+      bottom: -60px;
+      left: -40px;
+      font-family: 'Courier New', monospace;
+      pointer-events: none;
+      transform: rotate(15deg);
+    }
+
+    .cyber-button {
+      background: linear-gradient(135deg, rgba(0, 255, 157, 0.2), rgba(0, 212, 255, 0.2));
+      border: 2px solid #00ff9d;
+      color: #00ff9d;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cyber-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.4), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .cyber-button:hover::before {
+      left: 100%;
+    }
+
+    .cyber-button:hover {
+      background: linear-gradient(135deg, rgba(0, 255, 157, 0.3), rgba(0, 212, 255, 0.3));
+      box-shadow: 0 0 20px rgba(0, 255, 157, 0.6), 0 0 40px rgba(0, 255, 157, 0.3);
+      transform: scale(1.05);
+    }
+
+    .avatar-container {
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00ff9d, #00d4ff, #7b2ff7);
+      padding: 4px;
+      animation: float 4s ease-in-out infinite, glow-pulse 2s ease-in-out infinite;
+      position: relative;
+    }
+
+    .avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1a1a2e, #0a0e27);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 56px;
+      font-weight: 900;
+      color: #00ff9d;
+      text-shadow: 0 0 20px #00ff9d;
+    }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 3px;
+      height: 1.2em;
+      background: #00ff9d;
+      margin-left: 4px;
+      animation: typing-cursor 1s step-end infinite;
+    }
+
+    .github-icon:hover {
+      color: #00ff9d !important;
+      transform: rotate(360deg) scale(1.2);
+      transition: all 0.5s ease;
+    }
+
+    .cert-item {
+      transition: all 0.3s ease;
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    .cert-item:hover {
+      background: rgba(0, 255, 157, 0.05);
+      transform: translateX(8px);
+    }
+
+    .section-title {
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::before {
+      content: '//';
+      position: absolute;
+      left: -40px;
+      color: #00ff9d;
+      font-family: 'Courier New', monospace;
+      font-weight: 900;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="cyber-bg"></div>
+  <div class="matrix-overlay" id="matrix-overlay"></div>
+  <div class="min-h-full relative z-10"><!-- Hero Section -->
+   <header class="code-bg relative py-20 px-6 text-center">
+    <div class="max-w-4xl mx-auto">
+     <div class="avatar-container">
+      <div class="avatar-inner">
+       JL
+      </div>
+     </div>
+     <h1 id="hero-name" class="text-5xl md:text-6xl font-bold mb-4 text-white neon-text">Jenil Lad</h1>
+     <p id="hero-tagline" class="text-2xl md:text-3xl gradient-text font-bold mb-4">Web &amp; Mobile Developer<span class="typing-cursor"></span></p>
+     <p id="hero-description" class="text-lg text-gray-300 max-w-2xl mx-auto mb-8">Building modern, scalable, and user-friendly applications with Flutter, Android, and full-stack technologies</p><!-- Contact Info -->
+     <div class="flex flex-wrap justify-center gap-6 mb-8"><a id="contact-phone" href="tel:+916354531293" class="contact-link flex items-center gap-2">
+       <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20">
+        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+       </svg><span>+91 6354531293</span> </a> <a id="contact-email" href="mailto:jenillad573@gmail.com" class="contact-link flex items-center gap-2">
+       <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20">
+        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+       </svg><span>jenillad573@gmail.com</span> </a>
+      <div id="contact-location" class="contact-link flex items-center gap-2 cursor-default">
+       <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20">
+        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+       </svg><span>Pune, India</span>
+      </div>
+     </div><!-- Social Links -->
+     <div class="flex justify-center gap-4"><a href="https://linkedin.com/in/jenil-lad" target="_blank" rel="noopener noreferrer" class="cyber-button px-6 py-3 rounded-lg font-bold"> LinkedIn </a> <a href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer" class="cyber-button px-6 py-3 rounded-lg font-bold"> GitHub </a> <a href="https://ladjenil.github.io" target="_blank" rel="noopener noreferrer" class="cyber-button px-6 py-3 rounded-lg font-bold"> Portfolio </a>
+     </div>
+    </div>
+   </header>
+   <main class="max-w-6xl mx-auto px-6 py-12"><!-- About Section -->
+    <section class="mb-16">
+     <h2 id="about-heading" class="text-3xl font-bold text-white section-title">Professional Summary</h2>
+     <div class="section-divider"></div>
+     <div class="glass-card rounded-xl p-8">
+      <p class="text-gray-300 leading-relaxed text-lg">Web &amp; Mobile Developer skilled in building cross-platform applications using <strong class="text-cyan-400">Flutter</strong>, <strong class="text-cyan-400">Java</strong>, <strong class="text-cyan-400">Android</strong>, <strong class="text-cyan-400">React</strong>, and modern backend frameworks. Strong experience in <strong class="text-cyan-400">Firebase</strong>, <strong class="text-cyan-400">REST APIs</strong>, scalable UI design, and real-time data applications. Passionate about full-stack development and delivering smooth, user-centric digital experiences.</p>
+     </div>
+    </section><!-- Technical Skills -->
+    <section class="mb-16">
+     <h2 id="skills-heading" class="text-3xl font-bold text-white section-title">Technical Skills</h2>
+     <div class="section-divider"></div>
+     <div class="glass-card rounded-xl p-8">
+      <div class="grid md:grid-cols-2 gap-6">
+       <div>
+        <h3 class="text-xl font-semibold text-cyan-400 mb-3 flex items-center gap-2"><span class="text-2xl">💻</span> Languages</h3>
+        <div class="flex flex-wrap gap-2"><span class="skill-badge">Java</span> <span class="skill-badge">Dart</span> <span class="skill-badge">Python</span> <span class="skill-badge">C/C++</span> <span class="skill-badge">SQL</span> <span class="skill-badge">HTML/CSS</span> <span class="skill-badge">XML</span>
+        </div>
+       </div>
+       <div>
+        <h3 class="text-xl font-semibold text-cyan-400 mb-3 flex items-center gap-2"><span class="text-2xl">⚡</span> Frameworks</h3>
+        <div class="flex flex-wrap gap-2"><span class="skill-badge">Flutter</span> <span class="skill-badge">ReactJS</span> <span class="skill-badge">Android SDK</span> <span class="skill-badge">Spring Boot</span>
+        </div>
+       </div>
+       <div>
+        <h3 class="text-xl font-semibold text-cyan-400 mb-3 flex items-center gap-2"><span class="text-2xl">🛠️</span> Developer Tools</h3>
+        <div class="flex flex-wrap gap-2"><span class="skill-badge">Git</span> <span class="skill-badge">GitHub</span> <span class="skill-badge">VS Code</span> <span class="skill-badge">Android Studio</span> <span class="skill-badge">IntelliJ IDEA</span> <span class="skill-badge">Linux</span> <span class="skill-badge">Azure</span>
+        </div>
+       </div>
+       <div>
+        <h3 class="text-xl font-semibold text-cyan-400 mb-3 flex items-center gap-2"><span class="text-2xl">🗄️</span> Databases</h3>
+        <div class="flex flex-wrap gap-2"><span class="skill-badge">Firebase</span> <span class="skill-badge">MySQL</span> <span class="skill-badge">SQLite</span> <span class="skill-badge">PostgreSQL</span>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- Experience -->
+    <section class="mb-16">
+     <h2 id="experience-heading" class="text-3xl font-bold text-white section-title">Experience</h2>
+     <div class="section-divider"></div>
+     <div class="glass-card rounded-xl p-8">
+      <div class="experience-timeline space-y-8"><!-- Experience 1 -->
+       <div class="relative">
+        <div class="timeline-dot"></div>
+        <div>
+         <h3 class="text-xl font-bold text-white">Flutter Developer</h3>
+         <p class="text-cyan-400 font-semibold mb-1">Immersion At WPU</p>
+         <p class="text-gray-400 text-sm mb-3">Sep 2025 – Present</p>
+         <ul class="space-y-2 text-gray-300">
+          <li class="flex items-start gap-2"><span class="text-green-400 mt-1">▸</span> <span>Developed a university immersion management platform using <strong class="text-cyan-400">Flutter</strong></span></li>
+          <li class="flex items-start gap-2"><span class="text-green-400 mt-1">▸</span> <span>Implemented clean architecture and reusable UI components</span></li>
+          <li class="flex items-start gap-2"><span class="text-green-400 mt-1">▸</span> <span>Improved app performance and optimized <strong class="text-cyan-400">Firebase</strong> interactions</span></li>
+         </ul>
+        </div>
+       </div><!-- Experience 2 -->
+       <div class="relative">
+        <div class="timeline-dot"></div>
+        <div>
+         <h3 class="text-xl font-bold text-white">Android Developer Intern</h3>
+         <p class="text-cyan-400 font-semibold mb-1">CodeAlpha (Remote)</p>
+         <p class="text-gray-400 text-sm mb-3">Aug 2025</p>
+         <ul class="space-y-2 text-gray-300">
+          <li class="flex items-start gap-2"><span class="text-green-400 mt-1">▸</span> <span>Built Android applications using <strong class="text-cyan-400">Java</strong>, <strong class="text-cyan-400">XML</strong>, and <strong class="text-cyan-400">Firebase</strong></span></li>
+          <li class="flex items-start gap-2"><span class="text-green-400 mt-1">▸</span> <span>Designed modern UI layouts with smooth navigation</span></li>
+          <li class="flex items-start gap-2"><span class="text-green-400 mt-1">▸</span> <span>Improved real-time synchronization using <strong class="text-cyan-400">Firebase Realtime Database</strong></span></li>
+         </ul>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- Projects -->
+    <section class="mb-16">
+     <h2 id="projects-heading" class="text-3xl font-bold text-white section-title">Featured Projects</h2>
+     <div class="section-divider"></div>
+     <div class="space-y-6"><!-- Project 1 -->
+      <div class="project-card rounded-xl p-6">
+       <div class="flex items-start justify-between mb-3">
+        <h3 class="text-2xl font-bold text-white">Daily Dine</h3><a href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:text-green-400 github-icon">
+         <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+         </svg></a>
+       </div>
+       <p class="text-gray-300 mb-4">Mess Management System with QR-based meal tracking, responsive dashboards, and real-time analytics</p>
+       <div class="flex flex-wrap gap-2"><span class="tech-icon">Flutter</span> <span class="tech-icon">Spring Boot</span> <span class="tech-icon">ReactJS</span> <span class="tech-icon">Azure</span> <span class="tech-icon">QR Integration</span> <span class="tech-icon">Payment Gateway</span>
+       </div>
+      </div><!-- Project 2 -->
+      <div class="project-card rounded-xl p-6">
+       <div class="flex items-start justify-between mb-3">
+        <h3 class="text-2xl font-bold text-white">MitConnect</h3><a href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:text-green-400 github-icon">
+         <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+         </svg></a>
+       </div>
+       <p class="text-gray-300 mb-4">Social video chat app with anime-style UI featuring glassmorphism design and Firebase integration</p>
+       <div class="flex flex-wrap gap-2"><span class="tech-icon">Flutter</span> <span class="tech-icon">Firebase</span> <span class="tech-icon">Video Call API</span> <span class="tech-icon">Real-time Chat</span> <span class="tech-icon">UI/UX Design</span>
+       </div>
+      </div><!-- Project 3 -->
+      <div class="project-card rounded-xl p-6">
+       <div class="flex items-start justify-between mb-3">
+        <h3 class="text-2xl font-bold text-white">Hungryfine</h3><a href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:text-green-400 github-icon">
+         <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+         </svg></a>
+       </div>
+       <p class="text-gray-300 mb-4">Food delivery platform with dual apps for sellers and customers, managing 5K+ monthly orders</p>
+       <div class="flex flex-wrap gap-2"><span class="tech-icon">Java</span> <span class="tech-icon">Android</span> <span class="tech-icon">Firebase</span> <span class="tech-icon">Razorpay</span> <span class="tech-icon">Real-time Tracking</span> <span class="tech-icon">XML Layouts</span>
+       </div>
+      </div>
+     </div>
+    </section><!-- Education -->
+    <section class="mb-16">
+     <h2 id="education-heading" class="text-3xl font-bold text-white section-title">Education</h2>
+     <div class="section-divider"></div>
+     <div class="glass-card rounded-xl p-8 space-y-6">
+      <div>
+       <h3 class="text-xl font-bold text-white">Master of Computer Applications</h3>
+       <p class="text-cyan-400 font-semibold">MIT World Peace University</p>
+       <p class="text-gray-300">Expected Jul 2026 • CGPA: 6.70 / 10.00</p>
+      </div>
+      <div>
+       <h3 class="text-xl font-bold text-white">Bachelor of Computer Applications</h3>
+       <p class="text-cyan-400 font-semibold">Veer Narmad South Gujarat University</p>
+       <p class="text-gray-300">Oct 2021 – Mar 2024 • CGPA: 7.33 / 10.00</p>
+      </div>
+     </div>
+    </section><!-- Certifications -->
+    <section class="mb-16">
+     <h2 class="text-3xl font-bold text-white section-title">Certifications</h2>
+     <div class="section-divider"></div>
+     <div class="glass-card rounded-xl p-8">
+      <ul class="grid md:grid-cols-2 gap-4">
+       <li class="cert-item flex items-start gap-3">
+        <svg class="w-6 h-6 text-green-400 mt-1 flex-shrink-0" fill="currentColor" viewbox="0 0 20 20">
+         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg><span class="text-gray-300">Android App Development (7 Real Projects in Java)</span></li>
+       <li class="cert-item flex items-start gap-3">
+        <svg class="w-6 h-6 text-green-400 mt-1 flex-shrink-0" fill="currentColor" viewbox="0 0 20 20">
+         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg><span class="text-gray-300">Java for Programmers Crash Course</span></li>
+       <li class="cert-item flex items-start gap-3">
+        <svg class="w-6 h-6 text-green-400 mt-1 flex-shrink-0" fill="currentColor" viewbox="0 0 20 20">
+         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg><span class="text-gray-300">Git for Beginners</span></li>
+       <li class="cert-item flex items-start gap-3">
+        <svg class="w-6 h-6 text-green-400 mt-1 flex-shrink-0" fill="currentColor" viewbox="0 0 20 20">
+         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg><span class="text-gray-300">Mobile App UI Design (Moqups)</span></li>
+       <li class="cert-item flex items-start gap-3">
+        <svg class="w-6 h-6 text-green-400 mt-1 flex-shrink-0" fill="currentColor" viewbox="0 0 20 20">
+         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg><span class="text-gray-300">React Native by Meta</span></li>
+      </ul>
+     </div>
+    </section>
+   </main><!-- Footer -->
+   <footer class="relative py-8 px-6 text-center border-t border-cyan-900" style="background: rgba(26, 26, 46, 0.8);">
+    <p class="text-lg mb-2 text-cyan-400 font-semibold">Let's build something amazing together! 🚀</p>
+    <p class="text-gray-400">© 2025 Jenil Lad. All rights reserved.</p>
+    <div class="mt-4 text-xs text-gray-500"><span class="inline-block mr-4">⚡ Powered by Code</span> <span class="inline-block">💻 Built with Passion</span>
+    </div>
+   </footer>
+  </div>
+  <script>
+    // Matrix rain effect
+    function createMatrixEffect() {
+      const overlay = document.getElementById('matrix-overlay');
+      if (!overlay) return;
+      
+      const characters = '01ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ{}[]<>/\\|';
+      const columns = Math.floor(window.innerWidth / 20);
+      
+      for (let i = 0; i < 30; i++) {
+        const char = document.createElement('div');
+        char.className = 'matrix-char';
+        char.textContent = characters[Math.floor(Math.random() * characters.length)];
+        char.style.left = Math.random() * 100 + '%';
+        char.style.animationDelay = Math.random() * 4 + 's';
+        char.style.animationDuration = (Math.random() * 2 + 3) + 's';
+        overlay.appendChild(char);
+      }
+    }
+    
+    createMatrixEffect();
+
+    const defaultConfig = {
+      name: "Jenil Lad",
+      tagline: "Web & Mobile Developer",
+      hero_description: "Building modern, scalable, and user-friendly applications with Flutter, Android, and full-stack technologies",
+      phone: "+91 6354531293",
+      email: "jenillad573@gmail.com",
+      location: "Pune, India",
+      about_heading: "Professional Summary",
+      skills_heading: "Technical Skills",
+      experience_heading: "Experience",
+      projects_heading: "Featured Projects",
+      education_heading: "Education",
+      background_color: "#0a0e27",
+      surface_color: "#1a1a2e",
+      text_color: "#e0e0e0",
+      primary_action: "#00ff9d",
+      secondary_action: "#00d4ff",
+      font_family: "system-ui",
+      font_size: 16
+    };
+
+    async function onConfigChange(config) {
+      // Update text content
+      document.getElementById('hero-name').textContent = config.name || defaultConfig.name;
+      document.getElementById('hero-tagline').textContent = config.tagline || defaultConfig.tagline;
+      document.getElementById('hero-description').textContent = config.hero_description || defaultConfig.hero_description;
+      
+      const phoneEl = document.getElementById('contact-phone');
+      phoneEl.href = `tel:${config.phone || defaultConfig.phone}`;
+      phoneEl.querySelector('span').textContent = config.phone || defaultConfig.phone;
+      
+      const emailEl = document.getElementById('contact-email');
+      emailEl.href = `mailto:${config.email || defaultConfig.email}`;
+      emailEl.querySelector('span').textContent = config.email || defaultConfig.email;
+      
+      document.getElementById('contact-location').querySelector('span').textContent = config.location || defaultConfig.location;
+      
+      document.getElementById('about-heading').textContent = config.about_heading || defaultConfig.about_heading;
+      document.getElementById('skills-heading').textContent = config.skills_heading || defaultConfig.skills_heading;
+      document.getElementById('experience-heading').textContent = config.experience_heading || defaultConfig.experience_heading;
+      document.getElementById('projects-heading').textContent = config.projects_heading || defaultConfig.projects_heading;
+      document.getElementById('education-heading').textContent = config.education_heading || defaultConfig.education_heading;
+
+      // Apply colors
+      const bgColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryColor = config.primary_action || defaultConfig.primary_action;
+      const secondaryColor = config.secondary_action || defaultConfig.secondary_action;
+
+      document.querySelector('.cyber-bg').style.background = `linear-gradient(135deg, ${bgColor} 0%, ${surfaceColor} 50%, ${bgColor} 100%)`;
+      
+      document.querySelectorAll('.glass-card').forEach(el => {
+        el.style.background = `rgba(${parseInt(surfaceColor.slice(1,3), 16)}, ${parseInt(surfaceColor.slice(3,5), 16)}, ${parseInt(surfaceColor.slice(5,7), 16)}, 0.7)`;
+        el.style.borderColor = `${primaryColor}33`;
+      });
+
+      document.querySelectorAll('.project-card').forEach(el => {
+        el.style.background = `rgba(${parseInt(surfaceColor.slice(1,3), 16)}, ${parseInt(surfaceColor.slice(3,5), 16)}, ${parseInt(surfaceColor.slice(5,7), 16)}, 0.6)`;
+        el.style.borderColor = `${primaryColor}33`;
+      });
+      
+      document.querySelectorAll('.text-white, .section-title').forEach(el => {
+        el.style.color = textColor;
+      });
+
+      document.querySelectorAll('.neon-text').forEach(el => {
+        el.style.color = primaryColor;
+        el.style.textShadow = `0 0 10px ${primaryColor}, 0 0 20px ${primaryColor}, 0 0 30px ${primaryColor}`;
+      });
+
+      document.querySelectorAll('.gradient-text').forEach(el => {
+        el.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 50%, ${primaryColor} 100%)`;
+        el.style.webkitBackgroundClip = 'text';
+        el.style.backgroundClip = 'text';
+      });
+
+      document.querySelectorAll('.skill-badge').forEach(el => {
+        el.style.color = primaryColor;
+        el.style.borderColor = `${primaryColor}4d`;
+        el.style.background = `linear-gradient(135deg, ${primaryColor}1a, ${secondaryColor}1a)`;
+      });
+
+      document.querySelectorAll('.tech-icon').forEach(el => {
+        el.style.color = secondaryColor;
+        el.style.borderColor = `${secondaryColor}66`;
+      });
+
+      document.querySelectorAll('.timeline-dot').forEach(el => {
+        el.style.backgroundColor = primaryColor;
+        el.style.boxShadow = `0 0 20px ${primaryColor}cc, 0 0 40px ${primaryColor}66`;
+      });
+
+      document.querySelectorAll('.contact-link').forEach(el => {
+        el.style.color = secondaryColor;
+      });
+
+      document.querySelectorAll('.cyber-button').forEach(el => {
+        el.style.borderColor = primaryColor;
+        el.style.color = primaryColor;
+        el.style.background = `linear-gradient(135deg, ${primaryColor}33, ${secondaryColor}33)`;
+      });
+
+      document.querySelectorAll('.text-cyan-400').forEach(el => {
+        el.style.color = secondaryColor;
+      });
+
+      document.querySelectorAll('.section-divider').forEach(el => {
+        el.style.background = `linear-gradient(90deg, ${primaryColor}, ${secondaryColor}, ${primaryColor})`;
+      });
+
+      // Apply fonts
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = 'system-ui, -apple-system, sans-serif';
+      document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+
+      // Apply font sizing
+      const baseSize = config.font_size || defaultConfig.font_size;
+      document.body.style.fontSize = `${baseSize}px`;
+      
+      document.querySelectorAll('h1').forEach(el => {
+        el.style.fontSize = `${baseSize * 3}px`;
+      });
+      document.querySelectorAll('h2').forEach(el => {
+        el.style.fontSize = `${baseSize * 1.875}px`;
+      });
+      document.querySelectorAll('h3').forEach(el => {
+        el.style.fontSize = `${baseSize * 1.25}px`;
+      });
+      document.querySelectorAll('p, li, span, a').forEach(el => {
+        if (!el.classList.contains('text-2xl') && !el.classList.contains('text-3xl')) {
+          el.style.fontSize = `${baseSize}px`;
+        }
+      });
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.surface_color || defaultConfig.surface_color,
+              set: (value) => {
+                config.surface_color = value;
+                window.elementSdk.setConfig({ surface_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.primary_action || defaultConfig.primary_action,
+              set: (value) => {
+                config.primary_action = value;
+                window.elementSdk.setConfig({ primary_action: value });
+              }
+            },
+            {
+              get: () => config.secondary_action || defaultConfig.secondary_action,
+              set: (value) => {
+                config.secondary_action = value;
+                window.elementSdk.setConfig({ secondary_action: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["name", config.name || defaultConfig.name],
+          ["tagline", config.tagline || defaultConfig.tagline],
+          ["hero_description", config.hero_description || defaultConfig.hero_description],
+          ["phone", config.phone || defaultConfig.phone],
+          ["email", config.email || defaultConfig.email],
+          ["location", config.location || defaultConfig.location],
+          ["about_heading", config.about_heading || defaultConfig.about_heading],
+          ["skills_heading", config.skills_heading || defaultConfig.skills_heading],
+          ["experience_heading", config.experience_heading || defaultConfig.experience_heading],
+          ["projects_heading", config.projects_heading || defaultConfig.projects_heading],
+          ["education_heading", config.education_heading || defaultConfig.education_heading]
+        ])
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a0e816645978ef1',t:'MTc2MzU0MjcwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
