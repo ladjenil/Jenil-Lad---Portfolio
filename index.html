@@ -1,820 +1,608 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-full">
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jenil Lad - Web &amp; Mobile Developer</title>
+  <title>Code Odyssey — Jenil Lad</title>
   <script src="/_sdk/element_sdk.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&amp;family=Exo+2:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <style>
-    body {
-      box-sizing: border-box;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+html, body { height: 100%; margin: 0; overflow: hidden; }
+* { box-sizing: border-box; }
 
-    html, body {
-      height: 100%;
-      width: 100%;
-    }
+:root {
+  --bg: #0B0C10;
+  --accent: #00ADB5;
+  --purple: #C77DFF;
+  --surface: rgba(11,12,16,0.7);
+  --text: #E0E0E0;
+}
 
-    @keyframes matrix-rain {
-      0% { transform: translateY(-100%); opacity: 0; }
-      50% { opacity: 1; }
-      100% { transform: translateY(100%); opacity: 0; }
-    }
+body { font-family: 'Exo 2', sans-serif; background: var(--bg); color: var(--text); }
 
-    @keyframes glow-pulse {
-      0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 157, 0.3), 0 0 40px rgba(0, 255, 157, 0.1); }
-      50% { box-shadow: 0 0 30px rgba(0, 255, 157, 0.5), 0 0 60px rgba(0, 255, 157, 0.2); }
-    }
+.font-orbit { font-family: 'Orbitron', sans-serif; }
 
-    @keyframes slide-in-right {
-      from { transform: translateX(50px); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
+/* Stars */
+.star-field { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkle var(--dur) ease-in-out infinite alternate;
+}
+@keyframes twinkle { 0% { opacity: 0.1; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
 
-    @keyframes code-scan {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+/* Nebula blobs */
+.nebula {
+  position: fixed; border-radius: 50%; filter: blur(120px); opacity: 0.15; pointer-events: none; z-index: 0;
+  animation: nebulaDrift 20s ease-in-out infinite alternate;
+}
+@keyframes nebulaDrift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-20px) scale(1.1); } }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      33% { transform: translateY(-15px) rotate(2deg); }
-      66% { transform: translateY(-8px) rotate(-2deg); }
-    }
+/* Scroll container */
+.scroll-wrap {
+  height: 100%; overflow-y: auto; overflow-x: hidden; position: relative; z-index: 1;
+  scroll-behavior: smooth; scroll-snap-type: y proximity;
+}
 
-    @keyframes typing-cursor {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
+/* Sections */
+.section-planet {
+  min-height: 100%; width: 100%; display: flex; align-items: center; justify-content: center;
+  padding: 3rem 1.5rem; scroll-snap-align: start; position: relative;
+}
 
-    @keyframes neon-flicker {
-      0%, 100% { text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d, 0 0 30px #00ff9d; }
-      50% { text-shadow: 0 0 5px #00ff9d, 0 0 10px #00ff9d; }
-    }
+/* Glass card */
+.glass {
+  background: rgba(11,12,16,0.6);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0,173,181,0.2);
+  border-radius: 1.25rem;
+}
+.glass-purple {
+  background: rgba(199,125,255,0.06);
+  border: 1px solid rgba(199,125,255,0.2);
+}
 
-    .cyber-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 50%, #16213e 100%);
-      z-index: -1;
-    }
+/* Glow button */
+.glow-btn {
+  position: relative; overflow: hidden; transition: all 0.3s;
+  box-shadow: 0 0 20px rgba(0,173,181,0.3);
+}
+.glow-btn:hover { box-shadow: 0 0 40px rgba(0,173,181,0.6); transform: translateY(-2px); }
+.glow-btn::after {
+  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(0,173,181,0.1), transparent);
+  animation: btnSpin 4s linear infinite;
+}
+@keyframes btnSpin { 100% { transform: rotate(360deg); } }
 
-    .matrix-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.05;
-    }
+/* Planet orb */
+.planet-orb {
+  width: 80px; height: 80px; border-radius: 50%; position: relative;
+  box-shadow: 0 0 60px rgba(0,173,181,0.4), inset -10px -10px 20px rgba(0,0,0,0.5);
+  animation: planetFloat 6s ease-in-out infinite;
+}
+@keyframes planetFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-    .matrix-char {
-      position: absolute;
-      color: #00ff9d;
-      font-family: 'Courier New', monospace;
-      font-size: 14px;
-      animation: matrix-rain 4s linear infinite;
-    }
+/* Orbit ring */
+.orbit-ring {
+  position: absolute; border: 1px solid rgba(0,173,181,0.15); border-radius: 50%;
+  animation: orbitSpin 25s linear infinite;
+}
+@keyframes orbitSpin { 100% { transform: rotate(360deg); } }
 
-    .gradient-text {
-      background: linear-gradient(135deg, #00ff9d 0%, #00d4ff 50%, #7b2ff7 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      background-size: 200% auto;
-      animation: code-scan 3s linear infinite;
-    }
+/* Skill chip hover */
+.skill-chip {
+  transition: all 0.3s; cursor: default;
+}
+.skill-chip:hover {
+  transform: translateY(-4px); box-shadow: 0 0 25px rgba(0,173,181,0.4);
+  border-color: rgba(0,173,181,0.6);
+}
 
-    .neon-text {
-      color: #00ff9d;
-      text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d, 0 0 30px #00ff9d, 0 0 40px #00ff9d;
-      animation: neon-flicker 2s ease-in-out infinite;
-    }
+/* Project card */
+.project-card {
+  transition: all 0.4s;
+}
+.project-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 0 50px rgba(199,125,255,0.2);
+  border-color: rgba(199,125,255,0.4);
+}
 
-    .glass-card {
-      background: rgba(26, 26, 46, 0.7);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(0, 255, 157, 0.2);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 255, 157, 0.1) inset;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
+/* Timeline */
+.timeline-node {
+  width: 16px; height: 16px; border-radius: 50%; position: relative; z-index: 2;
+  box-shadow: 0 0 20px rgba(0,173,181,0.5);
+  animation: nodePulse 2s ease-in-out infinite;
+}
+@keyframes nodePulse { 0%,100% { box-shadow: 0 0 20px rgba(0,173,181,0.5); } 50% { box-shadow: 0 0 35px rgba(0,173,181,0.8); } }
 
-    .glass-card:hover {
-      transform: translateY(-8px) scale(1.02);
-      border-color: rgba(0, 255, 157, 0.5);
-      box-shadow: 0 16px 48px rgba(0, 255, 157, 0.2), 0 0 0 1px rgba(0, 255, 157, 0.3) inset;
-    }
+/* Badge float */
+.badge-card {
+  transition: all 0.3s;
+  animation: badgeFloat var(--float-dur, 5s) ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+}
+.badge-card:hover { transform: translateY(-6px) scale(1.05); }
+@keyframes badgeFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-    .skill-badge {
-      display: inline-block;
-      padding: 8px 16px;
-      background: linear-gradient(135deg, rgba(0, 255, 157, 0.1), rgba(0, 212, 255, 0.1));
-      border: 1px solid rgba(0, 255, 157, 0.3);
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #00ff9d;
-      margin: 6px;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
+/* Fade-in on scroll */
+.reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
 
-    .skill-badge::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.3), transparent);
-      transition: left 0.5s ease;
-    }
+/* Nav */
+.nav-dot { width: 10px; height: 10px; border-radius: 50%; transition: all 0.3s; cursor: pointer; }
+.nav-dot.active { transform: scale(1.5); box-shadow: 0 0 15px rgba(0,173,181,0.7); }
 
-    .skill-badge:hover::before {
-      left: 100%;
-    }
+/* Scrollbar */
+.scroll-wrap::-webkit-scrollbar { width: 4px; }
+.scroll-wrap::-webkit-scrollbar-track { background: transparent; }
+.scroll-wrap::-webkit-scrollbar-thumb { background: rgba(0,173,181,0.3); border-radius: 2px; }
 
-    .skill-badge:hover {
-      transform: translateY(-4px) scale(1.05);
-      border-color: #00ff9d;
-      box-shadow: 0 8px 24px rgba(0, 255, 157, 0.3), 0 0 20px rgba(0, 255, 157, 0.2);
-    }
+/* Contact pulse */
+.contact-glow { animation: contactPulse 3s ease-in-out infinite; }
+@keyframes contactPulse { 0%,100% { box-shadow: 0 0 30px rgba(199,125,255,0.2); } 50% { box-shadow: 0 0 60px rgba(199,125,255,0.4); } }
 
-    .project-card {
-      background: rgba(26, 26, 46, 0.6);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(0, 255, 157, 0.2);
-      border-left: 4px solid transparent;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 0;
-      background: linear-gradient(180deg, #00ff9d, #00d4ff);
-      transition: height 0.4s ease;
-    }
-
-    .project-card:hover::before {
-      height: 100%;
-    }
-
-    .project-card:hover {
-      transform: translateX(12px) scale(1.02);
-      border-color: rgba(0, 255, 157, 0.4);
-      box-shadow: 0 12px 40px rgba(0, 255, 157, 0.2);
-    }
-
-    .tech-icon {
-      display: inline-block;
-      padding: 8px 16px;
-      background: linear-gradient(135deg, rgba(123, 47, 247, 0.2), rgba(0, 212, 255, 0.2));
-      border: 1px solid rgba(0, 212, 255, 0.4);
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #00d4ff;
-      margin: 4px;
-      transition: all 0.3s ease;
-    }
-
-    .tech-icon:hover {
-      background: linear-gradient(135deg, rgba(123, 47, 247, 0.4), rgba(0, 212, 255, 0.4));
-      transform: scale(1.1);
-      box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
-    }
-
-    .section-divider {
-      height: 4px;
-      width: 120px;
-      background: linear-gradient(90deg, #00ff9d, #00d4ff, #7b2ff7);
-      margin: 20px 0 40px 0;
-      border-radius: 4px;
-      position: relative;
-      animation: code-scan 3s linear infinite;
-      background-size: 200% auto;
-    }
-
-    .experience-timeline {
-      position: relative;
-      padding-left: 40px;
-    }
-
-    .experience-timeline::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background: linear-gradient(180deg, #00ff9d, #00d4ff, #7b2ff7);
-      box-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
-    }
-
-    .timeline-dot {
-      position: absolute;
-      left: -9px;
-      top: 8px;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: #00ff9d;
-      border: 3px solid #0a0e27;
-      box-shadow: 0 0 20px rgba(0, 255, 157, 0.8), 0 0 40px rgba(0, 255, 157, 0.4);
-      animation: glow-pulse 2s ease-in-out infinite;
-    }
-
-    .contact-link {
-      transition: all 0.3s ease;
-      color: #00d4ff;
-    }
-
-    .contact-link:hover {
-      color: #00ff9d;
-      transform: scale(1.1);
-      text-shadow: 0 0 10px #00ff9d;
-    }
-
-    .float-animation {
-      animation: float 4s ease-in-out infinite;
-    }
-
-    .code-bg {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .code-bg::before {
-      content: '</>';
-      position: absolute;
-      font-size: 300px;
-      font-weight: 900;
-      color: rgba(0, 255, 157, 0.03);
-      top: -80px;
-      right: -50px;
-      font-family: 'Courier New', monospace;
-      pointer-events: none;
-      transform: rotate(-15deg);
-    }
-
-    .code-bg::after {
-      content: '{ }';
-      position: absolute;
-      font-size: 200px;
-      font-weight: 900;
-      color: rgba(0, 212, 255, 0.03);
-      bottom: -60px;
-      left: -40px;
-      font-family: 'Courier New', monospace;
-      pointer-events: none;
-      transform: rotate(15deg);
-    }
-
-    .cyber-button {
-      background: linear-gradient(135deg, rgba(0, 255, 157, 0.2), rgba(0, 212, 255, 0.2));
-      border: 2px solid #00ff9d;
-      color: #00ff9d;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cyber-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.4), transparent);
-      transition: left 0.5s ease;
-    }
-
-    .cyber-button:hover::before {
-      left: 100%;
-    }
-
-    .cyber-button:hover {
-      background: linear-gradient(135deg, rgba(0, 255, 157, 0.3), rgba(0, 212, 255, 0.3));
-      box-shadow: 0 0 20px rgba(0, 255, 157, 0.6), 0 0 40px rgba(0, 255, 157, 0.3);
-      transform: scale(1.05);
-    }
-
-    .avatar-container {
-      width: 140px;
-      height: 140px;
-      margin: 0 auto 24px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #00ff9d, #00d4ff, #7b2ff7);
-      padding: 4px;
-      animation: float 4s ease-in-out infinite, glow-pulse 2s ease-in-out infinite;
-      position: relative;
-    }
-
-    .avatar-inner {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #1a1a2e, #0a0e27);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 56px;
-      font-weight: 900;
-      color: #00ff9d;
-      text-shadow: 0 0 20px #00ff9d;
-    }
-
-    .typing-cursor {
-      display: inline-block;
-      width: 3px;
-      height: 1.2em;
-      background: #00ff9d;
-      margin-left: 4px;
-      animation: typing-cursor 1s step-end infinite;
-    }
-
-    .github-icon:hover {
-      color: #00ff9d !important;
-      transform: rotate(360deg) scale(1.2);
-      transition: all 0.5s ease;
-    }
-
-    .cert-item {
-      transition: all 0.3s ease;
-      padding: 12px;
-      border-radius: 8px;
-    }
-
-    .cert-item:hover {
-      background: rgba(0, 255, 157, 0.05);
-      transform: translateX(8px);
-    }
-
-    .section-title {
-      position: relative;
-      display: inline-block;
-    }
-
-    .section-title::before {
-      content: '//';
-      position: absolute;
-      left: -40px;
-      color: #00ff9d;
-      font-family: 'Courier New', monospace;
-      font-weight: 900;
-    }
-  </style>
-  <style>@view-transition { navigation: auto; }</style>
+/* Floating particles */
+.particle {
+  position: fixed; width: 3px; height: 3px; background: rgba(0,173,181,0.4); border-radius: 50%;
+  pointer-events: none; z-index: 0;
+  animation: particleUp var(--p-dur) linear infinite;
+  animation-delay: var(--p-delay);
+}
+@keyframes particleUp {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-800px) translateX(var(--p-drift)); opacity: 0; }
+}
+</style>
+  <style>body { box-sizing: border-box; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
- <body>
-  <div class="cyber-bg"></div>
-  <div class="matrix-overlay" id="matrix-overlay"></div>
-  <div class="min-h-full relative z-10"><!-- Hero Section -->
-   <header class="code-bg relative py-20 px-6 text-center">
-    <div class="max-w-4xl mx-auto">
-     <div class="avatar-container">
-      <div class="avatar-inner">
-       JL
+ <body class="h-full">
+  <!-- Stars -->
+  <div class="star-field" id="starField"></div><!-- Nebula blobs -->
+  <div class="nebula" style="width:500px;height:500px;background:radial-gradient(circle,rgba(0,173,181,0.3),transparent);top:-10%;left:-10%;"></div>
+  <div class="nebula" style="width:600px;height:600px;background:radial-gradient(circle,rgba(199,125,255,0.25),transparent);bottom:-15%;right:-10%;animation-delay:-10s;"></div>
+  <div class="nebula" style="width:350px;height:350px;background:radial-gradient(circle,rgba(0,173,181,0.2),transparent);top:50%;left:60%;animation-delay:-5s;"></div><!-- Particles -->
+  <div id="particles"></div><!-- Side Nav -->
+  <nav class="fixed right-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3" id="sideNav" aria-label="Section navigation">
+  </nav>
+  <div class="scroll-wrap" id="scrollWrap">
+   <!-- HERO -->
+   <section class="section-planet" id="sec-hero">
+    <div class="text-center max-w-3xl mx-auto relative">
+     <!-- Hero planet -->
+     <div class="mx-auto mb-8 relative" style="width:160px;height:160px;">
+      <div class="planet-orb mx-auto" style="width:80px;height:80px;background:radial-gradient(circle at 30% 30%,#00e5ef,#00ADB5,#006b70);top:40px;left:40px;position:absolute;"></div>
+      <div class="orbit-ring" style="width:140px;height:140px;top:10px;left:10px;"></div>
+      <div class="orbit-ring" style="width:160px;height:160px;top:0;left:0;animation-duration:18s;animation-direction:reverse;"></div><!-- Orbiting dot -->
+      <div style="position:absolute;width:140px;height:140px;top:10px;left:10px;animation:orbitSpin 8s linear infinite;">
+       <div style="width:6px;height:6px;background:#C77DFF;border-radius:50;position:absolute;top:-3px;left:50%;box-shadow:0 0 10px #C77DFF;border-radius:50%;"></div>
       </div>
      </div>
-     <h1 id="hero-name" class="text-5xl md:text-6xl font-bold mb-4 text-white neon-text">Jenil Lad</h1>
-     <p id="hero-tagline" class="text-2xl md:text-3xl gradient-text font-bold mb-4">Web &amp; Mobile Developer<span class="typing-cursor"></span></p>
-     <p id="hero-description" class="text-lg text-gray-300 max-w-2xl mx-auto mb-8">Building modern, scalable, and user-friendly applications with Flutter, Android, and full-stack technologies</p><!-- Contact Info -->
-     <div class="flex flex-wrap justify-center gap-6 mb-8"><a id="contact-phone" href="tel:+916354531293" class="contact-link flex items-center gap-2">
-       <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20">
-        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-       </svg><span>+91 6354531293</span> </a> <a id="contact-email" href="mailto:jenillad573@gmail.com" class="contact-link flex items-center gap-2">
-       <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20">
-        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-       </svg><span>jenillad573@gmail.com</span> </a>
-      <div id="contact-location" class="contact-link flex items-center gap-2 cursor-default">
-       <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20">
-        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-       </svg><span>Pune, India</span>
-      </div>
-     </div><!-- Social Links -->
-     <div class="flex justify-center gap-4"><a href="https://linkedin.com/in/jenil-lad" target="_blank" rel="noopener noreferrer" class="cyber-button px-6 py-3 rounded-lg font-bold"> LinkedIn </a> <a href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer" class="cyber-button px-6 py-3 rounded-lg font-bold"> GitHub </a> <a href="https://ladjenil.github.io" target="_blank" rel="noopener noreferrer" class="cyber-button px-6 py-3 rounded-lg font-bold"> Portfolio </a>
+     <p class="text-sm tracking-[0.4em] uppercase mb-3 font-orbit" style="color:var(--accent);">Welcome to my universe</p>
+     <h1 class="font-orbit font-bold mb-4 leading-tight" id="heroTitle" style="font-size:2.8rem;background:linear-gradient(135deg,#00ADB5,#C77DFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Jenil Lad</h1>
+     <p class="text-lg mb-8 opacity-80 max-w-lg mx-auto" id="heroSubtitle">Flutter Enthusiast · UI-UX Enthusiast · Digital Explorer</p>
+     <div class="flex flex-wrap gap-4 justify-center">
+      <button onclick="document.getElementById('sec-about').scrollIntoView({behavior:'smooth'})" class="glow-btn glass font-orbit text-sm px-6 py-3 rounded-full" style="color:var(--accent);"> Start the Journey 🚀 </button> <button onclick="document.getElementById('sec-projects').scrollIntoView({behavior:'smooth'})" class="glass font-orbit text-sm px-6 py-3 rounded-full transition-all hover:border-purple-400" style="color:var(--purple);"> View My Work 💻 </button>
      </div>
     </div>
-   </header>
-   <main class="max-w-6xl mx-auto px-6 py-12"><!-- About Section -->
-    <section class="mb-16">
-     <h2 id="about-heading" class="text-3xl font-bold text-white section-title">Professional Summary</h2>
-     <div class="section-divider"></div>
-     <div class="glass-card rounded-xl p-8">
-      <p class="text-gray-300 leading-relaxed text-lg">Web &amp; Mobile Developer skilled in building cross-platform applications using <strong class="text-cyan-400">Flutter</strong>, <strong class="text-cyan-400">Java</strong>, <strong class="text-cyan-400">Android</strong>, <strong class="text-cyan-400">React</strong>, and modern backend frameworks. Strong experience in <strong class="text-cyan-400">Firebase</strong>, <strong class="text-cyan-400">REST APIs</strong>, scalable UI design, and real-time data applications. Passionate about full-stack development and delivering smooth, user-centric digital experiences.</p>
+   </section><!-- ABOUT -->
+   <section class="section-planet" id="sec-about">
+    <div class="max-w-3xl mx-auto w-full">
+     <div class="reveal">
+      <div class="flex items-center gap-3 mb-2">
+       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#4ade80,#16a34a,#0a5c2a);animation-duration:5s;"></div>
+       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 1 · The Origin</p>
+      </div>
+      <h2 class="font-orbit text-3xl font-bold mb-6" style="color:var(--accent);">About Me</h2>
      </div>
-    </section><!-- Technical Skills -->
-    <section class="mb-16">
-     <h2 id="skills-heading" class="text-3xl font-bold text-white section-title">Technical Skills</h2>
-     <div class="section-divider"></div>
-     <div class="glass-card rounded-xl p-8">
-      <div class="grid md:grid-cols-2 gap-6">
-       <div>
-        <h3 class="text-xl font-semibold text-cyan-400 mb-3 flex items-center gap-2"><span class="text-2xl">💻</span> Languages</h3>
-        <div class="flex flex-wrap gap-2"><span class="skill-badge">Java</span> <span class="skill-badge">Dart</span> <span class="skill-badge">Python</span> <span class="skill-badge">C/C++</span> <span class="skill-badge">SQL</span> <span class="skill-badge">HTML/CSS</span> <span class="skill-badge">XML</span>
-        </div>
+     <div class="glass p-6 md:p-8 reveal" style="animation-delay:0.1s;">
+      <p class="text-base leading-relaxed mb-6 opacity-90" id="aboutText">I'm a passionate developer from India, pursuing my MCA at MIT World Peace University (Expected 2026).Web & Mobile Developer skilled in building cross-platform applications using Flutter, Java, Android, React, and
+        modern backend frameworks. Strong experience in Firebase, REST APIs, scalable UI design, and real-time data
+        applications. Passionate about full-stack development and delivering smooth, user-centric digital experiences."</p>
+        
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+       <div class="glass-purple rounded-xl p-3 text-center">
+        <span class="text-xl">🌍</span>
+        <p class="text-xs mt-1 opacity-70">Based in India</p>
        </div>
-       <div>
-        <h3 class="text-xl font-semibold text-cyan-400 mb-3 flex items-center gap-2"><span class="text-2xl">⚡</span> Frameworks</h3>
-        <div class="flex flex-wrap gap-2"><span class="skill-badge">Flutter</span> <span class="skill-badge">ReactJS</span> <span class="skill-badge">Android SDK</span> <span class="skill-badge">Spring Boot</span>
-        </div>
+       <div class="glass-purple rounded-xl p-3 text-center">
+        <span class="text-xl">🎓</span>
+        <p class="text-xs mt-1 opacity-70">MCA @ MIT-WPU</p>
        </div>
-       <div>
-        <h3 class="text-xl font-semibold text-cyan-400 mb-3 flex items-center gap-2"><span class="text-2xl">🛠️</span> Developer Tools</h3>
-        <div class="flex flex-wrap gap-2"><span class="skill-badge">Git</span> <span class="skill-badge">GitHub</span> <span class="skill-badge">VS Code</span> <span class="skill-badge">Android Studio</span> <span class="skill-badge">IntelliJ IDEA</span> <span class="skill-badge">Linux</span> <span class="skill-badge">Azure</span>
-        </div>
+       <div class="glass-purple rounded-xl p-3 text-center">
+        <span class="text-xl">💡</span>
+        <p class="text-xs mt-1 opacity-70">Flutter &amp; Android</p>
        </div>
-       <div>
-        <h3 class="text-xl font-semibold text-cyan-400 mb-3 flex items-center gap-2"><span class="text-2xl">🗄️</span> Databases</h3>
-        <div class="flex flex-wrap gap-2"><span class="skill-badge">Firebase</span> <span class="skill-badge">MySQL</span> <span class="skill-badge">SQLite</span> <span class="skill-badge">PostgreSQL</span>
-        </div>
+       <div class="glass-purple rounded-xl p-3 text-center">
+        <span class="text-xl">⚙️</span>
+        <p class="text-xs mt-1 opacity-70">Code less, create more</p>
        </div>
       </div>
      </div>
-    </section><!-- Experience -->
-    <section class="mb-16">
-     <h2 id="experience-heading" class="text-3xl font-bold text-white section-title">Experience</h2>
-     <div class="section-divider"></div>
-     <div class="glass-card rounded-xl p-8">
-      <div class="experience-timeline space-y-8"><!-- Experience 1 -->
-       <div class="relative">
-        <div class="timeline-dot"></div>
-        <div>
-         <h3 class="text-xl font-bold text-white">Flutter Developer</h3>
-         <p class="text-cyan-400 font-semibold mb-1">Immersion At WPU</p>
-         <p class="text-gray-400 text-sm mb-3">Sep 2025 – Present</p>
-         <ul class="space-y-2 text-gray-300">
-          <li class="flex items-start gap-2"><span class="text-green-400 mt-1">▸</span> <span>Developed a university immersion management platform using <strong class="text-cyan-400">Flutter</strong></span></li>
-          <li class="flex items-start gap-2"><span class="text-green-400 mt-1">▸</span> <span>Implemented clean architecture and reusable UI components</span></li>
-          <li class="flex items-start gap-2"><span class="text-green-400 mt-1">▸</span> <span>Improved app performance and optimized <strong class="text-cyan-400">Firebase</strong> interactions</span></li>
-         </ul>
-        </div>
-       </div><!-- Experience 2 -->
-       <div class="relative">
-        <div class="timeline-dot"></div>
-        <div>
-         <h3 class="text-xl font-bold text-white">Android Developer Intern</h3>
-         <p class="text-cyan-400 font-semibold mb-1">CodeAlpha (Remote)</p>
-         <p class="text-gray-400 text-sm mb-3">Aug 2025</p>
-         <ul class="space-y-2 text-gray-300">
-          <li class="flex items-start gap-2"><span class="text-green-400 mt-1">▸</span> <span>Built Android applications using <strong class="text-cyan-400">Java</strong>, <strong class="text-cyan-400">XML</strong>, and <strong class="text-cyan-400">Firebase</strong></span></li>
-          <li class="flex items-start gap-2"><span class="text-green-400 mt-1">▸</span> <span>Designed modern UI layouts with smooth navigation</span></li>
-          <li class="flex items-start gap-2"><span class="text-green-400 mt-1">▸</span> <span>Improved real-time synchronization using <strong class="text-cyan-400">Firebase Realtime Database</strong></span></li>
-         </ul>
-        </div>
-       </div>
-      </div>
-     </div>
-    </section><!-- Projects -->
-    <section class="mb-16">
-     <h2 id="projects-heading" class="text-3xl font-bold text-white section-title">Featured Projects</h2>
-     <div class="section-divider"></div>
-     <div class="space-y-6"><!-- Project 1 -->
-      <div class="project-card rounded-xl p-6">
-       <div class="flex items-start justify-between mb-3">
-        <h3 class="text-2xl font-bold text-white">Daily Dine</h3><a href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:text-green-400 github-icon">
-         <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24">
-          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-         </svg></a>
-       </div>
-       <p class="text-gray-300 mb-4">Mess Management System with QR-based meal tracking, responsive dashboards, and real-time analytics</p>
-       <div class="flex flex-wrap gap-2"><span class="tech-icon">Flutter</span> <span class="tech-icon">Spring Boot</span> <span class="tech-icon">ReactJS</span> <span class="tech-icon">Azure</span> <span class="tech-icon">QR Integration</span> <span class="tech-icon">Payment Gateway</span>
-       </div>
-      </div><!-- Project 2 -->
-      <div class="project-card rounded-xl p-6">
-       <div class="flex items-start justify-between mb-3">
-        <h3 class="text-2xl font-bold text-white">MitConnect</h3><a href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:text-green-400 github-icon">
-         <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24">
-          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-         </svg></a>
-       </div>
-       <p class="text-gray-300 mb-4">Social video chat app with anime-style UI featuring glassmorphism design and Firebase integration</p>
-       <div class="flex flex-wrap gap-2"><span class="tech-icon">Flutter</span> <span class="tech-icon">Firebase</span> <span class="tech-icon">Video Call API</span> <span class="tech-icon">Real-time Chat</span> <span class="tech-icon">UI/UX Design</span>
-       </div>
-      </div><!-- Project 3 -->
-      <div class="project-card rounded-xl p-6">
-       <div class="flex items-start justify-between mb-3">
-        <h3 class="text-2xl font-bold text-white">Hungryfine</h3><a href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:text-green-400 github-icon">
-         <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24">
-          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-         </svg></a>
-       </div>
-       <p class="text-gray-300 mb-4">Food delivery platform with dual apps for sellers and customers, managing 5K+ monthly orders</p>
-       <div class="flex flex-wrap gap-2"><span class="tech-icon">Java</span> <span class="tech-icon">Android</span> <span class="tech-icon">Firebase</span> <span class="tech-icon">Razorpay</span> <span class="tech-icon">Real-time Tracking</span> <span class="tech-icon">XML Layouts</span>
-       </div>
-      </div>
-     </div>
-    </section><!-- Education -->
-    <section class="mb-16">
-     <h2 id="education-heading" class="text-3xl font-bold text-white section-title">Education</h2>
-     <div class="section-divider"></div>
-     <div class="glass-card rounded-xl p-8 space-y-6">
-      <div>
-       <h3 class="text-xl font-bold text-white">Master of Computer Applications</h3>
-       <p class="text-cyan-400 font-semibold">MIT World Peace University</p>
-       <p class="text-gray-300">Expected Jul 2026 • CGPA: 6.70 / 10.00</p>
-      </div>
-      <div>
-       <h3 class="text-xl font-bold text-white">Bachelor of Computer Applications</h3>
-       <p class="text-cyan-400 font-semibold">Veer Narmad South Gujarat University</p>
-       <p class="text-gray-300">Oct 2021 – Mar 2024 • CGPA: 7.33 / 10.00</p>
-      </div>
-     </div>
-    </section><!-- Certifications -->
-    <section class="mb-16">
-     <h2 class="text-3xl font-bold text-white section-title">Certifications</h2>
-     <div class="section-divider"></div>
-     <div class="glass-card rounded-xl p-8">
-      <ul class="grid md:grid-cols-2 gap-4">
-       <li class="cert-item flex items-start gap-3">
-        <svg class="w-6 h-6 text-green-400 mt-1 flex-shrink-0" fill="currentColor" viewbox="0 0 20 20">
-         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-        </svg><span class="text-gray-300">Android App Development (7 Real Projects in Java)</span></li>
-       <li class="cert-item flex items-start gap-3">
-        <svg class="w-6 h-6 text-green-400 mt-1 flex-shrink-0" fill="currentColor" viewbox="0 0 20 20">
-         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-        </svg><span class="text-gray-300">Java for Programmers Crash Course</span></li>
-       <li class="cert-item flex items-start gap-3">
-        <svg class="w-6 h-6 text-green-400 mt-1 flex-shrink-0" fill="currentColor" viewbox="0 0 20 20">
-         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-        </svg><span class="text-gray-300">Git for Beginners</span></li>
-       <li class="cert-item flex items-start gap-3">
-        <svg class="w-6 h-6 text-green-400 mt-1 flex-shrink-0" fill="currentColor" viewbox="0 0 20 20">
-         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-        </svg><span class="text-gray-300">Mobile App UI Design (Moqups)</span></li>
-       <li class="cert-item flex items-start gap-3">
-        <svg class="w-6 h-6 text-green-400 mt-1 flex-shrink-0" fill="currentColor" viewbox="0 0 20 20">
-         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-        </svg><span class="text-gray-300">React Native by Meta</span></li>
-      </ul>
-     </div>
-    </section>
-   </main><!-- Footer -->
-   <footer class="relative py-8 px-6 text-center border-t border-cyan-900" style="background: rgba(26, 26, 46, 0.8);">
-    <p class="text-lg mb-2 text-cyan-400 font-semibold">Let's build something amazing together! 🚀</p>
-    <p class="text-gray-400">© 2025 Jenil Lad. All rights reserved.</p>
-    <div class="mt-4 text-xs text-gray-500"><span class="inline-block mr-4">⚡ Powered by Code</span> <span class="inline-block">💻 Built with Passion</span>
     </div>
-   </footer>
+   </section><!-- SKILLS -->
+   <section class="section-planet" id="sec-skills">
+    <div class="max-w-4xl mx-auto w-full">
+     <div class="reveal">
+      <div class="flex items-center gap-3 mb-2">
+       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#60a5fa,#2563eb,#1e3a8a);animation-duration:4s;"></div>
+       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 2 · The Arsenal</p>
+      </div>
+      <h2 class="font-orbit text-3xl font-bold mb-6" style="color:var(--accent);">Skills</h2>
+     </div>
+     <div class="grid gap-4 reveal">
+      <div class="glass p-5 rounded-xl">
+       <h3 class="font-orbit text-sm mb-3" style="color:var(--purple);">Languages</h3>
+       <div class="flex flex-wrap gap-2" id="skillsLang"></div>
+      </div>
+      <div class="glass p-5 rounded-xl">
+       <h3 class="font-orbit text-sm mb-3" style="color:var(--purple);">Frameworks</h3>
+       <div class="flex flex-wrap gap-2" id="skillsFrame"></div>
+      </div>
+      <div class="glass p-5 rounded-xl">
+       <h3 class="font-orbit text-sm mb-3" style="color:var(--purple);">Databases</h3>
+       <div class="flex flex-wrap gap-2" id="skillsDB"></div>
+      </div>
+      <div class="glass p-5 rounded-xl">
+       <h3 class="font-orbit text-sm mb-3" style="color:var(--purple);">Tools</h3>
+       <div class="flex flex-wrap gap-2" id="skillsTools"></div>
+      </div>
+     </div>
+    </div>
+   </section><!-- PROJECTS -->
+   <section class="section-planet" id="sec-projects">
+    <div class="max-w-4xl mx-auto w-full">
+     <div class="reveal">
+      <div class="flex items-center gap-3 mb-2">
+       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#f472b6,#db2777,#831843);animation-duration:7s;"></div>
+       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 3 · The Missions</p>
+      </div>
+      <h2 class="font-orbit text-3xl font-bold mb-6" style="color:var(--accent);">Projects</h2>
+     </div>
+     <div class="grid md:grid-cols-3 gap-5 reveal">
+      <!-- Daily Dine -->
+      <div class="project-card glass-purple glass p-5 rounded-xl cursor-default">
+       <div class="planet-orb mx-auto mb-4" style="width:50px;height:50px;background:radial-gradient(circle at 30% 30%,#fbbf24,#d97706,#78350f);animation-duration:5s;"></div>
+       <h3 class="font-orbit text-base font-semibold text-center mb-2" style="color:var(--accent);">Daily Dine</h3>
+       <p class="text-xs text-center opacity-60 mb-3">Smart Mess Management System</p>
+       <ul class="text-xs space-y-1.5 opacity-80">
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> QR-based meal tracking</li>
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Real-time analytics dashboard</li>
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Role-based access control</li>
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Payment gateway integration</li>
+       </ul>
+      </div><!-- Hungryfine -->
+      <div class="project-card glass-purple glass p-5 rounded-xl cursor-default">
+       <div class="planet-orb mx-auto mb-4" style="width:50px;height:50px;background:radial-gradient(circle at 30% 30%,#f87171,#dc2626,#7f1d1d);animation-duration:6s;"></div>
+       <h3 class="font-orbit text-base font-semibold text-center mb-2" style="color:var(--accent);">Hungryfine</h3>
+       <p class="text-xs text-center opacity-60 mb-3">Food Delivery App</p>
+       <ul class="text-xs space-y-1.5 opacity-80">
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Real-time order tracking</li>
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> 5,00+ monthly orders</li>
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Secure digital transactions</li>
+       </ul>
+      </div><!-- MitConnect -->
+      <div class="project-card glass-purple glass p-5 rounded-xl cursor-default">
+       <div class="planet-orb mx-auto mb-4" style="width:50px;height:50px;background:radial-gradient(circle at 30% 30%,#a78bfa,#7c3aed,#4c1d95);animation-duration:4.5s;"></div>
+       <h3 class="font-orbit text-base font-semibold text-center mb-2" style="color:var(--accent);">MitConnect</h3>
+       <p class="text-xs text-center opacity-60 mb-3">Social Video Chat App</p>
+       <ul class="text-xs space-y-1.5 opacity-80">
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Glassmorphism UI</li>
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Real-time chat &amp; video</li>
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Firebase integration</li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </section><!-- EXPERIENCE -->
+   <section class="section-planet" id="sec-experience">
+    <div class="max-w-3xl mx-auto w-full">
+     <div class="reveal">
+      <div class="flex items-center gap-3 mb-2">
+       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#34d399,#059669,#064e3b);animation-duration:5.5s;"></div>
+       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 4 · The Experience Log</p>
+      </div>
+      <h2 class="font-orbit text-3xl font-bold mb-8" style="color:var(--accent);">Experience</h2>
+     </div>
+     <div class="reveal relative pl-8">
+      <div class="absolute left-[7px] top-0 bottom-0 w-[2px]" style="background:linear-gradient(to bottom,var(--accent),var(--purple));"></div>
+      <div class="mb-8 relative">
+       <div class="timeline-node absolute -left-[25px]" style="background:var(--purple);top:4px;"></div>
+       <div class="glass p-5 rounded-xl">
+        <p class="font-orbit text-xs mb-2" style="color:var(--purple);">Jan 2026 – Present | Remote</p>
+        <h3 class="font-orbit text-sm font-semibold mb-2" style="color:var(--accent);">Android Developer Intern</h3>
+        <p class="text-xs opacity-70 font-semibold mb-3">BrainyBeam Technologies Pvt. Ltd.</p>
+        <ul class="text-xs space-y-2 opacity-80">
+         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Developing and maintaining native Android applications in a remote environment, focusing on writing clean, efficient, and scalable code.</span></li>
+         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Collaborating with the development team to design intuitive user interfaces, integrate backend APIs, and enhance overall app functionality.</span></li>
+         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Actively troubleshooting bugs, optimizing app performance, and participating in daily development workflows to ensure smooth experience across various Android devices.</span></li>
+        </ul>
+       </div>
+      </div>
+      <div class="relative">
+       <div class="timeline-node absolute -left-[25px]" style="background:var(--accent);top:4px;"></div>
+       <div class="glass p-5 rounded-xl">
+        <p class="font-orbit text-xs mb-2" style="color:var(--purple);">Jul 2025 – Dec 2025</p>
+        <h3 class="font-orbit text-sm font-semibold mb-2" style="color:var(--accent);">Flutter Developer</h3>
+        <p class="text-xs opacity-70 font-semibold mb-3">GAIA Project · MIT-WPU</p>
+        <ul class="text-xs space-y-2 opacity-80">
+         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Built and launched an official university management app on the App Store and Google Play using Flutter.</span></li>
+         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Handled end-to-end mobile development, including responsive UI design, REST API integration, and cross-device performance optimization.</span></li>
+         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Streamlined campus operations by replacing manual paperwork with a centralized digital platform for real-time progress tracking.</span></li>
+        </ul>
+        <p class="text-xs mt-3 font-semibold" style="color:var(--purple);">Available on:</p>
+        <div class="flex flex-wrap gap-2 mt-2"><a href="https://play.google.com/store/apps/details?id=com.mitwpu.immersions&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" class="text-xs px-2.5 py-1 rounded glass-purple transition hover:border-purple-400" style="color:var(--accent);text-decoration:none;">Google Play</a> <a href="https://apps.apple.com/gh/app/wpu-immersions/id6758524763" target="_blank" rel="noopener noreferrer" class="text-xs px-2.5 py-1 rounded glass-purple transition hover:border-purple-400" style="color:var(--accent);text-decoration:none;">App Store</a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- ACHIEVEMENTS -->
+   <section class="section-planet" id="sec-achievements">
+    <div class="max-w-4xl mx-auto w-full">
+     <div class="reveal">
+      <div class="flex items-center gap-3 mb-2">
+       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#fbbf24,#f59e0b,#78350f);animation-duration:4.5s;"></div>
+       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 5 · The Achievements</p>
+      </div>
+      <h2 class="font-orbit text-3xl font-bold mb-6" style="color:var(--accent);">Certifications</h2>
+     </div>
+     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 reveal">
+      <div class="badge-card glass p-4 rounded-xl text-center" style="--float-dur:5s;--float-delay:0s;">
+       <div class="text-3xl mb-2">
+        🏆
+       </div>
+       <p class="font-orbit text-xs font-semibold" style="color:var(--accent);">React Native</p>
+       <p class="text-xs opacity-60 mt-1">Meta</p>
+      </div>
+      <div class="badge-card glass p-4 rounded-xl text-center" style="--float-dur:5.5s;--float-delay:0.3s;">
+       <div class="text-3xl mb-2">
+        📱
+       </div>
+       <p class="font-orbit text-xs font-semibold" style="color:var(--accent);">Android App Dev</p>
+       <p class="text-xs opacity-60 mt-1">7 Real-World Java Projects</p>
+      </div>
+      <div class="badge-card glass p-4 rounded-xl text-center" style="--float-dur:4.8s;--float-delay:0.6s;">
+       <div class="text-3xl mb-2">
+        ☕
+       </div>
+       <p class="font-orbit text-xs font-semibold" style="color:var(--accent);">Java Crash Course</p>
+       <p class="text-xs opacity-60 mt-1">For Programmers</p>
+      </div>
+      <div class="badge-card glass p-4 rounded-xl text-center" style="--float-dur:5.2s;--float-delay:0.2s;">
+       <div class="text-3xl mb-2">
+        🎨
+       </div>
+       <p class="font-orbit text-xs font-semibold" style="color:var(--accent);">Mobile UI Design</p>
+       <p class="text-xs opacity-60 mt-1">Moqups</p>
+      </div>
+      <div class="badge-card glass p-4 rounded-xl text-center" style="--float-dur:5.8s;--float-delay:0.5s;">
+       <div class="text-3xl mb-2">
+        🔀
+       </div>
+       <p class="font-orbit text-xs font-semibold" style="color:var(--accent);">Git for Beginners</p>
+       <p class="text-xs opacity-60 mt-1">Version Control</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- CONTACT -->
+   <section class="section-planet" id="sec-contact">
+    <div class="max-w-2xl mx-auto w-full">
+     <div class="reveal">
+      <div class="flex items-center gap-3 mb-2">
+       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#c084fc,#9333ea,#581c87);animation-duration:6s;"></div>
+       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 6 · The Contact Portal</p>
+      </div>
+      <h2 class="font-orbit text-3xl font-bold mb-6" style="color:var(--accent);">Get In Touch</h2>
+     </div>
+     <div class="contact-glow glass p-6 md:p-8 rounded-xl reveal">
+      <p class="text-sm mb-6 opacity-80 text-center">Ready to collaborate? Send a signal through the cosmos.</p>
+      <div class="space-y-3 mb-6">
+       <div class="flex items-center gap-3">
+        <i data-lucide="phone" style="width:18px;height:18px;color:var(--accent);"></i> <span class="text-sm" id="contactPhone">+91 6354531293</span>
+       </div>
+       <div class="flex items-center gap-3">
+        <i data-lucide="mail" style="width:18px;height:18px;color:var(--accent);"></i> <span class="text-sm" id="contactEmail">jenillad573@gmail.com</span>
+       </div>
+       <div class="flex items-center gap-3">
+        <i data-lucide="github" style="width:18px;height:18px;color:var(--accent);"></i> <a id="contactGithubLink" href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer" class="text-sm hover:underline" style="color:var(--purple);">github.com/ladjenil</a>
+       </div>
+       <div class="flex items-center gap-3">
+        <i data-lucide="linkedin" style="width:18px;height:18px;color:var(--accent);"></i> <a id="contactLinkedinLink" href="https://www.linkedin.com/in/jenil-lad-b617442a2/" target="_blank" rel="noopener noreferrer" class="text-sm hover:underline" style="color:var(--purple);">linkedin.com/in/jenillad</a>
+       </div>
+      </div>
+      <div class="flex flex-wrap gap-3 justify-center">
+       <a id="emailBtn" href="mailto:jenillad573@gmail.com" class="glow-btn glass font-orbit text-xs px-5 py-2.5 rounded-full inline-flex items-center gap-2" style="color:var(--accent);text-decoration:none;"> <i data-lucide="send" style="width:14px;height:14px;"></i> Send a Signal </a> <a id="githubBtn" href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer" class="glass font-orbit text-xs px-5 py-2.5 rounded-full inline-flex items-center gap-2 transition-all hover:border-purple-400" style="color:var(--purple);text-decoration:none;"> <i data-lucide="github" style="width:14px;height:14px;"></i> GitHub Galaxy </a> <a id="linkedinBtn" href="https://linkedin.com/in/jenillad" target="_blank" rel="noopener noreferrer" class="glass font-orbit text-xs px-5 py-2.5 rounded-full inline-flex items-center gap-2 transition-all hover:border-purple-400" style="color:var(--purple);text-decoration:none;"> <i data-lucide="linkedin" style="width:14px;height:14px;"></i> LinkedIn </a>
+      </div>
+     </div>
+     <p class="text-center text-xs opacity-30 mt-8 font-orbit">© 2025 Jenil Lad · Code Odyssey</p>
+    </div>
+   </section>
   </div>
   <script>
-    // Matrix rain effect
-    function createMatrixEffect() {
-      const overlay = document.getElementById('matrix-overlay');
-      if (!overlay) return;
-      
-      const characters = '01ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ{}[]<>/\\|';
-      const columns = Math.floor(window.innerWidth / 20);
-      
-      for (let i = 0; i < 30; i++) {
-        const char = document.createElement('div');
-        char.className = 'matrix-char';
-        char.textContent = characters[Math.floor(Math.random() * characters.length)];
-        char.style.left = Math.random() * 100 + '%';
-        char.style.animationDelay = Math.random() * 4 + 's';
-        char.style.animationDuration = (Math.random() * 2 + 3) + 's';
-        overlay.appendChild(char);
-      }
+// --- Stars ---
+(function() {
+  const sf = document.getElementById('starField');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--dur:${Math.random()*3+1.5}s;animation-delay:${Math.random()*3}s;`;
+    sf.appendChild(s);
+  }
+})();
+
+// --- Particles ---
+(function() {
+  const pc = document.getElementById('particles');
+  for (let i = 0; i < 15; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const drift = (Math.random() - 0.5) * 100;
+    p.style.cssText = `left:${Math.random()*100}%;bottom:-10px;--p-dur:${Math.random()*10+8}s;--p-delay:${Math.random()*10}s;--p-drift:${drift}px;`;
+    pc.appendChild(p);
+  }
+})();
+
+// --- Skills ---
+const skills = {
+  lang: ['Java','Dart','Python','C/C++','SQL','HTML/CSS','XML'],
+  frame: ['Flutter','ReactJS','Android SDK','Spring Boot'],
+  db: ['Firebase','Supabase','MySQL','SQLite','PostgreSQL'],
+  tools: ['Git','VS Code','Android Studio','IntelliJ IDEA','Azure']
+};
+function renderSkills(containerId, items) {
+  const c = document.getElementById(containerId);
+  c.innerHTML = '';
+  items.forEach(s => {
+    const el = document.createElement('span');
+    el.className = 'skill-chip glass-purple text-xs px-3 py-1.5 rounded-full inline-block';
+    el.style.color = 'var(--text)';
+    el.textContent = s;
+    c.appendChild(el);
+  });
+}
+renderSkills('skillsLang', skills.lang);
+renderSkills('skillsFrame', skills.frame);
+renderSkills('skillsDB', skills.db);
+renderSkills('skillsTools', skills.tools);
+
+// --- Side Nav ---
+const sections = ['hero','about','skills','projects','experience','achievements','contact'];
+const sectionLabels = ['Home','About','Skills','Projects','Experience','Certs','Contact'];
+const nav = document.getElementById('sideNav');
+sections.forEach((id, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'nav-dot';
+  dot.style.background = 'rgba(0,173,181,0.4)';
+  dot.title = sectionLabels[i];
+  dot.setAttribute('role','button');
+  dot.setAttribute('aria-label', sectionLabels[i]);
+  dot.addEventListener('click', () => {
+    document.getElementById('sec-' + id).scrollIntoView({ behavior: 'smooth' });
+  });
+  nav.appendChild(dot);
+});
+
+// --- Scroll reveal + nav update ---
+const scrollWrap = document.getElementById('scrollWrap');
+const revealEls = document.querySelectorAll('.reveal');
+const navDots = nav.querySelectorAll('.nav-dot');
+
+function onScroll() {
+  const wh = scrollWrap.clientHeight;
+  revealEls.forEach(el => {
+    const r = el.getBoundingClientRect();
+    if (r.top < wh * 0.85) el.classList.add('visible');
+  });
+  // Active nav
+  let active = 0;
+  sections.forEach((id, i) => {
+    const sec = document.getElementById('sec-' + id);
+    const r = sec.getBoundingClientRect();
+    if (r.top < wh * 0.5) active = i;
+  });
+  navDots.forEach((d, i) => {
+    d.classList.toggle('active', i === active);
+    d.style.background = i === active ? '#00ADB5' : 'rgba(0,173,181,0.4)';
+  });
+}
+scrollWrap.addEventListener('scroll', onScroll);
+onScroll();
+
+// --- Element SDK ---
+const defaultConfig = {
+  hero_title: 'Jenil Lad',
+  hero_subtitle: 'Flutter Enthusiast · UI-UX Enthusiast · Digital Explorer',
+  about_text: "Web & Mobile Developer skilled in building cross-platform applications using Flutter, Java, Android, React, and modern backend frameworks. Strong experience in Firebase, REST APIs, scalable UI design, and real-time data applications. Passionate about full-stack development and delivering smooth, user-centric digital experiences. Motivated to build modern, scalable, and user-friendly applications with a strong focus on clean architecture, performance optimization, and delivering impactful digital experiences for users and businesses.",
+  contact_email: 'jenillad573@gmail.com',
+  contact_phone: '+91 6354531293',
+  github_url: 'https://github.com/ladjenil',
+  background_color: '#0B0C10',
+  accent_color: '#00ADB5',
+  purple_color: '#C77DFF',
+  text_color: '#E0E0E0',
+  surface_color: 'rgba(11,12,16,0.6)',
+  font_family: 'Exo 2',
+  font_size: 16
+};
+
+function applyConfig(config) {
+  const c = Object.assign({}, defaultConfig, config);
+
+  document.getElementById('heroTitle').textContent = c.hero_title;
+  document.getElementById('heroSubtitle').textContent = c.hero_subtitle;
+  document.getElementById('aboutText').textContent = c.about_text;
+  document.getElementById('contactPhone').textContent = c.contact_phone;
+  document.getElementById('contactEmail').textContent = c.contact_email;
+  document.getElementById('emailBtn').href = 'mailto:' + c.contact_email;
+
+  const ghDisplay = c.github_url.replace('https://','').replace('http://','');
+  document.getElementById('contactGithubLink').href = c.github_url;
+  document.getElementById('contactGithubLink').textContent = ghDisplay;
+  document.getElementById('githubBtn').href = c.github_url;
+
+  // Colors
+  document.documentElement.style.setProperty('--bg', c.background_color);
+  document.documentElement.style.setProperty('--accent', c.accent_color);
+  document.documentElement.style.setProperty('--purple', c.purple_color);
+  document.documentElement.style.setProperty('--text', c.text_color);
+  document.body.style.background = c.background_color;
+  document.body.style.color = c.text_color;
+
+  // Font
+  const font = c.font_family || defaultConfig.font_family;
+  document.body.style.fontFamily = `'${font}', 'Exo 2', sans-serif`;
+  document.querySelectorAll('.font-orbit').forEach(el => {
+    el.style.fontFamily = `'Orbitron', '${font}', sans-serif`;
+  });
+
+  // Font size
+  const base = c.font_size || defaultConfig.font_size;
+  document.getElementById('heroTitle').style.fontSize = (base * 2.8 / 16) + 'rem';
+  document.getElementById('heroSubtitle').style.fontSize = (base * 1.125) + 'px';
+  document.getElementById('aboutText').style.fontSize = base + 'px';
+}
+
+window.elementSdk.init({
+  defaultConfig,
+  onConfigChange: async (config) => { applyConfig(config); },
+  mapToCapabilities: (config) => ({
+    recolorables: [
+      { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+      { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+      { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+      { get: () => config.accent_color || defaultConfig.accent_color, set: (v) => { config.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); } },
+      { get: () => config.purple_color || defaultConfig.purple_color, set: (v) => { config.purple_color = v; window.elementSdk.setConfig({ purple_color: v }); } }
+    ],
+    borderables: [],
+    fontEditable: {
+      get: () => config.font_family || defaultConfig.font_family,
+      set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+    },
+    fontSizeable: {
+      get: () => config.font_size || defaultConfig.font_size,
+      set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
     }
-    
-    createMatrixEffect();
+  }),
+  mapToEditPanelValues: (config) => new Map([
+    ['hero_title', config.hero_title || defaultConfig.hero_title],
+    ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
+    ['about_text', config.about_text || defaultConfig.about_text],
+    ['contact_email', config.contact_email || defaultConfig.contact_email],
+    ['contact_phone', config.contact_phone || defaultConfig.contact_phone],
+    ['github_url', config.github_url || defaultConfig.github_url]
+  ])
+});
 
-    const defaultConfig = {
-      name: "Jenil Lad",
-      tagline: "Web & Mobile Developer",
-      hero_description: "Building modern, scalable, and user-friendly applications with Flutter, Android, and full-stack technologies",
-      phone: "+91 6354531293",
-      email: "jenillad573@gmail.com",
-      location: "Pune, India",
-      about_heading: "Professional Summary",
-      skills_heading: "Technical Skills",
-      experience_heading: "Experience",
-      projects_heading: "Featured Projects",
-      education_heading: "Education",
-      background_color: "#0a0e27",
-      surface_color: "#1a1a2e",
-      text_color: "#e0e0e0",
-      primary_action: "#00ff9d",
-      secondary_action: "#00d4ff",
-      font_family: "system-ui",
-      font_size: 16
-    };
-
-    async function onConfigChange(config) {
-      // Update text content
-      document.getElementById('hero-name').textContent = config.name || defaultConfig.name;
-      document.getElementById('hero-tagline').textContent = config.tagline || defaultConfig.tagline;
-      document.getElementById('hero-description').textContent = config.hero_description || defaultConfig.hero_description;
-      
-      const phoneEl = document.getElementById('contact-phone');
-      phoneEl.href = `tel:${config.phone || defaultConfig.phone}`;
-      phoneEl.querySelector('span').textContent = config.phone || defaultConfig.phone;
-      
-      const emailEl = document.getElementById('contact-email');
-      emailEl.href = `mailto:${config.email || defaultConfig.email}`;
-      emailEl.querySelector('span').textContent = config.email || defaultConfig.email;
-      
-      document.getElementById('contact-location').querySelector('span').textContent = config.location || defaultConfig.location;
-      
-      document.getElementById('about-heading').textContent = config.about_heading || defaultConfig.about_heading;
-      document.getElementById('skills-heading').textContent = config.skills_heading || defaultConfig.skills_heading;
-      document.getElementById('experience-heading').textContent = config.experience_heading || defaultConfig.experience_heading;
-      document.getElementById('projects-heading').textContent = config.projects_heading || defaultConfig.projects_heading;
-      document.getElementById('education-heading').textContent = config.education_heading || defaultConfig.education_heading;
-
-      // Apply colors
-      const bgColor = config.background_color || defaultConfig.background_color;
-      const surfaceColor = config.surface_color || defaultConfig.surface_color;
-      const textColor = config.text_color || defaultConfig.text_color;
-      const primaryColor = config.primary_action || defaultConfig.primary_action;
-      const secondaryColor = config.secondary_action || defaultConfig.secondary_action;
-
-      document.querySelector('.cyber-bg').style.background = `linear-gradient(135deg, ${bgColor} 0%, ${surfaceColor} 50%, ${bgColor} 100%)`;
-      
-      document.querySelectorAll('.glass-card').forEach(el => {
-        el.style.background = `rgba(${parseInt(surfaceColor.slice(1,3), 16)}, ${parseInt(surfaceColor.slice(3,5), 16)}, ${parseInt(surfaceColor.slice(5,7), 16)}, 0.7)`;
-        el.style.borderColor = `${primaryColor}33`;
-      });
-
-      document.querySelectorAll('.project-card').forEach(el => {
-        el.style.background = `rgba(${parseInt(surfaceColor.slice(1,3), 16)}, ${parseInt(surfaceColor.slice(3,5), 16)}, ${parseInt(surfaceColor.slice(5,7), 16)}, 0.6)`;
-        el.style.borderColor = `${primaryColor}33`;
-      });
-      
-      document.querySelectorAll('.text-white, .section-title').forEach(el => {
-        el.style.color = textColor;
-      });
-
-      document.querySelectorAll('.neon-text').forEach(el => {
-        el.style.color = primaryColor;
-        el.style.textShadow = `0 0 10px ${primaryColor}, 0 0 20px ${primaryColor}, 0 0 30px ${primaryColor}`;
-      });
-
-      document.querySelectorAll('.gradient-text').forEach(el => {
-        el.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 50%, ${primaryColor} 100%)`;
-        el.style.webkitBackgroundClip = 'text';
-        el.style.backgroundClip = 'text';
-      });
-
-      document.querySelectorAll('.skill-badge').forEach(el => {
-        el.style.color = primaryColor;
-        el.style.borderColor = `${primaryColor}4d`;
-        el.style.background = `linear-gradient(135deg, ${primaryColor}1a, ${secondaryColor}1a)`;
-      });
-
-      document.querySelectorAll('.tech-icon').forEach(el => {
-        el.style.color = secondaryColor;
-        el.style.borderColor = `${secondaryColor}66`;
-      });
-
-      document.querySelectorAll('.timeline-dot').forEach(el => {
-        el.style.backgroundColor = primaryColor;
-        el.style.boxShadow = `0 0 20px ${primaryColor}cc, 0 0 40px ${primaryColor}66`;
-      });
-
-      document.querySelectorAll('.contact-link').forEach(el => {
-        el.style.color = secondaryColor;
-      });
-
-      document.querySelectorAll('.cyber-button').forEach(el => {
-        el.style.borderColor = primaryColor;
-        el.style.color = primaryColor;
-        el.style.background = `linear-gradient(135deg, ${primaryColor}33, ${secondaryColor}33)`;
-      });
-
-      document.querySelectorAll('.text-cyan-400').forEach(el => {
-        el.style.color = secondaryColor;
-      });
-
-      document.querySelectorAll('.section-divider').forEach(el => {
-        el.style.background = `linear-gradient(90deg, ${primaryColor}, ${secondaryColor}, ${primaryColor})`;
-      });
-
-      // Apply fonts
-      const customFont = config.font_family || defaultConfig.font_family;
-      const baseFontStack = 'system-ui, -apple-system, sans-serif';
-      document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
-
-      // Apply font sizing
-      const baseSize = config.font_size || defaultConfig.font_size;
-      document.body.style.fontSize = `${baseSize}px`;
-      
-      document.querySelectorAll('h1').forEach(el => {
-        el.style.fontSize = `${baseSize * 3}px`;
-      });
-      document.querySelectorAll('h2').forEach(el => {
-        el.style.fontSize = `${baseSize * 1.875}px`;
-      });
-      document.querySelectorAll('h3').forEach(el => {
-        el.style.fontSize = `${baseSize * 1.25}px`;
-      });
-      document.querySelectorAll('p, li, span, a').forEach(el => {
-        if (!el.classList.contains('text-2xl') && !el.classList.contains('text-3xl')) {
-          el.style.fontSize = `${baseSize}px`;
-        }
-      });
-    }
-
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig,
-        onConfigChange,
-        mapToCapabilities: (config) => ({
-          recolorables: [
-            {
-              get: () => config.background_color || defaultConfig.background_color,
-              set: (value) => {
-                config.background_color = value;
-                window.elementSdk.setConfig({ background_color: value });
-              }
-            },
-            {
-              get: () => config.surface_color || defaultConfig.surface_color,
-              set: (value) => {
-                config.surface_color = value;
-                window.elementSdk.setConfig({ surface_color: value });
-              }
-            },
-            {
-              get: () => config.text_color || defaultConfig.text_color,
-              set: (value) => {
-                config.text_color = value;
-                window.elementSdk.setConfig({ text_color: value });
-              }
-            },
-            {
-              get: () => config.primary_action || defaultConfig.primary_action,
-              set: (value) => {
-                config.primary_action = value;
-                window.elementSdk.setConfig({ primary_action: value });
-              }
-            },
-            {
-              get: () => config.secondary_action || defaultConfig.secondary_action,
-              set: (value) => {
-                config.secondary_action = value;
-                window.elementSdk.setConfig({ secondary_action: value });
-              }
-            }
-          ],
-          borderables: [],
-          fontEditable: {
-            get: () => config.font_family || defaultConfig.font_family,
-            set: (value) => {
-              config.font_family = value;
-              window.elementSdk.setConfig({ font_family: value });
-            }
-          },
-          fontSizeable: {
-            get: () => config.font_size || defaultConfig.font_size,
-            set: (value) => {
-              config.font_size = value;
-              window.elementSdk.setConfig({ font_size: value });
-            }
-          }
-        }),
-        mapToEditPanelValues: (config) => new Map([
-          ["name", config.name || defaultConfig.name],
-          ["tagline", config.tagline || defaultConfig.tagline],
-          ["hero_description", config.hero_description || defaultConfig.hero_description],
-          ["phone", config.phone || defaultConfig.phone],
-          ["email", config.email || defaultConfig.email],
-          ["location", config.location || defaultConfig.location],
-          ["about_heading", config.about_heading || defaultConfig.about_heading],
-          ["skills_heading", config.skills_heading || defaultConfig.skills_heading],
-          ["experience_heading", config.experience_heading || defaultConfig.experience_heading],
-          ["projects_heading", config.projects_heading || defaultConfig.projects_heading],
-          ["education_heading", config.education_heading || defaultConfig.education_heading]
-        ])
-      });
-    }
-  </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a0e816645978ef1',t:'MTc2MzU0MjcwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+lucide.createIcons();
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dc8e87df06547da',t:'MTc3MzU1MDM0MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
