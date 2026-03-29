@@ -1,608 +1,716 @@
-<!doctype html>
-<html lang="en" class="h-full">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Code Odyssey — Jenil Lad</title>
-  <script src="/_sdk/element_sdk.js"></script>
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&amp;family=Exo+2:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
-  <style>
-html, body { height: 100%; margin: 0; overflow: hidden; }
-* { box-sizing: border-box; }
-
-:root {
-  --bg: #0B0C10;
-  --accent: #00ADB5;
-  --purple: #C77DFF;
-  --surface: rgba(11,12,16,0.7);
-  --text: #E0E0E0;
-}
-
-body { font-family: 'Exo 2', sans-serif; background: var(--bg); color: var(--text); }
-
-.font-orbit { font-family: 'Orbitron', sans-serif; }
-
-/* Stars */
-.star-field { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-.star {
-  position: absolute;
-  border-radius: 50%;
-  background: white;
-  animation: twinkle var(--dur) ease-in-out infinite alternate;
-}
-@keyframes twinkle { 0% { opacity: 0.1; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
-
-/* Nebula blobs */
-.nebula {
-  position: fixed; border-radius: 50%; filter: blur(120px); opacity: 0.15; pointer-events: none; z-index: 0;
-  animation: nebulaDrift 20s ease-in-out infinite alternate;
-}
-@keyframes nebulaDrift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-20px) scale(1.1); } }
-
-/* Scroll container */
-.scroll-wrap {
-  height: 100%; overflow-y: auto; overflow-x: hidden; position: relative; z-index: 1;
-  scroll-behavior: smooth; scroll-snap-type: y proximity;
-}
-
-/* Sections */
-.section-planet {
-  min-height: 100%; width: 100%; display: flex; align-items: center; justify-content: center;
-  padding: 3rem 1.5rem; scroll-snap-align: start; position: relative;
-}
-
-/* Glass card */
-.glass {
-  background: rgba(11,12,16,0.6);
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0,173,181,0.2);
-  border-radius: 1.25rem;
-}
-.glass-purple {
-  background: rgba(199,125,255,0.06);
-  border: 1px solid rgba(199,125,255,0.2);
-}
-
-/* Glow button */
-.glow-btn {
-  position: relative; overflow: hidden; transition: all 0.3s;
-  box-shadow: 0 0 20px rgba(0,173,181,0.3);
-}
-.glow-btn:hover { box-shadow: 0 0 40px rgba(0,173,181,0.6); transform: translateY(-2px); }
-.glow-btn::after {
-  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-  background: conic-gradient(from 0deg, transparent, rgba(0,173,181,0.1), transparent);
-  animation: btnSpin 4s linear infinite;
-}
-@keyframes btnSpin { 100% { transform: rotate(360deg); } }
-
-/* Planet orb */
-.planet-orb {
-  width: 80px; height: 80px; border-radius: 50%; position: relative;
-  box-shadow: 0 0 60px rgba(0,173,181,0.4), inset -10px -10px 20px rgba(0,0,0,0.5);
-  animation: planetFloat 6s ease-in-out infinite;
-}
-@keyframes planetFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-
-/* Orbit ring */
-.orbit-ring {
-  position: absolute; border: 1px solid rgba(0,173,181,0.15); border-radius: 50%;
-  animation: orbitSpin 25s linear infinite;
-}
-@keyframes orbitSpin { 100% { transform: rotate(360deg); } }
-
-/* Skill chip hover */
-.skill-chip {
-  transition: all 0.3s; cursor: default;
-}
-.skill-chip:hover {
-  transform: translateY(-4px); box-shadow: 0 0 25px rgba(0,173,181,0.4);
-  border-color: rgba(0,173,181,0.6);
-}
-
-/* Project card */
-.project-card {
-  transition: all 0.4s;
-}
-.project-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 0 50px rgba(199,125,255,0.2);
-  border-color: rgba(199,125,255,0.4);
-}
-
-/* Timeline */
-.timeline-node {
-  width: 16px; height: 16px; border-radius: 50%; position: relative; z-index: 2;
-  box-shadow: 0 0 20px rgba(0,173,181,0.5);
-  animation: nodePulse 2s ease-in-out infinite;
-}
-@keyframes nodePulse { 0%,100% { box-shadow: 0 0 20px rgba(0,173,181,0.5); } 50% { box-shadow: 0 0 35px rgba(0,173,181,0.8); } }
-
-/* Badge float */
-.badge-card {
-  transition: all 0.3s;
-  animation: badgeFloat var(--float-dur, 5s) ease-in-out infinite;
-  animation-delay: var(--float-delay, 0s);
-}
-.badge-card:hover { transform: translateY(-6px) scale(1.05); }
-@keyframes badgeFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-
-/* Fade-in on scroll */
-.reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-
-/* Nav */
-.nav-dot { width: 10px; height: 10px; border-radius: 50%; transition: all 0.3s; cursor: pointer; }
-.nav-dot.active { transform: scale(1.5); box-shadow: 0 0 15px rgba(0,173,181,0.7); }
-
-/* Scrollbar */
-.scroll-wrap::-webkit-scrollbar { width: 4px; }
-.scroll-wrap::-webkit-scrollbar-track { background: transparent; }
-.scroll-wrap::-webkit-scrollbar-thumb { background: rgba(0,173,181,0.3); border-radius: 2px; }
-
-/* Contact pulse */
-.contact-glow { animation: contactPulse 3s ease-in-out infinite; }
-@keyframes contactPulse { 0%,100% { box-shadow: 0 0 30px rgba(199,125,255,0.2); } 50% { box-shadow: 0 0 60px rgba(199,125,255,0.4); } }
-
-/* Floating particles */
-.particle {
-  position: fixed; width: 3px; height: 3px; background: rgba(0,173,181,0.4); border-radius: 50%;
-  pointer-events: none; z-index: 0;
-  animation: particleUp var(--p-dur) linear infinite;
-  animation-delay: var(--p-delay);
-}
-@keyframes particleUp {
-  0% { transform: translateY(0) translateX(0); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { transform: translateY(-800px) translateX(var(--p-drift)); opacity: 0; }
-}
-</style>
-  <style>body { box-sizing: border-box; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
- </head>
- <body class="h-full">
-  <!-- Stars -->
-  <div class="star-field" id="starField"></div><!-- Nebula blobs -->
-  <div class="nebula" style="width:500px;height:500px;background:radial-gradient(circle,rgba(0,173,181,0.3),transparent);top:-10%;left:-10%;"></div>
-  <div class="nebula" style="width:600px;height:600px;background:radial-gradient(circle,rgba(199,125,255,0.25),transparent);bottom:-15%;right:-10%;animation-delay:-10s;"></div>
-  <div class="nebula" style="width:350px;height:350px;background:radial-gradient(circle,rgba(0,173,181,0.2),transparent);top:50%;left:60%;animation-delay:-5s;"></div><!-- Particles -->
-  <div id="particles"></div><!-- Side Nav -->
-  <nav class="fixed right-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3" id="sideNav" aria-label="Section navigation">
-  </nav>
-  <div class="scroll-wrap" id="scrollWrap">
-   <!-- HERO -->
-   <section class="section-planet" id="sec-hero">
-    <div class="text-center max-w-3xl mx-auto relative">
-     <!-- Hero planet -->
-     <div class="mx-auto mb-8 relative" style="width:160px;height:160px;">
-      <div class="planet-orb mx-auto" style="width:80px;height:80px;background:radial-gradient(circle at 30% 30%,#00e5ef,#00ADB5,#006b70);top:40px;left:40px;position:absolute;"></div>
-      <div class="orbit-ring" style="width:140px;height:140px;top:10px;left:10px;"></div>
-      <div class="orbit-ring" style="width:160px;height:160px;top:0;left:0;animation-duration:18s;animation-direction:reverse;"></div><!-- Orbiting dot -->
-      <div style="position:absolute;width:140px;height:140px;top:10px;left:10px;animation:orbitSpin 8s linear infinite;">
-       <div style="width:6px;height:6px;background:#C77DFF;border-radius:50;position:absolute;top:-3px;left:50%;box-shadow:0 0 10px #C77DFF;border-radius:50%;"></div>
-      </div>
-     </div>
-     <p class="text-sm tracking-[0.4em] uppercase mb-3 font-orbit" style="color:var(--accent);">Welcome to my universe</p>
-     <h1 class="font-orbit font-bold mb-4 leading-tight" id="heroTitle" style="font-size:2.8rem;background:linear-gradient(135deg,#00ADB5,#C77DFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Jenil Lad</h1>
-     <p class="text-lg mb-8 opacity-80 max-w-lg mx-auto" id="heroSubtitle">Flutter Enthusiast · UI-UX Enthusiast · Digital Explorer</p>
-     <div class="flex flex-wrap gap-4 justify-center">
-      <button onclick="document.getElementById('sec-about').scrollIntoView({behavior:'smooth'})" class="glow-btn glass font-orbit text-sm px-6 py-3 rounded-full" style="color:var(--accent);"> Start the Journey 🚀 </button> <button onclick="document.getElementById('sec-projects').scrollIntoView({behavior:'smooth'})" class="glass font-orbit text-sm px-6 py-3 rounded-full transition-all hover:border-purple-400" style="color:var(--purple);"> View My Work 💻 </button>
-     </div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jenil Lad | Flutter & Android Developer</title>
+    <meta name="description" content="Jenil Lad — Flutter & Android Developer building smooth, scalable, user-centric apps with Firebase, Supabase, and modern mobile stacks." />
+    <meta name="author" content="Jenil Lad" />
+    <meta property="og:title" content="Jenil Lad | Flutter & Android Developer" />
+    <meta property="og:description" content="Portfolio of Jenil Lad — Flutter, Android, React, Firebase, Supabase." />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"  id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+    <!-- ── Space Background ── -->
+    <div class="space-bg" aria-hidden="true">
+      <div class="stars"></div>
+      <div class="nebula nebula-a"></div>
+      <div class="nebula nebula-b"></div>
+      <div class="planet planet-a"></div>
+      <div class="planet planet-b"></div>
+      <div class="orbit-ring"></div>
+      <div class="particles" id="particles"></div>
     </div>
-   </section><!-- ABOUT -->
-   <section class="section-planet" id="sec-about">
-    <div class="max-w-3xl mx-auto w-full">
-     <div class="reveal">
-      <div class="flex items-center gap-3 mb-2">
-       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#4ade80,#16a34a,#0a5c2a);animation-duration:5s;"></div>
-       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 1 · The Origin</p>
+
+    <!-- ── Navbar ── -->
+    <nav class="navbar" id="navbar">
+      <a href="#hero" class="nav-logo">JL<span class="nav-logo-dot">.</span></a>
+      <div class="nav-links">
+        <a href="#about"        class="nav-link">About</a>
+        <a href="#skills"       class="nav-link">Skills</a>
+        <a href="#projects"     class="nav-link">Projects</a>
+        <a href="#experience"   class="nav-link">Experience</a>
+        <a href="#achievements" class="nav-link">Certifications</a>
+        <a href="#contact"      class="nav-link">Contact</a>
       </div>
-      <h2 class="font-orbit text-3xl font-bold mb-6" style="color:var(--accent);">About Me</h2>
-     </div>
-     <div class="glass p-6 md:p-8 reveal" style="animation-delay:0.1s;">
-      <p class="text-base leading-relaxed mb-6 opacity-90" id="aboutText">I'm a passionate developer from India, pursuing my MCA at MIT World Peace University (Expected 2026).Web & Mobile Developer skilled in building cross-platform applications using Flutter, Java, Android, React, and
-        modern backend frameworks. Strong experience in Firebase, REST APIs, scalable UI design, and real-time data
-        applications. Passionate about full-stack development and delivering smooth, user-centric digital experiences."</p>
-        
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-       <div class="glass-purple rounded-xl p-3 text-center">
-        <span class="text-xl">🌍</span>
-        <p class="text-xs mt-1 opacity-70">Based in India</p>
-       </div>
-       <div class="glass-purple rounded-xl p-3 text-center">
-        <span class="text-xl">🎓</span>
-        <p class="text-xs mt-1 opacity-70">MCA @ MIT-WPU</p>
-       </div>
-       <div class="glass-purple rounded-xl p-3 text-center">
-        <span class="text-xl">💡</span>
-        <p class="text-xs mt-1 opacity-70">Flutter &amp; Android</p>
-       </div>
-       <div class="glass-purple rounded-xl p-3 text-center">
-        <span class="text-xl">⚙️</span>
-        <p class="text-xs mt-1 opacity-70">Code less, create more</p>
-       </div>
-      </div>
-     </div>
+      <button class="nav-menu-btn" id="navMenuBtn" aria-label="Menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </nav>
+    <!-- Mobile Nav Drawer -->
+    <div class="mobile-nav" id="mobileNav">
+      <a href="#about"        class="mobile-link" onclick="closeMobileNav()">About</a>
+      <a href="#skills"       class="mobile-link" onclick="closeMobileNav()">Skills</a>
+      <a href="#projects"     class="mobile-link" onclick="closeMobileNav()">Projects</a>
+      <a href="#experience"   class="mobile-link" onclick="closeMobileNav()">Experience</a>
+      <a href="#achievements" class="mobile-link" onclick="closeMobileNav()">Certifications</a>
+      <a href="#contact"      class="mobile-link" onclick="closeMobileNav()">Contact</a>
     </div>
-   </section><!-- SKILLS -->
-   <section class="section-planet" id="sec-skills">
-    <div class="max-w-4xl mx-auto w-full">
-     <div class="reveal">
-      <div class="flex items-center gap-3 mb-2">
-       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#60a5fa,#2563eb,#1e3a8a);animation-duration:4s;"></div>
-       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 2 · The Arsenal</p>
-      </div>
-      <h2 class="font-orbit text-3xl font-bold mb-6" style="color:var(--accent);">Skills</h2>
-     </div>
-     <div class="grid gap-4 reveal">
-      <div class="glass p-5 rounded-xl">
-       <h3 class="font-orbit text-sm mb-3" style="color:var(--purple);">Languages</h3>
-       <div class="flex flex-wrap gap-2" id="skillsLang"></div>
-      </div>
-      <div class="glass p-5 rounded-xl">
-       <h3 class="font-orbit text-sm mb-3" style="color:var(--purple);">Frameworks</h3>
-       <div class="flex flex-wrap gap-2" id="skillsFrame"></div>
-      </div>
-      <div class="glass p-5 rounded-xl">
-       <h3 class="font-orbit text-sm mb-3" style="color:var(--purple);">Databases</h3>
-       <div class="flex flex-wrap gap-2" id="skillsDB"></div>
-      </div>
-      <div class="glass p-5 rounded-xl">
-       <h3 class="font-orbit text-sm mb-3" style="color:var(--purple);">Tools</h3>
-       <div class="flex flex-wrap gap-2" id="skillsTools"></div>
-      </div>
-     </div>
-    </div>
-   </section><!-- PROJECTS -->
-   <section class="section-planet" id="sec-projects">
-    <div class="max-w-4xl mx-auto w-full">
-     <div class="reveal">
-      <div class="flex items-center gap-3 mb-2">
-       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#f472b6,#db2777,#831843);animation-duration:7s;"></div>
-       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 3 · The Missions</p>
-      </div>
-      <h2 class="font-orbit text-3xl font-bold mb-6" style="color:var(--accent);">Projects</h2>
-     </div>
-     <div class="grid md:grid-cols-3 gap-5 reveal">
-      <!-- Daily Dine -->
-      <div class="project-card glass-purple glass p-5 rounded-xl cursor-default">
-       <div class="planet-orb mx-auto mb-4" style="width:50px;height:50px;background:radial-gradient(circle at 30% 30%,#fbbf24,#d97706,#78350f);animation-duration:5s;"></div>
-       <h3 class="font-orbit text-base font-semibold text-center mb-2" style="color:var(--accent);">Daily Dine</h3>
-       <p class="text-xs text-center opacity-60 mb-3">Smart Mess Management System</p>
-       <ul class="text-xs space-y-1.5 opacity-80">
-        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> QR-based meal tracking</li>
-        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Real-time analytics dashboard</li>
-        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Role-based access control</li>
-        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Payment gateway integration</li>
-       </ul>
-      </div><!-- Hungryfine -->
-      <div class="project-card glass-purple glass p-5 rounded-xl cursor-default">
-       <div class="planet-orb mx-auto mb-4" style="width:50px;height:50px;background:radial-gradient(circle at 30% 30%,#f87171,#dc2626,#7f1d1d);animation-duration:6s;"></div>
-       <h3 class="font-orbit text-base font-semibold text-center mb-2" style="color:var(--accent);">Hungryfine</h3>
-       <p class="text-xs text-center opacity-60 mb-3">Food Delivery App</p>
-       <ul class="text-xs space-y-1.5 opacity-80">
-        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Real-time order tracking</li>
-        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> 5,00+ monthly orders</li>
-        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Secure digital transactions</li>
-       </ul>
-      </div><!-- MitConnect -->
-      <div class="project-card glass-purple glass p-5 rounded-xl cursor-default">
-       <div class="planet-orb mx-auto mb-4" style="width:50px;height:50px;background:radial-gradient(circle at 30% 30%,#a78bfa,#7c3aed,#4c1d95);animation-duration:4.5s;"></div>
-       <h3 class="font-orbit text-base font-semibold text-center mb-2" style="color:var(--accent);">MitConnect</h3>
-       <p class="text-xs text-center opacity-60 mb-3">Social Video Chat App</p>
-       <ul class="text-xs space-y-1.5 opacity-80">
-        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Glassmorphism UI</li>
-        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Real-time chat &amp; video</li>
-        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Firebase integration</li>
-       </ul>
-      </div>
-     </div>
-    </div>
-   </section><!-- EXPERIENCE -->
-   <section class="section-planet" id="sec-experience">
-    <div class="max-w-3xl mx-auto w-full">
-     <div class="reveal">
-      <div class="flex items-center gap-3 mb-2">
-       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#34d399,#059669,#064e3b);animation-duration:5.5s;"></div>
-       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 4 · The Experience Log</p>
-      </div>
-      <h2 class="font-orbit text-3xl font-bold mb-8" style="color:var(--accent);">Experience</h2>
-     </div>
-     <div class="reveal relative pl-8">
-      <div class="absolute left-[7px] top-0 bottom-0 w-[2px]" style="background:linear-gradient(to bottom,var(--accent),var(--purple));"></div>
-      <div class="mb-8 relative">
-       <div class="timeline-node absolute -left-[25px]" style="background:var(--purple);top:4px;"></div>
-       <div class="glass p-5 rounded-xl">
-        <p class="font-orbit text-xs mb-2" style="color:var(--purple);">Jan 2026 – Present | Remote</p>
-        <h3 class="font-orbit text-sm font-semibold mb-2" style="color:var(--accent);">Android Developer Intern</h3>
-        <p class="text-xs opacity-70 font-semibold mb-3">BrainyBeam Technologies Pvt. Ltd.</p>
-        <ul class="text-xs space-y-2 opacity-80">
-         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Developing and maintaining native Android applications in a remote environment, focusing on writing clean, efficient, and scalable code.</span></li>
-         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Collaborating with the development team to design intuitive user interfaces, integrate backend APIs, and enhance overall app functionality.</span></li>
-         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Actively troubleshooting bugs, optimizing app performance, and participating in daily development workflows to ensure smooth experience across various Android devices.</span></li>
-        </ul>
-       </div>
-      </div>
-      <div class="relative">
-       <div class="timeline-node absolute -left-[25px]" style="background:var(--accent);top:4px;"></div>
-       <div class="glass p-5 rounded-xl">
-        <p class="font-orbit text-xs mb-2" style="color:var(--purple);">Jul 2025 – Dec 2025</p>
-        <h3 class="font-orbit text-sm font-semibold mb-2" style="color:var(--accent);">Flutter Developer</h3>
-        <p class="text-xs opacity-70 font-semibold mb-3">GAIA Project · MIT-WPU</p>
-        <ul class="text-xs space-y-2 opacity-80">
-         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Built and launched an official university management app on the App Store and Google Play using Flutter.</span></li>
-         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Handled end-to-end mobile development, including responsive UI design, REST API integration, and cross-device performance optimization.</span></li>
-         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Streamlined campus operations by replacing manual paperwork with a centralized digital platform for real-time progress tracking.</span></li>
-        </ul>
-        <p class="text-xs mt-3 font-semibold" style="color:var(--purple);">Available on:</p>
-        <div class="flex flex-wrap gap-2 mt-2"><a href="https://play.google.com/store/apps/details?id=com.mitwpu.immersions&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" class="text-xs px-2.5 py-1 rounded glass-purple transition hover:border-purple-400" style="color:var(--accent);text-decoration:none;">Google Play</a> <a href="https://apps.apple.com/gh/app/wpu-immersions/id6758524763" target="_blank" rel="noopener noreferrer" class="text-xs px-2.5 py-1 rounded glass-purple transition hover:border-purple-400" style="color:var(--accent);text-decoration:none;">App Store</a>
+
+    <!-- ── Side Navigation Dots ── -->
+    <aside class="side-dots" aria-label="Section navigation">
+      <a href="#hero"          class="dot active"  data-target="hero"          title="Home"></a>
+      <a href="#about"         class="dot"          data-target="about"         title="About"></a>
+      <a href="#skills"        class="dot"          data-target="skills"        title="Skills"></a>
+      <a href="#projects"      class="dot"          data-target="projects"      title="Projects"></a>
+      <a href="#experience"    class="dot"          data-target="experience"    title="Experience"></a>
+      <a href="#achievements"  class="dot"          data-target="achievements"  title="Certifications"></a>
+      <a href="#contact"       class="dot"          data-target="contact"       title="Contact"></a>
+    </aside>
+
+    <main class="relative z-10">
+
+      <!-- ════════════════ HERO ════════════════ -->
+      <section id="hero" class="chapter min-h-screen flex items-center">
+        <div class="max-w-5xl mx-auto px-6 py-24 w-full">
+          <div class="glass p-8 md:p-12 reveal hero-inner">
+
+            <!-- Avatar -->
+            <div class="avatar-wrap">
+              <div class="avatar" aria-label="Jenil Lad">JL</div>
+              <div class="avatar-ring"></div>
+            </div>
+
+            <div class="hero-text">
+              <p class="eyebrow"><span id="typewriter"></span><span class="cursor-blink">|</span></p>
+              <h1 class="title mt-2">Hi, I'm <span class="gradient-text">Jenil Lad</span></h1>
+              <p class="lead mt-4">
+                I build smooth, scalable, and user-centric digital experiences —
+                from cross-platform mobile apps to full-stack web solutions.
+                Currently focused on Flutter, Android, and real-time backends with Supabase &amp; Firebase.
+              </p>
+              <div class="mt-8 flex flex-wrap gap-4">
+                <a href="#projects"                                                      class="btn-glow" id="heroProjectsBtn">🚀 View Projects</a>
+                <a href="Jenil_Lad_CV.pdf" download="Jenil_Lad_CV.pdf"                  class="btn-cv"   id="heroCvBtn"><i data-lucide="download"></i>&nbsp;Download CV</a>
+                <a href="https://github.com/ladjenil" target="_blank" rel="noreferrer"   class="btn-ghost" id="heroGithubBtn"><i data-lucide="github"></i>&nbsp;GitHub</a>
+                <a href="#contact"                                                        class="btn-ghost" id="heroContactBtn">Let's Connect</a>
+              </div>
+            </div>
+
+          </div>
         </div>
-       </div>
+      </section>
+
+      <!-- ════════════════ ABOUT ════════════════ -->
+      <section id="about" class="chapter min-h-screen flex items-center">
+        <div class="max-w-5xl mx-auto px-6 py-20 w-full reveal">
+          <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
+          <div class="glass p-8">
+            <div class="about-grid">
+              <div>
+                <p class="about-para">
+                  I'm <strong>Jenil Lad</strong>, a passionate <strong>Flutter &amp; Android Developer</strong>
+                  currently pursuing my engineering at <strong>MIT-WPU, Pune</strong>. I love bringing ideas
+                  to life through clean code and thoughtful design — whether it's a real-time ride-sharing
+                  platform or a QR-based mess management system.
+                </p>
+                <p class="about-para mt-4">
+                  I've worked across the full mobile stack — from UI/UX prototyping in Figma to deploying
+                  production apps with Supabase, Firebase, and REST APIs. I'm driven by performance-first
+                  architecture and a deep love for smooth, animated interfaces.
+                </p>
+              </div>
+              <div class="about-stats">
+                <div class="stat-card glass">
+                  <span class="stat-num" data-target="4" data-suffix="+">0+</span>
+                  <span class="stat-label">Projects Shipped</span>
+                </div>
+                <div class="stat-card glass">
+                  <span class="stat-num" data-target="2" data-suffix="">0</span>
+                  <span class="stat-label">Internships</span>
+                </div>
+                <div class="stat-card glass">
+                  <span class="stat-num" data-target="5" data-suffix="+">0+</span>
+                  <span class="stat-label">Certifications</span>
+                </div>
+                <div class="stat-card glass">
+                  <span class="stat-num">∞</span>
+                  <span class="stat-label">Curiosity</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════ SKILLS ════════════════ -->
+      <section id="skills" class="chapter min-h-screen flex items-center">
+        <div class="max-w-6xl mx-auto px-6 py-20 w-full reveal">
+          <h2 class="section-title">Tech <span class="gradient-text">Stack</span></h2>
+          <div class="grid md:grid-cols-2 gap-6">
+
+            <article class="glass p-6 card-lift" id="skillMobile">
+              <div class="skill-header">
+                <i data-lucide="smartphone"></i>
+                <h3>Mobile Development</h3>
+              </div>
+              <p>Cross-platform and native mobile apps with rich UI and real-time features.</p>
+              <div class="chips mt-4">
+                <span>Flutter</span><span>Dart</span><span>Android (Java)</span><span>Kotlin</span><span>React Native</span>
+              </div>
+            </article>
+
+            <article class="glass p-6 card-lift" id="skillFrontend">
+              <div class="skill-header">
+                <i data-lucide="layout-dashboard"></i>
+                <h3>Frontend & UI</h3>
+              </div>
+              <p>Responsive web interfaces with modern frameworks and pixel-perfect design.</p>
+              <div class="chips mt-4">
+                <span>React</span><span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>Tailwind CSS</span><span>Figma</span>
+              </div>
+            </article>
+
+            <article class="glass p-6 card-lift" id="skillBackend">
+              <div class="skill-header">
+                <i data-lucide="database"></i>
+                <h3>Backend & Database</h3>
+              </div>
+              <p>Real-time backends, authentication, and scalable cloud database solutions.</p>
+              <div class="chips mt-4">
+                <span>Firebase</span><span>Supabase</span><span>REST APIs</span><span>PostgreSQL</span><span>Firestore</span>
+              </div>
+            </article>
+
+            <article class="glass p-6 card-lift" id="skillTools">
+              <div class="skill-header">
+                <i data-lucide="wrench"></i>
+                <h3>Tools & Practices</h3>
+              </div>
+              <p>Modern development workflows, version control, and architecture patterns.</p>
+              <div class="chips mt-4">
+                <span>Git</span><span>GitHub</span><span>VS Code</span><span>Android Studio</span><span>Razorpay</span><span>Postman</span>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════ PROJECTS ════════════════ -->
+      <section id="projects" class="chapter min-h-screen flex items-center">
+        <div class="max-w-6xl mx-auto px-6 py-20 w-full reveal">
+          <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
+          <div class="grid md:grid-cols-3 gap-6">
+
+            <article class="glass p-6 card-lift project-card" id="projQuickSmart">
+              <div class="proj-badge">2025</div>
+              <h3>QuickSmart</h3>
+              <p>Real-time carpooling & ride-sharing app with GPS tracking, driver-approved booking flow, live chat, and Supabase backend.</p>
+              <div class="chips mt-3">
+                <span>Flutter</span><span>Supabase</span><span>GPS</span><span>Real-time</span>
+              </div>
+              <div class="proj-links mt-4">
+                <a href="https://github.com/ladjenil" target="_blank" rel="noreferrer" class="proj-link" id="projQuickSmartGithub">
+                  <i data-lucide="github"></i> GitHub
+                </a>
+              </div>
+            </article>
+
+            <article class="glass p-6 card-lift project-card" id="projDailyDine">
+              <div class="proj-badge">2024</div>
+              <h3>Daily Dine</h3>
+              <p>QR-based mess management system with an analytics dashboard, secure role management, and integrated payment workflows.</p>
+              <div class="chips mt-3">
+                <span>Flutter</span><span>Firebase</span><span>QR</span><span>Razorpay</span>
+              </div>
+              <div class="proj-links mt-4">
+                <a href="https://github.com/ladjenil" target="_blank" rel="noreferrer" class="proj-link" id="projDailyDineGithub">
+                  <i data-lucide="github"></i> GitHub
+                </a>
+              </div>
+            </article>
+
+            <article class="glass p-6 card-lift project-card" id="projHungryfine">
+              <div class="proj-badge">2024</div>
+              <h3>Hungryfine</h3>
+              <p>Full-featured food delivery platform with Firebase-powered workflows, real-time order tracking, and Razorpay payment integration.</p>
+              <div class="chips mt-3">
+                <span>Flutter</span><span>Firebase</span><span>Razorpay</span><span>Maps</span>
+              </div>
+              <div class="proj-links mt-4">
+                <a href="https://github.com/ladjenil" target="_blank" rel="noreferrer" class="proj-link" id="projHungryfineGithub">
+                  <i data-lucide="github"></i> GitHub
+                </a>
+              </div>
+            </article>
+
+            <article class="glass p-6 card-lift project-card" id="projMitConnect">
+              <div class="proj-badge">2023</div>
+              <h3>MitConnect</h3>
+              <p>University social video-chat app with animated UI, Firebase-powered modules, and real-time messaging for campus communities.</p>
+              <div class="chips mt-3">
+                <span>Flutter</span><span>Firebase</span><span>WebRTC</span><span>Chat</span>
+              </div>
+              <div class="proj-links mt-4">
+                <a href="https://github.com/ladjenil" target="_blank" rel="noreferrer" class="proj-link" id="projMitConnectGithub">
+                  <i data-lucide="github"></i> GitHub
+                </a>
+              </div>
+            </article>
+
+            <article class="glass p-6 card-lift project-card" id="projGaiaApp">
+              <div class="proj-badge">MIT-WPU</div>
+              <h3>GAIA University App</h3>
+              <p>Official MIT-WPU university app with responsive UI, API integration, and a seamless cross-platform experience for students and staff.</p>
+              <div class="chips mt-3">
+                <span>Flutter</span><span>REST API</span><span>Cross-platform</span>
+              </div>
+              <div class="proj-links mt-4">
+                <a href="https://github.com/ladjenil" target="_blank" rel="noreferrer" class="proj-link" id="projGaiaGithub">
+                  <i data-lucide="github"></i> GitHub
+                </a>
+              </div>
+            </article>
+
+            <!-- View All Card -->
+            <article class="glass p-6 card-lift project-card view-all-card" id="projViewAll">
+              <div class="view-all-inner">
+                <i data-lucide="folder-open" class="view-all-icon"></i>
+                <h3>More Projects</h3>
+                <p>Explore all repositories and open-source contributions on GitHub.</p>
+                <a href="https://github.com/ladjenil" target="_blank" rel="noreferrer" class="btn-glow mt-4 inline-block" id="viewAllGithubBtn">
+                  View All on GitHub
+                </a>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════ EXPERIENCE ════════════════ -->
+      <section id="experience" class="chapter min-h-screen flex items-center">
+        <div class="max-w-5xl mx-auto px-6 py-20 w-full reveal">
+          <h2 class="section-title">Work <span class="gradient-text">Experience</span></h2>
+          <div class="timeline">
+
+            <div class="timeline-item glass p-6" id="expBrainyBeam">
+              <div class="timeline-header">
+                <div>
+                  <span class="exp-role">Android Developer Intern</span>
+                  <span class="exp-company">BrainyBeam Technologies</span>
+                </div>
+                <span class="exp-date">2024 – Present</span>
+              </div>
+              <p class="mt-3">Building scalable native Android features with a strong emphasis on performance-first architecture, clean code practices, and modern Android development patterns.</p>
+              <div class="chips mt-3">
+                <span>Android</span><span>Java</span><span>Kotlin</span><span>REST APIs</span>
+              </div>
+            </div>
+
+            <div class="timeline-item glass p-6" id="expGaia">
+              <div class="timeline-header">
+                <div>
+                  <span class="exp-role">Flutter Developer</span>
+                  <span class="exp-company">GAIA Project — MIT-WPU</span>
+                </div>
+                <span class="exp-date">2023 – 2024</span>
+              </div>
+              <p class="mt-3">Delivered the official MIT-WPU university app from scratch — built responsive UI components, integrated REST APIs, handled cross-platform releases, and collaborated with the university's tech team.</p>
+              <div class="chips mt-3">
+                <span>Flutter</span><span>Dart</span><span>REST API</span><span>iOS</span><span>Android</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════ ACHIEVEMENTS / CERTIFICATIONS ════════════════ -->
+      <section id="achievements" class="chapter min-h-screen flex items-center">
+        <div class="max-w-5xl mx-auto px-6 py-20 w-full reveal">
+          <h2 class="section-title">Certifications &amp; <span class="gradient-text">Achievements</span></h2>
+          <div class="cert-grid">
+
+            <div class="cert-card glass p-6 card-lift" id="certReactNative">
+              <div class="cert-icon"><i data-lucide="award"></i></div>
+              <div class="cert-body">
+                <h3>React Native Specialization</h3>
+                <span class="cert-issuer">Meta · Coursera</span>
+                <p class="cert-desc">Professional certificate covering React Native fundamentals, navigation, state management, and publishing.</p>
+              </div>
+              <a href="https://www.coursera.org/account/accomplishments/verify" target="_blank" rel="noreferrer" class="cert-link" id="certReactNativeLink">
+                <i data-lucide="external-link"></i> View Certificate
+              </a>
+            </div>
+
+            <div class="cert-card glass p-6 card-lift" id="certAndroid">
+              <div class="cert-icon"><i data-lucide="award"></i></div>
+              <div class="cert-body">
+                <h3>Android App Development (Java)</h3>
+                <span class="cert-issuer">Udemy / Independent</span>
+                <p class="cert-desc">Hands-on Android development covering activities, fragments, RecyclerView, SQLite, and Firebase integration.</p>
+              </div>
+              <a href="https://github.com/ladjenil" target="_blank" rel="noreferrer" class="cert-link" id="certAndroidLink">
+                <i data-lucide="external-link"></i> View Projects
+              </a>
+            </div>
+
+            <div class="cert-card glass p-6 card-lift" id="certJava">
+              <div class="cert-icon"><i data-lucide="code-2"></i></div>
+              <div class="cert-body">
+                <h3>Java Crash Course</h3>
+                <span class="cert-issuer">Online Platform</span>
+                <p class="cert-desc">Core Java programming including OOP principles, collections, exception handling, and multithreading.</p>
+              </div>
+              <a href="#achievements" class="cert-link" id="certJavaLink">
+                <i data-lucide="external-link"></i> View Certificate
+              </a>
+            </div>
+
+            <div class="cert-card glass p-6 card-lift" id="certGit">
+              <div class="cert-icon"><i data-lucide="git-branch"></i></div>
+              <div class="cert-body">
+                <h3>Git for Beginners</h3>
+                <span class="cert-issuer">Online Platform</span>
+                <p class="cert-desc">Version control fundamentals — branching strategies, merge conflicts, pull requests, and GitHub workflows.</p>
+              </div>
+              <a href="#achievements" class="cert-link" id="certGitLink">
+                <i data-lucide="external-link"></i> View Certificate
+              </a>
+            </div>
+
+            <div class="cert-card glass p-6 card-lift" id="certUI">
+              <div class="cert-icon"><i data-lucide="palette"></i></div>
+              <div class="cert-body">
+                <h3>Mobile UI Design</h3>
+                <span class="cert-issuer">Online Platform</span>
+                <p class="cert-desc">UX principles, Figma prototyping, design systems, component libraries, and accessibility for mobile apps.</p>
+              </div>
+              <a href="#achievements" class="cert-link" id="certUILink">
+                <i data-lucide="external-link"></i> View Certificate
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════ CONTACT ════════════════ -->
+      <section id="contact" class="chapter min-h-screen flex items-center">
+        <div class="max-w-4xl mx-auto px-6 py-20 w-full reveal">
+          <h2 class="section-title">Let's <span class="gradient-text">Connect</span></h2>
+          <p class="lead mb-8">Open to freelance projects, internships, and full-time roles. Let's build something great together.</p>
+          <div class="glass p-8">
+            <div class="grid sm:grid-cols-2 gap-4 text-lg">
+              <a href="tel:+916354531293" class="contact-item" id="contactPhone">
+                <i data-lucide="phone"></i><span>+91 63545 31293</span>
+              </a>
+              <a href="mailto:jenillad573@gmail.com" class="contact-item" id="contactEmail">
+                <i data-lucide="mail"></i><span>jenillad573@gmail.com</span>
+              </a>
+              <a href="https://github.com/ladjenil" target="_blank" rel="noreferrer" class="contact-item" id="contactGithub">
+                <i data-lucide="github"></i><span>github.com/ladjenil</span>
+              </a>
+              <a href="https://www.linkedin.com/in/jenil-lad-b617442a2/" target="_blank" rel="noreferrer" class="contact-item" id="contactLinkedin">
+                <i data-lucide="linkedin"></i><span>linkedin.com/in/jenil-lad</span>
+              </a>
+            </div>
+            <div class="mt-8 text-center">
+              <a href="mailto:jenillad573@gmail.com" class="btn-glow" id="hireBtn">✉️ Hire Me</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ── Footer ── -->
+    <footer class="footer">
+      <p>Crafted with ❤️ by <strong>Jenil Lad</strong> · 2025</p>
+      <div class="footer-links">
+        <a href="https://github.com/ladjenil"                          target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/jenil-lad-b617442a2/"    target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href="mailto:jenillad573@gmail.com">Email</a>
       </div>
-     </div>
-    </div>
-   </section><!-- ACHIEVEMENTS -->
-   <section class="section-planet" id="sec-achievements">
-    <div class="max-w-4xl mx-auto w-full">
-     <div class="reveal">
-      <div class="flex items-center gap-3 mb-2">
-       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#fbbf24,#f59e0b,#78350f);animation-duration:4.5s;"></div>
-       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 5 · The Achievements</p>
-      </div>
-      <h2 class="font-orbit text-3xl font-bold mb-6" style="color:var(--accent);">Certifications</h2>
-     </div>
-     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 reveal">
-      <div class="badge-card glass p-4 rounded-xl text-center" style="--float-dur:5s;--float-delay:0s;">
-       <div class="text-3xl mb-2">
-        🏆
-       </div>
-       <p class="font-orbit text-xs font-semibold" style="color:var(--accent);">React Native</p>
-       <p class="text-xs opacity-60 mt-1">Meta</p>
-      </div>
-      <div class="badge-card glass p-4 rounded-xl text-center" style="--float-dur:5.5s;--float-delay:0.3s;">
-       <div class="text-3xl mb-2">
-        📱
-       </div>
-       <p class="font-orbit text-xs font-semibold" style="color:var(--accent);">Android App Dev</p>
-       <p class="text-xs opacity-60 mt-1">7 Real-World Java Projects</p>
-      </div>
-      <div class="badge-card glass p-4 rounded-xl text-center" style="--float-dur:4.8s;--float-delay:0.6s;">
-       <div class="text-3xl mb-2">
-        ☕
-       </div>
-       <p class="font-orbit text-xs font-semibold" style="color:var(--accent);">Java Crash Course</p>
-       <p class="text-xs opacity-60 mt-1">For Programmers</p>
-      </div>
-      <div class="badge-card glass p-4 rounded-xl text-center" style="--float-dur:5.2s;--float-delay:0.2s;">
-       <div class="text-3xl mb-2">
-        🎨
-       </div>
-       <p class="font-orbit text-xs font-semibold" style="color:var(--accent);">Mobile UI Design</p>
-       <p class="text-xs opacity-60 mt-1">Moqups</p>
-      </div>
-      <div class="badge-card glass p-4 rounded-xl text-center" style="--float-dur:5.8s;--float-delay:0.5s;">
-       <div class="text-3xl mb-2">
-        🔀
-       </div>
-       <p class="font-orbit text-xs font-semibold" style="color:var(--accent);">Git for Beginners</p>
-       <p class="text-xs opacity-60 mt-1">Version Control</p>
-      </div>
-     </div>
-    </div>
-   </section><!-- CONTACT -->
-   <section class="section-planet" id="sec-contact">
-    <div class="max-w-2xl mx-auto w-full">
-     <div class="reveal">
-      <div class="flex items-center gap-3 mb-2">
-       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#c084fc,#9333ea,#581c87);animation-duration:6s;"></div>
-       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 6 · The Contact Portal</p>
-      </div>
-      <h2 class="font-orbit text-3xl font-bold mb-6" style="color:var(--accent);">Get In Touch</h2>
-     </div>
-     <div class="contact-glow glass p-6 md:p-8 rounded-xl reveal">
-      <p class="text-sm mb-6 opacity-80 text-center">Ready to collaborate? Send a signal through the cosmos.</p>
-      <div class="space-y-3 mb-6">
-       <div class="flex items-center gap-3">
-        <i data-lucide="phone" style="width:18px;height:18px;color:var(--accent);"></i> <span class="text-sm" id="contactPhone">+91 6354531293</span>
-       </div>
-       <div class="flex items-center gap-3">
-        <i data-lucide="mail" style="width:18px;height:18px;color:var(--accent);"></i> <span class="text-sm" id="contactEmail">jenillad573@gmail.com</span>
-       </div>
-       <div class="flex items-center gap-3">
-        <i data-lucide="github" style="width:18px;height:18px;color:var(--accent);"></i> <a id="contactGithubLink" href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer" class="text-sm hover:underline" style="color:var(--purple);">github.com/ladjenil</a>
-       </div>
-       <div class="flex items-center gap-3">
-        <i data-lucide="linkedin" style="width:18px;height:18px;color:var(--accent);"></i> <a id="contactLinkedinLink" href="https://www.linkedin.com/in/jenil-lad-b617442a2/" target="_blank" rel="noopener noreferrer" class="text-sm hover:underline" style="color:var(--purple);">linkedin.com/in/jenillad</a>
-       </div>
-      </div>
-      <div class="flex flex-wrap gap-3 justify-center">
-       <a id="emailBtn" href="mailto:jenillad573@gmail.com" class="glow-btn glass font-orbit text-xs px-5 py-2.5 rounded-full inline-flex items-center gap-2" style="color:var(--accent);text-decoration:none;"> <i data-lucide="send" style="width:14px;height:14px;"></i> Send a Signal </a> <a id="githubBtn" href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer" class="glass font-orbit text-xs px-5 py-2.5 rounded-full inline-flex items-center gap-2 transition-all hover:border-purple-400" style="color:var(--purple);text-decoration:none;"> <i data-lucide="github" style="width:14px;height:14px;"></i> GitHub Galaxy </a> <a id="linkedinBtn" href="https://linkedin.com/in/jenillad" target="_blank" rel="noopener noreferrer" class="glass font-orbit text-xs px-5 py-2.5 rounded-full inline-flex items-center gap-2 transition-all hover:border-purple-400" style="color:var(--purple);text-decoration:none;"> <i data-lucide="linkedin" style="width:14px;height:14px;"></i> LinkedIn </a>
-      </div>
-     </div>
-     <p class="text-center text-xs opacity-30 mt-8 font-orbit">© 2025 Jenil Lad · Code Odyssey</p>
-    </div>
-   </section>
-  </div>
-  <script>
-// --- Stars ---
-(function() {
-  const sf = document.getElementById('starField');
-  for (let i = 0; i < 120; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    const size = Math.random() * 2.5 + 0.5;
-    s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--dur:${Math.random()*3+1.5}s;animation-delay:${Math.random()*3}s;`;
-    sf.appendChild(s);
-  }
-})();
+    </footer>
 
-// --- Particles ---
-(function() {
-  const pc = document.getElementById('particles');
-  for (let i = 0; i < 15; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    const drift = (Math.random() - 0.5) * 100;
-    p.style.cssText = `left:${Math.random()*100}%;bottom:-10px;--p-dur:${Math.random()*10+8}s;--p-delay:${Math.random()*10}s;--p-drift:${drift}px;`;
-    pc.appendChild(p);
-  }
-})();
+    <script>
+      // ══════════════════════════════════════
+      // 1. Icons
+      // ══════════════════════════════════════
+      lucide.createIcons();
 
-// --- Skills ---
-const skills = {
-  lang: ['Java','Dart','Python','C/C++','SQL','HTML/CSS','XML'],
-  frame: ['Flutter','ReactJS','Android SDK','Spring Boot'],
-  db: ['Firebase','Supabase','MySQL','SQLite','PostgreSQL'],
-  tools: ['Git','VS Code','Android Studio','IntelliJ IDEA','Azure']
-};
-function renderSkills(containerId, items) {
-  const c = document.getElementById(containerId);
-  c.innerHTML = '';
-  items.forEach(s => {
-    const el = document.createElement('span');
-    el.className = 'skill-chip glass-purple text-xs px-3 py-1.5 rounded-full inline-block';
-    el.style.color = 'var(--text)';
-    el.textContent = s;
-    c.appendChild(el);
-  });
-}
-renderSkills('skillsLang', skills.lang);
-renderSkills('skillsFrame', skills.frame);
-renderSkills('skillsDB', skills.db);
-renderSkills('skillsTools', skills.tools);
+      // ══════════════════════════════════════
+      // 2. Scroll Progress Bar + Navbar
+      // ══════════════════════════════════════
+      const navbar        = document.getElementById('navbar');
+      const scrollBar     = document.getElementById('scrollProgress');
 
-// --- Side Nav ---
-const sections = ['hero','about','skills','projects','experience','achievements','contact'];
-const sectionLabels = ['Home','About','Skills','Projects','Experience','Certs','Contact'];
-const nav = document.getElementById('sideNav');
-sections.forEach((id, i) => {
-  const dot = document.createElement('div');
-  dot.className = 'nav-dot';
-  dot.style.background = 'rgba(0,173,181,0.4)';
-  dot.title = sectionLabels[i];
-  dot.setAttribute('role','button');
-  dot.setAttribute('aria-label', sectionLabels[i]);
-  dot.addEventListener('click', () => {
-    document.getElementById('sec-' + id).scrollIntoView({ behavior: 'smooth' });
-  });
-  nav.appendChild(dot);
-});
+      window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 60);
+        const scrolled  = document.documentElement.scrollTop;
+        const maxScroll = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        scrollBar.style.width = (scrolled / maxScroll * 100) + '%';
+      });
 
-// --- Scroll reveal + nav update ---
-const scrollWrap = document.getElementById('scrollWrap');
-const revealEls = document.querySelectorAll('.reveal');
-const navDots = nav.querySelectorAll('.nav-dot');
+      // ══════════════════════════════════════
+      // 3. Mobile Nav
+      // ══════════════════════════════════════
+      const navMenuBtn = document.getElementById('navMenuBtn');
+      const mobileNav  = document.getElementById('mobileNav');
+      navMenuBtn.addEventListener('click', () => mobileNav.classList.toggle('open'));
+      window.closeMobileNav = () => mobileNav.classList.remove('open');
+      // Close drawer on outside click
+      document.addEventListener('click', (e) => {
+        if (mobileNav.classList.contains('open') && !mobileNav.contains(e.target) && !navMenuBtn.contains(e.target))
+          mobileNav.classList.remove('open');
+      });
 
-function onScroll() {
-  const wh = scrollWrap.clientHeight;
-  revealEls.forEach(el => {
-    const r = el.getBoundingClientRect();
-    if (r.top < wh * 0.85) el.classList.add('visible');
-  });
-  // Active nav
-  let active = 0;
-  sections.forEach((id, i) => {
-    const sec = document.getElementById('sec-' + id);
-    const r = sec.getBoundingClientRect();
-    if (r.top < wh * 0.5) active = i;
-  });
-  navDots.forEach((d, i) => {
-    d.classList.toggle('active', i === active);
-    d.style.background = i === active ? '#00ADB5' : 'rgba(0,173,181,0.4)';
-  });
-}
-scrollWrap.addEventListener('scroll', onScroll);
-onScroll();
+      // ══════════════════════════════════════
+      // 4. Custom Cursor
+      // ══════════════════════════════════════
+      const cursorDot  = document.getElementById('cursorDot');
+      const cursorRing = document.getElementById('cursorRing');
+      let mX = -100, mY = -100, rX = -100, rY = -100;
 
-// --- Element SDK ---
-const defaultConfig = {
-  hero_title: 'Jenil Lad',
-  hero_subtitle: 'Flutter Enthusiast · UI-UX Enthusiast · Digital Explorer',
-  about_text: "Web & Mobile Developer skilled in building cross-platform applications using Flutter, Java, Android, React, and modern backend frameworks. Strong experience in Firebase, REST APIs, scalable UI design, and real-time data applications. Passionate about full-stack development and delivering smooth, user-centric digital experiences. Motivated to build modern, scalable, and user-friendly applications with a strong focus on clean architecture, performance optimization, and delivering impactful digital experiences for users and businesses.",
-  contact_email: 'jenillad573@gmail.com',
-  contact_phone: '+91 6354531293',
-  github_url: 'https://github.com/ladjenil',
-  background_color: '#0B0C10',
-  accent_color: '#00ADB5',
-  purple_color: '#C77DFF',
-  text_color: '#E0E0E0',
-  surface_color: 'rgba(11,12,16,0.6)',
-  font_family: 'Exo 2',
-  font_size: 16
-};
+      document.addEventListener('mousemove', (e) => {
+        mX = e.clientX;
+        mY = e.clientY;
+        cursorDot.style.transform = `translate(${mX}px, ${mY}px)`;
+      });
 
-function applyConfig(config) {
-  const c = Object.assign({}, defaultConfig, config);
+      (function animateCursor() {
+        rX += (mX - rX) * 0.1;
+        rY += (mY - rY) * 0.1;
+        cursorRing.style.transform = `translate(${rX}px, ${rY}px)`;
+        requestAnimationFrame(animateCursor);
+      })();
 
-  document.getElementById('heroTitle').textContent = c.hero_title;
-  document.getElementById('heroSubtitle').textContent = c.hero_subtitle;
-  document.getElementById('aboutText').textContent = c.about_text;
-  document.getElementById('contactPhone').textContent = c.contact_phone;
-  document.getElementById('contactEmail').textContent = c.contact_email;
-  document.getElementById('emailBtn').href = 'mailto:' + c.contact_email;
+      document.querySelectorAll('a, button, .card-lift').forEach(el => {
+        el.addEventListener('mouseenter', () => cursorRing.classList.add('hover'));
+        el.addEventListener('mouseleave', () => cursorRing.classList.remove('hover'));
+      });
 
-  const ghDisplay = c.github_url.replace('https://','').replace('http://','');
-  document.getElementById('contactGithubLink').href = c.github_url;
-  document.getElementById('contactGithubLink').textContent = ghDisplay;
-  document.getElementById('githubBtn').href = c.github_url;
+      // Hide cursor on mobile
+      if ('ontouchstart' in window) {
+        cursorDot.style.display  = 'none';
+        cursorRing.style.display = 'none';
+      }
 
-  // Colors
-  document.documentElement.style.setProperty('--bg', c.background_color);
-  document.documentElement.style.setProperty('--accent', c.accent_color);
-  document.documentElement.style.setProperty('--purple', c.purple_color);
-  document.documentElement.style.setProperty('--text', c.text_color);
-  document.body.style.background = c.background_color;
-  document.body.style.color = c.text_color;
+      // ══════════════════════════════════════
+      // 5. Typewriter Effect
+      // ══════════════════════════════════════
+      const roles = [
+        'Flutter Developer',
+        'Android Developer',
+        'React Developer',
+        'Mobile App Architect',
+        'UI/UX Enthusiast',
+        'Full-Stack Builder',
+      ];
+      let roleIdx = 0, charIdx = 0, deleting = false;
+      const tyEl = document.getElementById('typewriter');
 
-  // Font
-  const font = c.font_family || defaultConfig.font_family;
-  document.body.style.fontFamily = `'${font}', 'Exo 2', sans-serif`;
-  document.querySelectorAll('.font-orbit').forEach(el => {
-    el.style.fontFamily = `'Orbitron', '${font}', sans-serif`;
-  });
+      function typeLoop() {
+        const word = roles[roleIdx];
+        tyEl.textContent = deleting ? word.slice(0, --charIdx) : word.slice(0, ++charIdx);
 
-  // Font size
-  const base = c.font_size || defaultConfig.font_size;
-  document.getElementById('heroTitle').style.fontSize = (base * 2.8 / 16) + 'rem';
-  document.getElementById('heroSubtitle').style.fontSize = (base * 1.125) + 'px';
-  document.getElementById('aboutText').style.fontSize = base + 'px';
-}
+        let delay = deleting ? 55 : 95;
+        if (!deleting && charIdx === word.length) { delay = 1800; deleting = true; }
+        else if (deleting && charIdx === 0)       { deleting = false; roleIdx = (roleIdx + 1) % roles.length; delay = 350; }
+        setTimeout(typeLoop, delay);
+      }
+      typeLoop();
 
-window.elementSdk.init({
-  defaultConfig,
-  onConfigChange: async (config) => { applyConfig(config); },
-  mapToCapabilities: (config) => ({
-    recolorables: [
-      { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
-      { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
-      { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
-      { get: () => config.accent_color || defaultConfig.accent_color, set: (v) => { config.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); } },
-      { get: () => config.purple_color || defaultConfig.purple_color, set: (v) => { config.purple_color = v; window.elementSdk.setConfig({ purple_color: v }); } }
-    ],
-    borderables: [],
-    fontEditable: {
-      get: () => config.font_family || defaultConfig.font_family,
-      set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
-    },
-    fontSizeable: {
-      get: () => config.font_size || defaultConfig.font_size,
-      set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
-    }
-  }),
-  mapToEditPanelValues: (config) => new Map([
-    ['hero_title', config.hero_title || defaultConfig.hero_title],
-    ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
-    ['about_text', config.about_text || defaultConfig.about_text],
-    ['contact_email', config.contact_email || defaultConfig.contact_email],
-    ['contact_phone', config.contact_phone || defaultConfig.contact_phone],
-    ['github_url', config.github_url || defaultConfig.github_url]
-  ])
-});
+      // ══════════════════════════════════════
+      // 6. Mouse Parallax on Space Elements
+      // ══════════════════════════════════════
+      const planetA = document.querySelector('.planet-a');
+      const planetB = document.querySelector('.planet-b');
+      const nebA    = document.querySelector('.nebula-a');
+      const nebB    = document.querySelector('.nebula-b');
+      const orb     = document.querySelector('.orbit-ring');
 
-lucide.createIcons();
-</script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dc8e87df06547da',t:'MTc3MzU1MDM0MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+      document.addEventListener('mousemove', (e) => {
+        const dx = (e.clientX / window.innerWidth  - 0.5) * 2; // -1 to 1
+        const dy = (e.clientY / window.innerHeight - 0.5) * 2;
+        planetA.style.transform = `translateY(${dy * -12}px) translateX(${dx * 10}px)`;
+        planetB.style.transform = `translateY(${dy *  8}px) translateX(${dx * -8}px)`;
+        nebA.style.transform    = `translate(${dx * 18}px, ${dy * 12}px)`;
+        nebB.style.transform    = `translate(${dx * -14}px, ${dy * -10}px)`;
+        orb.style.transform     = `translateX(calc(-50% + ${dx * 6}px)) rotate(${dx * 3}deg)`;
+      });
+
+      // ══════════════════════════════════════
+      // 7. 3D Tilt Effect on Cards
+      // ══════════════════════════════════════
+      // Inject shine overlay into every card
+      document.querySelectorAll('.card-lift').forEach(card => {
+        const shine = document.createElement('div');
+        shine.className = 'card-shine';
+        card.appendChild(shine);
+
+        card.addEventListener('mousemove', (e) => {
+          const r   = card.getBoundingClientRect();
+          const x   = e.clientX - r.left;
+          const y   = e.clientY - r.top;
+          const cx  = r.width  / 2;
+          const cy  = r.height / 2;
+          const rotX = ((y - cy) / cy) * -9;
+          const rotY = ((x - cx) / cx) *  9;
+          card.style.transition = 'transform 0.05s linear';
+          card.style.transform  = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-6px) scale(1.01)`;
+          card.style.boxShadow  = `0 0 0 1px #ffffff18, 0 30px 60px #00000066, ${rotY * -2}px ${rotX * 2}px 30px #20e3ff1a`;
+          shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.07) 0%, transparent 65%)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transition = 'transform 0.5s ease, box-shadow 0.5s ease';
+          card.style.transform  = '';
+          card.style.boxShadow  = '';
+          shine.style.background = 'none';
+        });
+      });
+
+      // ══════════════════════════════════════
+      // 8. Animated Counters (About Stats)
+      // ══════════════════════════════════════
+      function runCounter(el) {
+        const target = parseInt(el.dataset.target, 10);
+        const suffix = el.dataset.suffix || '';
+        if (isNaN(target)) return;
+        const duration = 1600;
+        const start = performance.now();
+        (function tick(now) {
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 4);
+          el.textContent = Math.floor(eased * target) + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        })(start);
+      }
+
+      const counterObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !entry.target.dataset.counted) {
+            entry.target.dataset.counted = '1';
+            runCounter(entry.target);
+          }
+        });
+      }, { threshold: 0.6 });
+      document.querySelectorAll('.stat-num[data-target]').forEach(el => counterObs.observe(el));
+
+      // ══════════════════════════════════════
+      // 9. Constellation Canvas
+      // ══════════════════════════════════════
+      const canvas = document.createElement('canvas');
+      canvas.id = 'constellation';
+      canvas.style.cssText = 'position:fixed;inset:0;z-index:1;pointer-events:none;';
+      document.querySelector('.space-bg').appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+
+      function fitCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      fitCanvas();
+      window.addEventListener('resize', fitCanvas);
+
+      const MAX_DIST = 130;
+      const NUM_DOTS = 65;
+
+      class Dot {
+        constructor() { this.reset(); }
+        reset() {
+          this.x  = Math.random() * canvas.width;
+          this.y  = Math.random() * canvas.height;
+          this.vx = (Math.random() - 0.5) * 0.45;
+          this.vy = (Math.random() - 0.5) * 0.45;
+          this.r  = Math.random() * 1.4 + 0.4;
+          this.hue = Math.random() > 0.5 ? '32,227,255' : '140,77,255';
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > canvas.width)  this.vx *= -1;
+          if (this.y < 0 || this.y > canvas.height)  this.vy *= -1;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${this.hue},0.85)`;
+          ctx.fill();
+        }
+      }
+
+      const dots = Array.from({ length: NUM_DOTS }, () => new Dot());
+
+      // Track mouse to attract dots slightly
+      let consMX = -9999, consMY = -9999;
+      document.addEventListener('mousemove', e => { consMX = e.clientX; consMY = e.clientY; });
+
+      function drawFrame() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        dots.forEach(d => {
+          // Subtle mouse attraction
+          const distM = Math.hypot(d.x - consMX, d.y - consMY);
+          if (distM < 160) {
+            d.x += (consMX - d.x) * 0.003;
+            d.y += (consMY - d.y) * 0.003;
+          }
+          d.update();
+          d.draw();
+        });
+        // Connect nearby dots
+        for (let i = 0; i < dots.length; i++) {
+          for (let j = i + 1; j < dots.length; j++) {
+            const dist = Math.hypot(dots[i].x - dots[j].x, dots[i].y - dots[j].y);
+            if (dist < MAX_DIST) {
+              const alpha = (1 - dist / MAX_DIST) * 0.28;
+              ctx.beginPath();
+              ctx.moveTo(dots[i].x, dots[i].y);
+              ctx.lineTo(dots[j].x, dots[j].y);
+              ctx.strokeStyle = `rgba(32,227,255,${alpha})`;
+              ctx.lineWidth = 0.6;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(drawFrame);
+      }
+      drawFrame();
+
+      // ══════════════════════════════════════
+      // 10. Section Reveal Observer
+      // ══════════════════════════════════════
+      const sections      = [...document.querySelectorAll('.chapter')];
+      const navDots       = [...document.querySelectorAll('.dot')];
+      const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            navDots.forEach(d => d.classList.remove('active'));
+            const dot = document.querySelector(`.dot[data-target="${entry.target.id}"]`);
+            if (dot) dot.classList.add('active');
+          }
+        });
+      }, { threshold: 0.45 });
+      sections.forEach(s => sectionObserver.observe(s));
+
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+      // ══════════════════════════════════════
+      // 11. DOM Floating Particles
+      // ══════════════════════════════════════
+      const pContainer = document.getElementById('particles');
+      for (let i = 0; i < 35; i++) {
+        const p = document.createElement('span');
+        p.style.left              = `${Math.random() * 100}%`;
+        p.style.animationDelay    = `${Math.random() * 10}s`;
+        p.style.animationDuration = `${8 + Math.random() * 10}s`;
+        pContainer.appendChild(p);
+      }
+    </script>
+  </body>
 </html>
