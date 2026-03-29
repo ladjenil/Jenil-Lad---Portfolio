@@ -1,652 +1,608 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jenil Lad - Portfolio</title>
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            box-sizing: border-box;
-        }
-        
-        .web-container {
-            min-height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jenil Lad</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&amp;family=Exo+2:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+html, body { height: 100%; margin: 0; overflow: hidden; }
+* { box-sizing: border-box; }
 
-        
-        .web-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 32px;
-            margin: 24px 0;
-            transition: all 0.3s ease;
-        }
-        
-        .web-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
-        }
-        
-        .floating-contact-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            color: white;
-            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.4);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 999;
-            animation: pulse 2s infinite;
-        }
-        
-        .floating-contact-btn:hover {
-            transform: scale(1.1);
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        .skill-chip {
-            background: rgba(139, 92, 246, 0.2);
-            border: 1px solid rgba(139, 92, 246, 0.4);
-            border-radius: 25px;
-            padding: 12px 20px;
-            margin: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .skill-chip:hover {
-            background: rgba(139, 92, 246, 0.3);
-            transform: scale(1.05);
-        }
-        
-        .project-card {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 32px;
-            margin: 24px 0;
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
-        }
-        
-        .section-content {
-            padding-top: 60px;
-            padding-bottom: 60px;
-        }
-        
-        .gradient-text {
-            background: linear-gradient(45deg, #8b5cf6, #06b6d4, #10b981);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .typing {
-            border-right: 2px solid #8b5cf6;
-            animation: blink 1s infinite;
-        }
-        
-        @keyframes blink {
-            0%, 50% { border-color: transparent; }
-            51%, 100% { border-color: #8b5cf6; }
-        }
-        
-        .slide-in-up {
-            animation: slideInUp 0.6s ease-out;
-        }
-        
-        @keyframes slideInUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .btn-hover {
-            transition: all 0.3s ease;
-        }
-        
-        .btn-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-        
-        .cert-badge {
-            transition: all 0.3s ease;
-        }
-        
-        .cert-badge:hover {
-            transform: scale(1.05);
-        }
-    </style>
-</head>
-<body class="min-h-full">
-    <div id="root"></div>
+:root {
+  --bg: #0B0C10;
+  --accent: #00ADB5;
+  --purple: #C77DFF;
+  --surface: rgba(11,12,16,0.7);
+  --text: #E0E0E0;
+}
 
-    <script type="text/babel">
-        const { useState, useEffect } = React;
+body { font-family: 'Exo 2', sans-serif; background: var(--bg); color: var(--text); }
 
+.font-orbit { font-family: 'Orbitron', sans-serif; }
 
+/* Stars */
+.star-field { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkle var(--dur) ease-in-out infinite alternate;
+}
+@keyframes twinkle { 0% { opacity: 0.1; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
 
-        // Typing Animation Hook
-        const useTypingEffect = (text, speed = 100) => {
-            const [displayText, setDisplayText] = useState('');
-            
-            useEffect(() => {
-                let i = 0;
-                const timer = setInterval(() => {
-                    if (i < text.length) {
-                        setDisplayText(text.slice(0, i + 1));
-                        i++;
-                    } else {
-                        clearInterval(timer);
-                    }
-                }, speed);
-                
-                return () => clearInterval(timer);
-            }, [text, speed]);
-            
-            return displayText;
-        };
+/* Nebula blobs */
+.nebula {
+  position: fixed; border-radius: 50%; filter: blur(120px); opacity: 0.15; pointer-events: none; z-index: 0;
+  animation: nebulaDrift 20s ease-in-out infinite alternate;
+}
+@keyframes nebulaDrift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-20px) scale(1.1); } }
 
-        // Certificate Badge Component
-        const CertificateBadge = ({ cert, index }) => {
-            const getBadgeDesign = (certName) => {
-                if (certName.includes("Android")) {
-                    return (
-                        <svg className="w-16 h-16" viewBox="0 0 100 100" fill="none">
-                            <defs>
-                                <linearGradient id="androidGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stopColor="#4CAF50"/>
-                                    <stop offset="100%" stopColor="#2E7D32"/>
-                                </linearGradient>
-                            </defs>
-                            <rect width="100" height="100" rx="20" fill="url(#androidGrad)"/>
-                            <rect x="20" y="30" width="60" height="40" rx="8" fill="white" opacity="0.9"/>
-                            <circle cx="35" cy="45" r="4" fill="#4CAF50"/>
-                            <circle cx="65" cy="45" r="4" fill="#4CAF50"/>
-                            <rect x="30" y="55" width="40" height="6" rx="3" fill="#4CAF50"/>
-                            <text x="50" y="85" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">ANDROID</text>
-                        </svg>
-                    );
-                } else if (certName.includes("Java")) {
-                    return (
-                        <svg className="w-16 h-16" viewBox="0 0 100 100" fill="none">
-                            <defs>
-                                <linearGradient id="javaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stopColor="#FF8A50"/>
-                                    <stop offset="100%" stopColor="#FF6B35"/>
-                                </linearGradient>
-                            </defs>
-                            <rect width="100" height="100" rx="20" fill="url(#javaGrad)"/>
-                            <ellipse cx="50" cy="45" rx="25" ry="18" fill="white" opacity="0.9"/>
-                            <path d="M35 40c0-8 7-12 15-12s15 4 15 12" stroke="#FF6B35" strokeWidth="4" fill="none"/>
-                            <rect x="40" y="55" width="20" height="12" rx="2" fill="#FF6B35"/>
-                            <circle cx="43" cy="35" r="2" fill="#FF6B35"/>
-                            <circle cx="57" cy="35" r="2" fill="#FF6B35"/>
-                            <text x="50" y="85" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">JAVA</text>
-                        </svg>
-                    );
-                } else if (certName.includes("Git")) {
-                    return (
-                        <svg className="w-16 h-16" viewBox="0 0 100 100" fill="none">
-                            <defs>
-                                <linearGradient id="gitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stopColor="#F05032"/>
-                                    <stop offset="100%" stopColor="#C73E1D"/>
-                                </linearGradient>
-                            </defs>
-                            <rect width="100" height="100" rx="20" fill="url(#gitGrad)"/>
-                            <circle cx="30" cy="35" r="10" fill="white" opacity="0.9"/>
-                            <circle cx="70" cy="35" r="10" fill="white" opacity="0.9"/>
-                            <circle cx="50" cy="65" r="10" fill="white" opacity="0.9"/>
-                            <path d="M40 35h20M42 45l8 12M58 45l-8 12" stroke="white" strokeWidth="4" opacity="0.9"/>
-                            <text x="50" y="90" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">GIT</text>
-                        </svg>
-                    );
-                } else if (certName.includes("Moqups") || certName.includes("Design")) {
-                    return (
-                        <svg className="w-16 h-16" viewBox="0 0 100 100" fill="none">
-                            <defs>
-                                <linearGradient id="designGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stopColor="#9C27B0"/>
-                                    <stop offset="50%" stopColor="#E91E63"/>
-                                    <stop offset="100%" stopColor="#FF9800"/>
-                                </linearGradient>
-                            </defs>
-                            <rect width="100" height="100" rx="20" fill="url(#designGrad)"/>
-                            <rect x="20" y="20" width="60" height="60" rx="10" fill="white" opacity="0.9"/>
-                            <rect x="25" y="25" width="50" height="8" rx="4" fill="#9C27B0"/>
-                            <rect x="25" y="38" width="30" height="6" rx="3" fill="#E91E63"/>
-                            <rect x="25" y="48" width="40" height="6" rx="3" fill="#2196F3"/>
-                            <circle cx="65" cy="65" r="8" fill="#FF9800"/>
-                            <text x="50" y="90" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold">DESIGN</text>
-                        </svg>
-                    );
-                }
-                return null;
-            };
+/* Scroll container */
+.scroll-wrap {
+  height: 100%; overflow-y: auto; overflow-x: hidden; position: relative; z-index: 1;
+  scroll-behavior: smooth; scroll-snap-type: y proximity;
+}
 
-            return (
-                <div className="web-card slide-in-up cert-badge" style={{animationDelay: `${index * 0.1}s`}}>
-                    <div className="flex items-center gap-6">
-                        <div className="flex-shrink-0">
-                            {getBadgeDesign(cert.name)}
-                        </div>
-                        <div className="flex-1">
-                            <h4 className="font-semibold mb-2 text-lg">{cert.name}</h4>
-                            <div className="flex items-center gap-3 mb-2">
-                                <span className="text-yellow-400 text-xl">⭐⭐⭐⭐⭐</span>
-                                <span className="text-gray-400">Certified</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="bg-green-600 text-white px-3 py-1 rounded-full text-xs font-medium">
-                                    ✓ Verified
-                                </span>
-                                <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-medium">
-                                    Professional
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
+/* Sections */
+.section-planet {
+  min-height: 100%; width: 100%; display: flex; align-items: center; justify-content: center;
+  padding: 3rem 1.5rem; scroll-snap-align: start; position: relative;
+}
 
-        // Home Screen Component
-        const HomeScreen = () => {
-            const typedTitle = useTypingEffect("Android Developer & Software Engineer", 80);
-            
-            return (
-                <div className="section-content bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white">
-                    <div className="container mx-auto px-6">
-                        <div className="web-card text-center slide-in-up max-w-4xl mx-auto">
-                            <div className="w-40 h-40 bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500 rounded-full mx-auto mb-8 flex items-center justify-center text-5xl font-bold text-white">
-                                JL
-                            </div>
-                            <h1 className="text-5xl font-bold mb-6 gradient-text">JENIL LAD</h1>
-                            <p className="text-2xl mb-8 text-purple-300 typing">{typedTitle}</p>
-                            
-                            {/* Contact Info Grid */}
-                            <div className="grid md:grid-cols-3 gap-6 mb-8">
-                                <div className="flex items-center justify-center gap-3 bg-black bg-opacity-30 px-6 py-4 rounded-full">
-                                    <span className="text-2xl">📱</span>
-                                    <span className="text-lg">+91 6354531293</span>
-                                </div>
-                                <div className="flex items-center justify-center gap-3 bg-black bg-opacity-30 px-6 py-4 rounded-full">
-                                    <span className="text-2xl">📍</span>
-                                    <span className="text-lg">Pune, India</span>
-                                </div>
-                                <div className="flex items-center justify-center gap-3 bg-black bg-opacity-30 px-6 py-4 rounded-full">
-                                    <span className="text-2xl">✉️</span>
-                                    <span className="text-lg">jenillad573@gmail.com</span>
-                                </div>
-                            </div>
-                            
-                            {/* Action Buttons */}
-                            <div className="flex gap-6 justify-center">
-                                <a href="https://linkedin.com/in/jenil-lad" target="_blank" rel="noopener noreferrer" 
-                                   className="btn-hover bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-3">
-                                    🔗 LinkedIn
-                                </a>
-                                <a href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer"
-                                   className="btn-hover bg-transparent border-2 border-purple-400 text-purple-400 px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-3">
-                                    💻 GitHub
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
+/* Glass card */
+.glass {
+  background: rgba(11,12,16,0.6);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0,173,181,0.2);
+  border-radius: 1.25rem;
+}
+.glass-purple {
+  background: rgba(199,125,255,0.06);
+  border: 1px solid rgba(199,125,255,0.2);
+}
 
-        // Skills Screen Component
-        const SkillsScreen = () => {
-            const skillCategories = [
-                {
-                    title: "Programming Languages",
-                    skills: [
-                        { name: "Java", icon: "☕" },
-                        { name: "Python", icon: "🐍" },
-                        { name: "C/C++", icon: "⚙️" },
-                        { name: "SQL", icon: "🗄️" },
-                        { name: "XML", icon: "📄" }
-                    ]
-                },
-                {
-                    title: "Technologies & Frameworks",
-                    skills: [
-                        { name: "Flutter", icon: "🦋" },
-                        { name: "Android SDK", icon: "🤖" },
-                        { name: "Firebase", icon: "🔥" },
-                        { name: "JDBC", icon: "🔗" }
-                    ]
-                },
-                {
-                    title: "Development Tools",
-                    skills: [
-                        { name: "Git", icon: "🌿" },
-                        { name: "Android Studio", icon: "🎯" },
-                        { name: "Azure", icon: "☁️" },
-                        { name: "Moqup", icon: "🎨" }
-                    ]
-                }
-            ];
-            
-            return (
-                <div className="section-content bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white">
-                    <div className="container mx-auto px-6">
-                        <h2 className="text-5xl font-bold text-center mb-12 gradient-text">Skills & Expertise</h2>
-                        
-                        <div className="grid lg:grid-cols-3 gap-8">
-                            {skillCategories.map((category, index) => (
-                                <div key={index} className="web-card slide-in-up" style={{animationDelay: `${index * 0.2}s`}}>
-                                    <h3 className="text-2xl font-bold mb-6 text-center">{category.title}</h3>
-                                    <div className="flex flex-wrap justify-center">
-                                        {category.skills.map((skill, skillIndex) => (
-                                            <div key={skillIndex} className="skill-chip">
-                                                <span className="text-2xl">{skill.icon}</span>
-                                                <span className="font-medium text-lg">{skill.name}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            );
-        };
+/* Glow button */
+.glow-btn {
+  position: relative; overflow: hidden; transition: all 0.3s;
+  box-shadow: 0 0 20px rgba(0,173,181,0.3);
+}
+.glow-btn:hover { box-shadow: 0 0 40px rgba(0,173,181,0.6); transform: translateY(-2px); }
+.glow-btn::after {
+  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(0,173,181,0.1), transparent);
+  animation: btnSpin 4s linear infinite;
+}
+@keyframes btnSpin { 100% { transform: rotate(360deg); } }
 
-        // Projects Screen Component
-        const ProjectsScreen = () => {
-            const projects = [
-                {
-                    title: "MitConnect",
-                    subtitle: "Social Video Chat Application",
-                    tech: "Flutter UI Development",
-                    period: "Aug 2025 – Sept 2025",
-                    rating: "4.6+ UX Rating",
-                    icon: "📱",
-                    points: [
-                        "Designed anime-styled UI with glassmorphism effects",
-                        "Integrated real-time video call functionality",
-                        "Achieved 4.6+ internal UX rating from testing team"
-                    ]
-                },
-                {
-                    title: "Hungryfine",
-                    subtitle: "Food Delivery Platform",
-                    tech: "Java Android + Firebase",
-                    period: "Dec 2023 – Apr 2024",
-                    rating: "5K+ Orders/Month",
-                    icon: "🍔",
-                    points: [
-                        "Built dual-panel customer & seller application",
-                        "Manages 5K+ orders per month efficiently",
-                        "Reduced customer support queries by 60%"
-                    ]
-                },
-                {
-                    title: "ZoomCars",
-                    subtitle: "Car Rental Management System",
-                    tech: "Android + Java + Firebase",
-                    period: "Sep 2023 – Nov 2023",
-                    rating: "40% UX Improvement",
-                    icon: "🚗",
-                    points: [
-                        "Implemented secure user authentication system",
-                        "Enhanced UX by 40% with smooth animations",
-                        "Reduced booking failure rate by 25%"
-                    ]
-                }
-            ];
-            
-            return (
-                <div className="section-content bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white">
-                    <div className="container mx-auto px-6">
-                        <h2 className="text-5xl font-bold text-center mb-12 gradient-text">Featured Projects</h2>
-                        
-                        <div className="max-w-5xl mx-auto">
-                            {projects.map((project, index) => (
-                                <div key={index} className="project-card slide-in-up" style={{animationDelay: `${index * 0.2}s`}}>
-                                    <div className="flex items-start gap-6 mb-6">
-                                        <div className="text-6xl">{project.icon}</div>
-                                        <div className="flex-1">
-                                            <h3 className="text-3xl font-bold mb-2">{project.title}</h3>
-                                            <p className="text-xl text-purple-300 mb-4">{project.subtitle}</p>
-                                            <div className="flex flex-wrap items-center gap-4 mb-4">
-                                                <span className="bg-purple-600 text-white px-4 py-2 rounded-full text-sm font-medium">
-                                                    {project.tech}
-                                                </span>
-                                                <span className="bg-yellow-600 text-white px-4 py-2 rounded-full text-sm font-medium">
-                                                    ⭐ {project.rating}
-                                                </span>
-                                                <span className="text-gray-400 text-sm">
-                                                    {project.period}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="space-y-3 mb-6">
-                                        {project.points.map((point, pointIndex) => (
-                                            <div key={pointIndex} className="flex items-start gap-4">
-                                                <div className="w-3 h-3 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
-                                                <span className="text-gray-300">{point}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    
-                                    <div className="flex gap-4">
-                                        <button className="btn-hover flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 px-6 rounded-full font-semibold text-center">
-                                            View Project Details
-                                        </button>
-                                        <button className="btn-hover flex-1 bg-transparent border-2 border-purple-400 text-purple-400 py-3 px-6 rounded-full font-semibold text-center">
-                                            View Source Code
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            );
-        };
+/* Planet orb */
+.planet-orb {
+  width: 80px; height: 80px; border-radius: 50%; position: relative;
+  box-shadow: 0 0 60px rgba(0,173,181,0.4), inset -10px -10px 20px rgba(0,0,0,0.5);
+  animation: planetFloat 6s ease-in-out infinite;
+}
+@keyframes planetFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        // Education Screen Component
-        const EducationScreen = () => {
-            const certifications = [
-                { name: "Android App Development with 7 Real Projects in Java" },
-                { name: "Java for Programmers Crash Course" },
-                { name: "Git For Beginners" },
-                { name: "Design a Mobile App Interface with Moqups" }
-            ];
+/* Orbit ring */
+.orbit-ring {
+  position: absolute; border: 1px solid rgba(0,173,181,0.15); border-radius: 50%;
+  animation: orbitSpin 25s linear infinite;
+}
+@keyframes orbitSpin { 100% { transform: rotate(360deg); } }
 
-            return (
-                <div className="section-content bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white">
-                    <div className="container mx-auto px-6">
-                        <h2 className="text-5xl font-bold text-center mb-12 gradient-text">Education & Certifications</h2>
-                        
-                        <div className="max-w-4xl mx-auto">
-                            <div className="grid md:grid-cols-2 gap-8 mb-16">
-                                <div className="web-card slide-in-up">
-                                    <div className="flex items-start gap-6">
-                                        <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center text-2xl">
-                                            🎓
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="text-xl font-bold mb-3">Master of Computer Applications</h3>
-                                            <p className="text-purple-400 mb-2">MIT World Peace University</p>
-                                            <p className="text-gray-400 mb-3">CGPA: 6.70 / 10.00</p>
-                                            <span className="bg-purple-600 text-white px-4 py-2 rounded-full text-sm">
-                                                Expected Jul 2026
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div className="web-card slide-in-up" style={{animationDelay: '0.2s'}}>
-                                    <div className="flex items-start gap-6">
-                                        <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-2xl">
-                                            🎓
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="text-xl font-bold mb-3">Bachelor of Computer Applications</h3>
-                                            <p className="text-blue-400 mb-2">Veer Narmad South Gujarat University</p>
-                                            <p className="text-gray-400 mb-3">CGPA: 7.33 / 10.00</p>
-                                            <span className="bg-green-600 text-white px-4 py-2 rounded-full text-sm">
-                                                Oct 2021 – Mar 2024
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            {/* Internships */}
-                            <h3 className="text-3xl font-bold text-center mb-8 gradient-text">Professional Experience</h3>
-                            <div className="mb-16">
-                                <div className="web-card slide-in-up">
-                                    <div className="flex items-start gap-6">
-                                        <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-2xl">
-                                            💼
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="text-xl font-bold mb-3">Android Developer in Java Intern</h3>
-                                            <p className="text-green-400 mb-2">CodeAlpha (Remote)</p>
-                                            <p className="text-gray-400 mb-4">Aug 2025 – Aug 2025</p>
-                                            <div className="space-y-2 mb-4">
-                                                <div className="flex items-start gap-3">
-                                                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                                                    <span className="text-gray-300">Worked on Android apps using Java, XML, and Android SDK</span>
-                                                </div>
-                                                <div className="flex items-start gap-3">
-                                                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                                                    <span className="text-gray-300">Designed and refined UI components for smoother user experience</span>
-                                                </div>
-                                                <div className="flex items-start gap-3">
-                                                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                                                    <span className="text-gray-300">Improved Firebase integration and real-time data handling</span>
-                                                </div>
-                                            </div>
-                                            <span className="bg-green-600 text-white px-4 py-2 rounded-full text-sm">
-                                                Remote Internship
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            {/* Certifications */}
-                            <h3 className="text-3xl font-bold text-center mb-8 gradient-text">Professional Certifications</h3>
-                            <div className="grid md:grid-cols-2 gap-6">
-                                {certifications.map((cert, index) => (
-                                    <CertificateBadge key={index} cert={cert} index={index} />
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
+/* Skill chip hover */
+.skill-chip {
+  transition: all 0.3s; cursor: default;
+}
+.skill-chip:hover {
+  transform: translateY(-4px); box-shadow: 0 0 25px rgba(0,173,181,0.4);
+  border-color: rgba(0,173,181,0.6);
+}
 
-        // Contact Screen Component
-        const ContactScreen = () => (
-            <div className="section-content bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 text-white">
-                <div className="container mx-auto px-6">
-                    <h2 className="text-5xl font-bold text-center mb-12 gradient-text">Let's Connect</h2>
-                    
-                    <div className="web-card text-center slide-in-up max-w-3xl mx-auto">
-                        <div className="text-8xl mb-8">🚀</div>
-                        <h3 className="text-4xl font-bold mb-6">Ready to Collaborate?</h3>
-                        <p className="text-xl text-gray-300 mb-12">Let's build the future of mobile applications together</p>
-                        
-                        <div className="space-y-6">
-                            <a href="mailto:jenillad573@gmail.com" 
-                               className="btn-hover block w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-6 rounded-full font-bold text-xl">
-                                📧 Send Email   
-                            </a>
-                            <a href="www.linkedin.com/in/jenil-lad-b617442a2" target="_blank" rel="noopener noreferrer"
-                               className="btn-hover block w-full bg-transparent border-2 border-purple-400 text-purple-400 py-6 rounded-full font-bold text-xl">
-                                🔗 LinkedIn Profile
-                            </a>
-                            <a href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer"
-                               className="btn-hover block w-full bg-transparent border-2 border-blue-400 text-blue-400 py-6 rounded-full font-bold text-xl">
-                                💻 GitHub Profile
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div className="text-center mt-16 text-gray-500">
-                        <p className="text-lg">© 2024 Jenil Lad</p>
-                        <p>Crafted with 💜 and lots of ☕</p>
-                    </div>
-                </div>
-            </div>
-        );
+/* Project card */
+.project-card {
+  transition: all 0.4s;
+}
+.project-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 0 50px rgba(199,125,255,0.2);
+  border-color: rgba(199,125,255,0.4);
+}
 
-        // Floating Contact Button
-        const FloatingContactButton = ({ onClick }) => (
-            <div className="floating-contact-btn" onClick={onClick}>
-                💬
-            </div>
-        );
+/* Timeline */
+.timeline-node {
+  width: 16px; height: 16px; border-radius: 50%; position: relative; z-index: 2;
+  box-shadow: 0 0 20px rgba(0,173,181,0.5);
+  animation: nodePulse 2s ease-in-out infinite;
+}
+@keyframes nodePulse { 0%,100% { box-shadow: 0 0 20px rgba(0,173,181,0.5); } 50% { box-shadow: 0 0 35px rgba(0,173,181,0.8); } }
 
-        // Main App Component
-        const App = () => {
-            const handleContactClick = () => {
-                document.getElementById('contact-section').scrollIntoView({ behavior: 'smooth' });
-            };
-            
-            return (
-                <div className="web-container">
-                    <div id="home-section">
-                        <HomeScreen />
-                    </div>
-                    <div id="education-section">
-                        <EducationScreen />
-                    </div>
-                    <div id="skills-section">
-                        <SkillsScreen />
-                    </div>
-                    <div id="projects-section">
-                        <ProjectsScreen />
-                    </div>
-                    <div id="contact-section">
-                        <ContactScreen />
-                    </div>
-                    <FloatingContactButton onClick={handleContactClick} />
-                </div>
-            );
-        };
+/* Badge float */
+.badge-card {
+  transition: all 0.3s;
+  animation: badgeFloat var(--float-dur, 5s) ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+}
+.badge-card:hover { transform: translateY(-6px) scale(1.05); }
+@keyframes badgeFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-        ReactDOM.render(<App />, document.getElementById('root'));
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99387e3c519c3226',t:'MTc2MTI5ODYyMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+/* Fade-in on scroll */
+.reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* Nav */
+.nav-dot { width: 10px; height: 10px; border-radius: 50%; transition: all 0.3s; cursor: pointer; }
+.nav-dot.active { transform: scale(1.5); box-shadow: 0 0 15px rgba(0,173,181,0.7); }
+
+/* Scrollbar */
+.scroll-wrap::-webkit-scrollbar { width: 4px; }
+.scroll-wrap::-webkit-scrollbar-track { background: transparent; }
+.scroll-wrap::-webkit-scrollbar-thumb { background: rgba(0,173,181,0.3); border-radius: 2px; }
+
+/* Contact pulse */
+.contact-glow { animation: contactPulse 3s ease-in-out infinite; }
+@keyframes contactPulse { 0%,100% { box-shadow: 0 0 30px rgba(199,125,255,0.2); } 50% { box-shadow: 0 0 60px rgba(199,125,255,0.4); } }
+
+/* Floating particles */
+.particle {
+  position: fixed; width: 3px; height: 3px; background: rgba(0,173,181,0.4); border-radius: 50%;
+  pointer-events: none; z-index: 0;
+  animation: particleUp var(--p-dur) linear infinite;
+  animation-delay: var(--p-delay);
+}
+@keyframes particleUp {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-800px) translateX(var(--p-drift)); opacity: 0; }
+}
+</style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <!-- Stars -->
+  <div class="star-field" id="starField"></div><!-- Nebula blobs -->
+  <div class="nebula" style="width:500px;height:500px;background:radial-gradient(circle,rgba(0,173,181,0.3),transparent);top:-10%;left:-10%;"></div>
+  <div class="nebula" style="width:600px;height:600px;background:radial-gradient(circle,rgba(199,125,255,0.25),transparent);bottom:-15%;right:-10%;animation-delay:-10s;"></div>
+  <div class="nebula" style="width:350px;height:350px;background:radial-gradient(circle,rgba(0,173,181,0.2),transparent);top:50%;left:60%;animation-delay:-5s;"></div><!-- Particles -->
+  <div id="particles"></div><!-- Side Nav -->
+  <nav class="fixed right-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3" id="sideNav" aria-label="Section navigation">
+  </nav>
+  <div class="scroll-wrap" id="scrollWrap">
+   <!-- HERO -->
+   <section class="section-planet" id="sec-hero">
+    <div class="text-center max-w-3xl mx-auto relative">
+     <!-- Hero planet -->
+     <div class="mx-auto mb-8 relative" style="width:160px;height:160px;">
+      <div class="planet-orb mx-auto" style="width:80px;height:80px;background:radial-gradient(circle at 30% 30%,#00e5ef,#00ADB5,#006b70);top:40px;left:40px;position:absolute;"></div>
+      <div class="orbit-ring" style="width:140px;height:140px;top:10px;left:10px;"></div>
+      <div class="orbit-ring" style="width:160px;height:160px;top:0;left:0;animation-duration:18s;animation-direction:reverse;"></div><!-- Orbiting dot -->
+      <div style="position:absolute;width:140px;height:140px;top:10px;left:10px;animation:orbitSpin 8s linear infinite;">
+       <div style="width:6px;height:6px;background:#C77DFF;border-radius:50;position:absolute;top:-3px;left:50%;box-shadow:0 0 10px #C77DFF;border-radius:50%;"></div>
+      </div>
+     </div>
+     <p class="text-sm tracking-[0.4em] uppercase mb-3 font-orbit" style="color:var(--accent);">Welcome to my universe</p>
+     <h1 class="font-orbit font-bold mb-4 leading-tight" id="heroTitle" style="font-size:2.8rem;background:linear-gradient(135deg,#00ADB5,#C77DFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Jenil Lad</h1>
+     <p class="text-lg mb-8 opacity-80 max-w-lg mx-auto" id="heroSubtitle">Flutter Enthusiast · UI-UX Enthusiast · Digital Explorer</p>
+     <div class="flex flex-wrap gap-4 justify-center">
+      <button onclick="document.getElementById('sec-about').scrollIntoView({behavior:'smooth'})" class="glow-btn glass font-orbit text-sm px-6 py-3 rounded-full" style="color:var(--accent);"> Start the Journey 🚀 </button> <button onclick="document.getElementById('sec-projects').scrollIntoView({behavior:'smooth'})" class="glass font-orbit text-sm px-6 py-3 rounded-full transition-all hover:border-purple-400" style="color:var(--purple);"> View My Work 💻 </button>
+     </div>
+    </div>
+   </section><!-- ABOUT -->
+   <section class="section-planet" id="sec-about">
+    <div class="max-w-3xl mx-auto w-full">
+     <div class="reveal">
+      <div class="flex items-center gap-3 mb-2">
+       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#4ade80,#16a34a,#0a5c2a);animation-duration:5s;"></div>
+       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 1 · The Origin</p>
+      </div>
+      <h2 class="font-orbit text-3xl font-bold mb-6" style="color:var(--accent);">About Me</h2>
+     </div>
+     <div class="glass p-6 md:p-8 reveal" style="animation-delay:0.1s;">
+      <p class="text-base leading-relaxed mb-6 opacity-90" id="aboutText">I'm a passionate developer from India, pursuing my MCA at MIT World Peace University (Expected 2026).Web & Mobile Developer skilled in building cross-platform applications using Flutter, Java, Android, React, and
+        modern backend frameworks. Strong experience in Firebase, REST APIs, scalable UI design, and real-time data
+        applications. Passionate about full-stack development and delivering smooth, user-centric digital experiences."</p>
+        
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+       <div class="glass-purple rounded-xl p-3 text-center">
+        <span class="text-xl">🌍</span>
+        <p class="text-xs mt-1 opacity-70">Based in India</p>
+       </div>
+       <div class="glass-purple rounded-xl p-3 text-center">
+        <span class="text-xl">🎓</span>
+        <p class="text-xs mt-1 opacity-70">MCA @ MIT-WPU</p>
+       </div>
+       <div class="glass-purple rounded-xl p-3 text-center">
+        <span class="text-xl">💡</span>
+        <p class="text-xs mt-1 opacity-70">Flutter &amp; Android</p>
+       </div>
+       <div class="glass-purple rounded-xl p-3 text-center">
+        <span class="text-xl">⚙️</span>
+        <p class="text-xs mt-1 opacity-70">Code less, create more</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- SKILLS -->
+   <section class="section-planet" id="sec-skills">
+    <div class="max-w-4xl mx-auto w-full">
+     <div class="reveal">
+      <div class="flex items-center gap-3 mb-2">
+       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#60a5fa,#2563eb,#1e3a8a);animation-duration:4s;"></div>
+       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 2 · The Arsenal</p>
+      </div>
+      <h2 class="font-orbit text-3xl font-bold mb-6" style="color:var(--accent);">Skills</h2>
+     </div>
+     <div class="grid gap-4 reveal">
+      <div class="glass p-5 rounded-xl">
+       <h3 class="font-orbit text-sm mb-3" style="color:var(--purple);">Languages</h3>
+       <div class="flex flex-wrap gap-2" id="skillsLang"></div>
+      </div>
+      <div class="glass p-5 rounded-xl">
+       <h3 class="font-orbit text-sm mb-3" style="color:var(--purple);">Frameworks</h3>
+       <div class="flex flex-wrap gap-2" id="skillsFrame"></div>
+      </div>
+      <div class="glass p-5 rounded-xl">
+       <h3 class="font-orbit text-sm mb-3" style="color:var(--purple);">Databases</h3>
+       <div class="flex flex-wrap gap-2" id="skillsDB"></div>
+      </div>
+      <div class="glass p-5 rounded-xl">
+       <h3 class="font-orbit text-sm mb-3" style="color:var(--purple);">Tools</h3>
+       <div class="flex flex-wrap gap-2" id="skillsTools"></div>
+      </div>
+     </div>
+    </div>
+   </section><!-- PROJECTS -->
+   <section class="section-planet" id="sec-projects">
+    <div class="max-w-4xl mx-auto w-full">
+     <div class="reveal">
+      <div class="flex items-center gap-3 mb-2">
+       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#f472b6,#db2777,#831843);animation-duration:7s;"></div>
+       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 3 · The Missions</p>
+      </div>
+      <h2 class="font-orbit text-3xl font-bold mb-6" style="color:var(--accent);">Projects</h2>
+     </div>
+     <div class="grid md:grid-cols-3 gap-5 reveal">
+      <!-- Daily Dine -->
+      <div class="project-card glass-purple glass p-5 rounded-xl cursor-default">
+       <div class="planet-orb mx-auto mb-4" style="width:50px;height:50px;background:radial-gradient(circle at 30% 30%,#fbbf24,#d97706,#78350f);animation-duration:5s;"></div>
+       <h3 class="font-orbit text-base font-semibold text-center mb-2" style="color:var(--accent);">Daily Dine</h3>
+       <p class="text-xs text-center opacity-60 mb-3">Smart Mess Management System</p>
+       <ul class="text-xs space-y-1.5 opacity-80">
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> QR-based meal tracking</li>
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Real-time analytics dashboard</li>
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Role-based access control</li>
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Payment gateway integration</li>
+       </ul>
+      </div><!-- Hungryfine -->
+      <div class="project-card glass-purple glass p-5 rounded-xl cursor-default">
+       <div class="planet-orb mx-auto mb-4" style="width:50px;height:50px;background:radial-gradient(circle at 30% 30%,#f87171,#dc2626,#7f1d1d);animation-duration:6s;"></div>
+       <h3 class="font-orbit text-base font-semibold text-center mb-2" style="color:var(--accent);">Hungryfine</h3>
+       <p class="text-xs text-center opacity-60 mb-3">Food Delivery App</p>
+       <ul class="text-xs space-y-1.5 opacity-80">
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Real-time order tracking</li>
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> 5,00+ monthly orders</li>
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Secure digital transactions</li>
+       </ul>
+      </div><!-- MitConnect -->
+      <div class="project-card glass-purple glass p-5 rounded-xl cursor-default">
+       <div class="planet-orb mx-auto mb-4" style="width:50px;height:50px;background:radial-gradient(circle at 30% 30%,#a78bfa,#7c3aed,#4c1d95);animation-duration:4.5s;"></div>
+       <h3 class="font-orbit text-base font-semibold text-center mb-2" style="color:var(--accent);">MitConnect</h3>
+       <p class="text-xs text-center opacity-60 mb-3">Social Video Chat App</p>
+       <ul class="text-xs space-y-1.5 opacity-80">
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Glassmorphism UI</li>
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Real-time chat &amp; video</li>
+        <li class="flex items-start gap-2"><span style="color:var(--accent);">▸</span> Firebase integration</li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </section><!-- EXPERIENCE -->
+   <section class="section-planet" id="sec-experience">
+    <div class="max-w-3xl mx-auto w-full">
+     <div class="reveal">
+      <div class="flex items-center gap-3 mb-2">
+       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#34d399,#059669,#064e3b);animation-duration:5.5s;"></div>
+       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 4 · The Experience Log</p>
+      </div>
+      <h2 class="font-orbit text-3xl font-bold mb-8" style="color:var(--accent);">Experience</h2>
+     </div>
+     <div class="reveal relative pl-8">
+      <div class="absolute left-[7px] top-0 bottom-0 w-[2px]" style="background:linear-gradient(to bottom,var(--accent),var(--purple));"></div>
+      <div class="mb-8 relative">
+       <div class="timeline-node absolute -left-[25px]" style="background:var(--purple);top:4px;"></div>
+       <div class="glass p-5 rounded-xl">
+        <p class="font-orbit text-xs mb-2" style="color:var(--purple);">Jan 2026 – Present | Remote</p>
+        <h3 class="font-orbit text-sm font-semibold mb-2" style="color:var(--accent);">Android Developer Intern</h3>
+        <p class="text-xs opacity-70 font-semibold mb-3">BrainyBeam Technologies Pvt. Ltd.</p>
+        <ul class="text-xs space-y-2 opacity-80">
+         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Developing and maintaining native Android applications in a remote environment, focusing on writing clean, efficient, and scalable code.</span></li>
+         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Collaborating with the development team to design intuitive user interfaces, integrate backend APIs, and enhance overall app functionality.</span></li>
+         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Actively troubleshooting bugs, optimizing app performance, and participating in daily development workflows to ensure smooth experience across various Android devices.</span></li>
+        </ul>
+       </div>
+      </div>
+      <div class="relative">
+       <div class="timeline-node absolute -left-[25px]" style="background:var(--accent);top:4px;"></div>
+       <div class="glass p-5 rounded-xl">
+        <p class="font-orbit text-xs mb-2" style="color:var(--purple);">Jul 2025 – Dec 2025</p>
+        <h3 class="font-orbit text-sm font-semibold mb-2" style="color:var(--accent);">Flutter Developer</h3>
+        <p class="text-xs opacity-70 font-semibold mb-3">GAIA Project · MIT-WPU</p>
+        <ul class="text-xs space-y-2 opacity-80">
+         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Built and launched an official university management app on the App Store and Google Play using Flutter.</span></li>
+         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Handled end-to-end mobile development, including responsive UI design, REST API integration, and cross-device performance optimization.</span></li>
+         <li class="flex gap-2"><span style="color:var(--accent);flex-shrink:0;">▸</span> <span>Streamlined campus operations by replacing manual paperwork with a centralized digital platform for real-time progress tracking.</span></li>
+        </ul>
+        <p class="text-xs mt-3 font-semibold" style="color:var(--purple);">Available on:</p>
+        <div class="flex flex-wrap gap-2 mt-2"><a href="https://play.google.com/store/apps/details?id=com.mitwpu.immersions&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" class="text-xs px-2.5 py-1 rounded glass-purple transition hover:border-purple-400" style="color:var(--accent);text-decoration:none;">Google Play</a> <a href="https://apps.apple.com/gh/app/wpu-immersions/id6758524763" target="_blank" rel="noopener noreferrer" class="text-xs px-2.5 py-1 rounded glass-purple transition hover:border-purple-400" style="color:var(--accent);text-decoration:none;">App Store</a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- ACHIEVEMENTS -->
+   <section class="section-planet" id="sec-achievements">
+    <div class="max-w-4xl mx-auto w-full">
+     <div class="reveal">
+      <div class="flex items-center gap-3 mb-2">
+       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#fbbf24,#f59e0b,#78350f);animation-duration:4.5s;"></div>
+       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 5 · The Achievements</p>
+      </div>
+      <h2 class="font-orbit text-3xl font-bold mb-6" style="color:var(--accent);">Certifications</h2>
+     </div>
+     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 reveal">
+      <div class="badge-card glass p-4 rounded-xl text-center" style="--float-dur:5s;--float-delay:0s;">
+       <div class="text-3xl mb-2">
+        🏆
+       </div>
+       <p class="font-orbit text-xs font-semibold" style="color:var(--accent);">React Native</p>
+       <p class="text-xs opacity-60 mt-1">Meta</p>
+      </div>
+      <div class="badge-card glass p-4 rounded-xl text-center" style="--float-dur:5.5s;--float-delay:0.3s;">
+       <div class="text-3xl mb-2">
+        📱
+       </div>
+       <p class="font-orbit text-xs font-semibold" style="color:var(--accent);">Android App Dev</p>
+       <p class="text-xs opacity-60 mt-1">7 Real-World Java Projects</p>
+      </div>
+      <div class="badge-card glass p-4 rounded-xl text-center" style="--float-dur:4.8s;--float-delay:0.6s;">
+       <div class="text-3xl mb-2">
+        ☕
+       </div>
+       <p class="font-orbit text-xs font-semibold" style="color:var(--accent);">Java Crash Course</p>
+       <p class="text-xs opacity-60 mt-1">For Programmers</p>
+      </div>
+      <div class="badge-card glass p-4 rounded-xl text-center" style="--float-dur:5.2s;--float-delay:0.2s;">
+       <div class="text-3xl mb-2">
+        🎨
+       </div>
+       <p class="font-orbit text-xs font-semibold" style="color:var(--accent);">Mobile UI Design</p>
+       <p class="text-xs opacity-60 mt-1">Moqups</p>
+      </div>
+      <div class="badge-card glass p-4 rounded-xl text-center" style="--float-dur:5.8s;--float-delay:0.5s;">
+       <div class="text-3xl mb-2">
+        🔀
+       </div>
+       <p class="font-orbit text-xs font-semibold" style="color:var(--accent);">Git for Beginners</p>
+       <p class="text-xs opacity-60 mt-1">Version Control</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- CONTACT -->
+   <section class="section-planet" id="sec-contact">
+    <div class="max-w-2xl mx-auto w-full">
+     <div class="reveal">
+      <div class="flex items-center gap-3 mb-2">
+       <div class="planet-orb" style="width:40px;height:40px;background:radial-gradient(circle at 30% 30%,#c084fc,#9333ea,#581c87);animation-duration:6s;"></div>
+       <p class="text-xs tracking-[0.3em] uppercase font-orbit" style="color:var(--accent);">Chapter 6 · The Contact Portal</p>
+      </div>
+      <h2 class="font-orbit text-3xl font-bold mb-6" style="color:var(--accent);">Get In Touch</h2>
+     </div>
+     <div class="contact-glow glass p-6 md:p-8 rounded-xl reveal">
+      <p class="text-sm mb-6 opacity-80 text-center">Ready to collaborate? Send a signal through the cosmos.</p>
+      <div class="space-y-3 mb-6">
+       <div class="flex items-center gap-3">
+        <i data-lucide="phone" style="width:18px;height:18px;color:var(--accent);"></i> <span class="text-sm" id="contactPhone">+91 6354531293</span>
+       </div>
+       <div class="flex items-center gap-3">
+        <i data-lucide="mail" style="width:18px;height:18px;color:var(--accent);"></i> <span class="text-sm" id="contactEmail">jenillad573@gmail.com</span>
+       </div>
+       <div class="flex items-center gap-3">
+        <i data-lucide="github" style="width:18px;height:18px;color:var(--accent);"></i> <a id="contactGithubLink" href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer" class="text-sm hover:underline" style="color:var(--purple);">github.com/ladjenil</a>
+       </div>
+       <div class="flex items-center gap-3">
+        <i data-lucide="linkedin" style="width:18px;height:18px;color:var(--accent);"></i> <a id="contactLinkedinLink" href="https://www.linkedin.com/in/jenil-lad-b617442a2/" target="_blank" rel="noopener noreferrer" class="text-sm hover:underline" style="color:var(--purple);">linkedin.com/in/jenillad</a>
+       </div>
+      </div>
+      <div class="flex flex-wrap gap-3 justify-center">
+       <a id="emailBtn" href="mailto:jenillad573@gmail.com" class="glow-btn glass font-orbit text-xs px-5 py-2.5 rounded-full inline-flex items-center gap-2" style="color:var(--accent);text-decoration:none;"> <i data-lucide="send" style="width:14px;height:14px;"></i> Send a Signal </a> <a id="githubBtn" href="https://github.com/ladjenil" target="_blank" rel="noopener noreferrer" class="glass font-orbit text-xs px-5 py-2.5 rounded-full inline-flex items-center gap-2 transition-all hover:border-purple-400" style="color:var(--purple);text-decoration:none;"> <i data-lucide="github" style="width:14px;height:14px;"></i> GitHub Galaxy </a> <a id="linkedinBtn" href="https://linkedin.com/in/jenillad" target="_blank" rel="noopener noreferrer" class="glass font-orbit text-xs px-5 py-2.5 rounded-full inline-flex items-center gap-2 transition-all hover:border-purple-400" style="color:var(--purple);text-decoration:none;"> <i data-lucide="linkedin" style="width:14px;height:14px;"></i> LinkedIn </a>
+      </div>
+     </div>
+     <p class="text-center text-xs opacity-30 mt-8 font-orbit">© 2025 Jenil Lad · Code Odyssey</p>
+    </div>
+   </section>
+  </div>
+  <script>
+// --- Stars ---
+(function() {
+  const sf = document.getElementById('starField');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--dur:${Math.random()*3+1.5}s;animation-delay:${Math.random()*3}s;`;
+    sf.appendChild(s);
+  }
+})();
+
+// --- Particles ---
+(function() {
+  const pc = document.getElementById('particles');
+  for (let i = 0; i < 15; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const drift = (Math.random() - 0.5) * 100;
+    p.style.cssText = `left:${Math.random()*100}%;bottom:-10px;--p-dur:${Math.random()*10+8}s;--p-delay:${Math.random()*10}s;--p-drift:${drift}px;`;
+    pc.appendChild(p);
+  }
+})();
+
+// --- Skills ---
+const skills = {
+  lang: ['Java','Dart','Python','C/C++','SQL','HTML/CSS','XML'],
+  frame: ['Flutter','ReactJS','Android SDK','Spring Boot'],
+  db: ['Firebase','Supabase','MySQL','SQLite','PostgreSQL'],
+  tools: ['Git','VS Code','Android Studio','IntelliJ IDEA','Azure']
+};
+function renderSkills(containerId, items) {
+  const c = document.getElementById(containerId);
+  c.innerHTML = '';
+  items.forEach(s => {
+    const el = document.createElement('span');
+    el.className = 'skill-chip glass-purple text-xs px-3 py-1.5 rounded-full inline-block';
+    el.style.color = 'var(--text)';
+    el.textContent = s;
+    c.appendChild(el);
+  });
+}
+renderSkills('skillsLang', skills.lang);
+renderSkills('skillsFrame', skills.frame);
+renderSkills('skillsDB', skills.db);
+renderSkills('skillsTools', skills.tools);
+
+// --- Side Nav ---
+const sections = ['hero','about','skills','projects','experience','achievements','contact'];
+const sectionLabels = ['Home','About','Skills','Projects','Experience','Certs','Contact'];
+const nav = document.getElementById('sideNav');
+sections.forEach((id, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'nav-dot';
+  dot.style.background = 'rgba(0,173,181,0.4)';
+  dot.title = sectionLabels[i];
+  dot.setAttribute('role','button');
+  dot.setAttribute('aria-label', sectionLabels[i]);
+  dot.addEventListener('click', () => {
+    document.getElementById('sec-' + id).scrollIntoView({ behavior: 'smooth' });
+  });
+  nav.appendChild(dot);
+});
+
+// --- Scroll reveal + nav update ---
+const scrollWrap = document.getElementById('scrollWrap');
+const revealEls = document.querySelectorAll('.reveal');
+const navDots = nav.querySelectorAll('.nav-dot');
+
+function onScroll() {
+  const wh = scrollWrap.clientHeight;
+  revealEls.forEach(el => {
+    const r = el.getBoundingClientRect();
+    if (r.top < wh * 0.85) el.classList.add('visible');
+  });
+  // Active nav
+  let active = 0;
+  sections.forEach((id, i) => {
+    const sec = document.getElementById('sec-' + id);
+    const r = sec.getBoundingClientRect();
+    if (r.top < wh * 0.5) active = i;
+  });
+  navDots.forEach((d, i) => {
+    d.classList.toggle('active', i === active);
+    d.style.background = i === active ? '#00ADB5' : 'rgba(0,173,181,0.4)';
+  });
+}
+scrollWrap.addEventListener('scroll', onScroll);
+onScroll();
+
+// --- Element SDK ---
+const defaultConfig = {
+  hero_title: 'Jenil Lad',
+  hero_subtitle: 'Flutter Enthusiast · UI-UX Enthusiast · Digital Explorer',
+  about_text: "Web & Mobile Developer skilled in building cross-platform applications using Flutter, Java, Android, React, and modern backend frameworks. Strong experience in Firebase, REST APIs, scalable UI design, and real-time data applications. Passionate about full-stack development and delivering smooth, user-centric digital experiences. Motivated to build modern, scalable, and user-friendly applications with a strong focus on clean architecture, performance optimization, and delivering impactful digital experiences for users and businesses.",
+  contact_email: 'jenillad573@gmail.com',
+  contact_phone: '+91 6354531293',
+  github_url: 'https://github.com/ladjenil',
+  background_color: '#0B0C10',
+  accent_color: '#00ADB5',
+  purple_color: '#C77DFF',
+  text_color: '#E0E0E0',
+  surface_color: 'rgba(11,12,16,0.6)',
+  font_family: 'Exo 2',
+  font_size: 16
+};
+
+function applyConfig(config) {
+  const c = Object.assign({}, defaultConfig, config);
+
+  document.getElementById('heroTitle').textContent = c.hero_title;
+  document.getElementById('heroSubtitle').textContent = c.hero_subtitle;
+  document.getElementById('aboutText').textContent = c.about_text;
+  document.getElementById('contactPhone').textContent = c.contact_phone;
+  document.getElementById('contactEmail').textContent = c.contact_email;
+  document.getElementById('emailBtn').href = 'mailto:' + c.contact_email;
+
+  const ghDisplay = c.github_url.replace('https://','').replace('http://','');
+  document.getElementById('contactGithubLink').href = c.github_url;
+  document.getElementById('contactGithubLink').textContent = ghDisplay;
+  document.getElementById('githubBtn').href = c.github_url;
+
+  // Colors
+  document.documentElement.style.setProperty('--bg', c.background_color);
+  document.documentElement.style.setProperty('--accent', c.accent_color);
+  document.documentElement.style.setProperty('--purple', c.purple_color);
+  document.documentElement.style.setProperty('--text', c.text_color);
+  document.body.style.background = c.background_color;
+  document.body.style.color = c.text_color;
+
+  // Font
+  const font = c.font_family || defaultConfig.font_family;
+  document.body.style.fontFamily = `'${font}', 'Exo 2', sans-serif`;
+  document.querySelectorAll('.font-orbit').forEach(el => {
+    el.style.fontFamily = `'Orbitron', '${font}', sans-serif`;
+  });
+
+  // Font size
+  const base = c.font_size || defaultConfig.font_size;
+  document.getElementById('heroTitle').style.fontSize = (base * 2.8 / 16) + 'rem';
+  document.getElementById('heroSubtitle').style.fontSize = (base * 1.125) + 'px';
+  document.getElementById('aboutText').style.fontSize = base + 'px';
+}
+
+window.elementSdk.init({
+  defaultConfig,
+  onConfigChange: async (config) => { applyConfig(config); },
+  mapToCapabilities: (config) => ({
+    recolorables: [
+      { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+      { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+      { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+      { get: () => config.accent_color || defaultConfig.accent_color, set: (v) => { config.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); } },
+      { get: () => config.purple_color || defaultConfig.purple_color, set: (v) => { config.purple_color = v; window.elementSdk.setConfig({ purple_color: v }); } }
+    ],
+    borderables: [],
+    fontEditable: {
+      get: () => config.font_family || defaultConfig.font_family,
+      set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+    },
+    fontSizeable: {
+      get: () => config.font_size || defaultConfig.font_size,
+      set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+    }
+  }),
+  mapToEditPanelValues: (config) => new Map([
+    ['hero_title', config.hero_title || defaultConfig.hero_title],
+    ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
+    ['about_text', config.about_text || defaultConfig.about_text],
+    ['contact_email', config.contact_email || defaultConfig.contact_email],
+    ['contact_phone', config.contact_phone || defaultConfig.contact_phone],
+    ['github_url', config.github_url || defaultConfig.github_url]
+  ])
+});
+
+lucide.createIcons();
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dc8e87df06547da',t:'MTc3MzU1MDM0MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
